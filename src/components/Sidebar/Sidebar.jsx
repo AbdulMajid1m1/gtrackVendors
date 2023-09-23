@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "./Sidebar.css";
 import { useNavigate } from "react-router-dom";
 import dashboard from '../../images/dashboard.png'
+import internal from '../../images/internal.png'
 
 const SideBar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -91,7 +92,7 @@ const SideBar = () => {
           </div>
           <div
             className="flex justify-center items-center cursor-pointer mt-1 px-4"
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/update-vendor")}
           >
             <img
               src={
@@ -142,6 +143,11 @@ const SideBar = () => {
               alt=""
             />
             <p className="sidebar-text">Dashboard</p>
+          </div>
+
+          <div className="main-images-container" onClick={() => navigate("/")}>
+            <img src={internal} className="main-inside-image" alt="" />
+            <p className="sidebar-text">Log-out</p>
           </div>
 
         </div>
