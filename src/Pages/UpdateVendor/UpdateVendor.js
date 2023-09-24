@@ -1,8 +1,12 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { RiseLoader } from 'react-spinners';
+import PhoneInput from 'react-phone-number-input';
+import "react-phone-number-input/style.css";
 import newRequest from '../../utils/userRequest';
 import Swal from 'sweetalert2';
+import phpRequest from '../../utils/phpRequest';
+import { Autocomplete, TextField } from '@mui/material';
 
 
 const UpdateVendor = () => {
@@ -20,6 +24,12 @@ const UpdateVendor = () => {
     const [zipCode, setZipCode] = React.useState('')
     const [website, setWebsite] = React.useState('')
     const [status, setStatus] = React.useState('')
+    const [country, setCountry] = React.useState([])
+    const [state, setState] = React.useState('')
+    const [city, setCity] = React.useState('')
+    const [selectedCity, setSelectedCity] = useState("");
+    const [selectedCountry, setSelectedCountry] = useState("");
+    const [selectedState, setSelectedState] = useState("");  
     const [isLoading, setIsLoading] = useState(false);
 
 
@@ -39,6 +49,12 @@ const UpdateVendor = () => {
       setZipCode(vendorData?.user?.zip_code || vendorData?.zip_code);
       setWebsite(vendorData?.user?.website || vendorData?.website);
       setStatus(vendorData?.user?.status || vendorData?.status);
+    //   setCountry(vendorData?.user?.country || vendorData?.country);
+      setSelectedCountry(vendorData?.user?.country || vendorData?.country);
+    //   setState(vendorData?.user?.state || vendorData?.state);
+      setSelectedState(vendorData?.user?.state || vendorData?.state);
+    //   setCity(vendorData?.user?.city || vendorData?.city);
+      setSelectedCity(vendorData?.user?.city || vendorData?.city);
 
     }
 
@@ -46,6 +62,26 @@ const UpdateVendor = () => {
       useEffect(() => {
         setInitialData();
       }, []);
+
+
+  
+    const handleCity = (event, value) => {
+        console.log(value);
+        setSelectedCity(value);
+      };
+
+    
+    const handleCountryName = (event, value) => {
+        console.log(value);
+        setSelectedCountry(value);
+    };
+
+
+   const handleState = (event, value) => {
+        console.log(value);
+        setSelectedState(value);
+      };    
+
       
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -64,6 +100,9 @@ const UpdateVendor = () => {
         zip_code: zipCode,
         website: website,
         status: status,
+        country: selectedCountry,
+        state: selectedState,
+        city: selectedCity,
         })
         .then((response) => {
             console.log(response)
@@ -91,6 +130,53 @@ const UpdateVendor = () => {
         })
   }
 
+
+    useEffect(() => {
+        phpRequest
+        .get("/countries/list")
+        .then((response) => {
+        console.log(response.data);
+        const countryNames = response.data.countries.map(
+            (country) => country.name_en
+        );
+        setCountry(countryNames);
+        })
+        .catch((error) => {
+        console.log(error);
+        });
+
+        const dataBody = {
+            country_id: 17,
+        };
+
+        phpRequest
+            .post("/states/by/country", dataBody)
+            .then((response) => {
+            console.log(response.data);
+            const stateNames = response.data.states.map((state) => state.name);
+            setState(stateNames);
+            })
+            .catch((error) => {
+            console.log(error);
+            });
+        
+        const citiesStateBody = {
+            state_id: 28,
+        };
+
+        phpRequest
+            .post("/cities/by/state", citiesStateBody)
+            .then((response) => {
+            console.log(response.data);
+            const cityNames = response.data.city.map((city) => city.name);
+            setCity(cityNames);
+            })
+            .catch((error) => {
+            console.log(error);
+            });
+    }, [])
+
+
   return (
     <div>
 
@@ -115,8 +201,8 @@ const UpdateVendor = () => {
 
         <div className="p-3 h-full sm:ml-72">
             <div className='h-auto w-full p-1'>
-                <div className='h-16 w-full shadow-xl flex justify-start items-center px-10 border-l-2 border-[#e49515]'>
-                    <p className='sm:text-2xl text-sm font-body'>Update Vendors</p>
+                <div className='h-16 w-full shadow-xl flex justify-center items-center px-10 border-l-4 border-[#e49515]'>
+                    <p className='sm:text-2xl text-sm font-body'>Update Vendor Registeration Form</p>
                 </div>
             </div>
 
@@ -142,7 +228,7 @@ const UpdateVendor = () => {
                         
                         <div className='flex flex-col gap-3 sm:flex-row sm:justify-between'>
                             <div className='w-full font-body sm:text-base text-sm flex flex-col gap-2'>
-                                <label htmlFor='locationEnglish'>Location Name [English]<span className='text-red-600'>*</span></label>
+                                <label htmlFor='locationEnglish'>Company Name [English]<span className='text-red-600'>*</span></label>
                                 <input 
                                 value={locationEnglish}
                                 onChange={(e) => setLocationEnglish(e.target.value)}
@@ -153,7 +239,7 @@ const UpdateVendor = () => {
 
 
                             <div className='w-full font-body sm:text-base text-sm flex flex-col gap-2'>
-                                <label htmlFor='locationArabic'>Location Name [Arabic]<span className='text-red-600'>*</span></label>
+                                <label htmlFor='locationArabic'>Company Name [Arabic]<span className='text-red-600'>*</span></label>
                                 <input
                                 value={locationArabic}
                                 onChange={(e) => setLocationArabic(e.target.value)} 
@@ -189,12 +275,37 @@ const UpdateVendor = () => {
                         <div className='flex flex-col gap-3 sm:flex-row sm:justify-between'>
                             <div className='w-full font-body sm:text-base text-sm flex flex-col gap-2'>
                                 <label htmlFor='mobile'>Mobile Number<span className='text-red-600'>*</span></label>
-                                <input
+                                {/* <input
                                 value={mobileNumber}
                                 onChange={(e) => setMobileNumber(e.target.value)} 
                                 id='mobile' 
                                 placeholder='Mobile Number'
-                                type='text' className='border-2 border-[#e4e4e4] w-full rounded-lg p-2 mb-3' />                      
+                                type='text' className='border-2 border-[#e4e4e4] w-full rounded-lg p-2 mb-3' />                       */}
+                                <div className='flex items-center'>
+                                    <PhoneInput
+                                        international
+                                        defaultCountry="SA"
+                                        value={mobileNumber}
+                                        onChange={setMobileNumber}
+                                        containerStyle={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                        }}
+                                        inputProps={{
+                                            id: 'mobile',
+                                            placeholder: 'Mobile Number',
+                                        }}
+                                        style={{
+                                            width: '100%',
+                                            border: '2px solid #e4e4e4',
+                                            borderRadius: '8px',
+                                            padding: '8px',
+                                            marginBottom: '3px',
+                                          }}
+                                        />
+                                      
+
+                                </div>
                             </div>
 
                             <div className='w-full font-body sm:text-base text-sm flex flex-col gap-2'>
@@ -219,10 +330,8 @@ const UpdateVendor = () => {
                                 placeholder='Zip Code' 
                                 type='number' className='border-2 border-[#e4e4e4] w-full rounded-lg p-2 mb-3' />                      
                             </div>
-                        </div>
 
 
-                        <div className='flex flex-col gap-3 sm:flex-row sm:justify-between'>
                             <div className='w-full font-body sm:text-base text-sm flex flex-col gap-2'>
                                 <label htmlFor='website'>Website<span className='text-red-600'>*</span></label>
                                 <input
@@ -231,6 +340,152 @@ const UpdateVendor = () => {
                                 onChange={(e) => setWebsite(e.target.value)}
                                 placeholder='Website'
                                 type='text' className='border-2 border-[#e4e4e4] w-full rounded-lg p-2 mb-3' />                      
+                            </div>
+                        </div>
+
+
+                        <div className='flex flex-col gap-3 sm:flex-row sm:justify-between'>
+                            
+                            <div className='w-full font-body sm:text-base text-sm flex flex-col gap-2'>
+                                <label htmlFor='country'>Country<span className='text-red-600'>*</span></label>
+                                {/* <input
+                                id='country'
+                                value={country}
+                                onChange={(e) => setCountry(e.target.value)}
+                                placeholder='Country' 
+                                type='text' className='border-2 border-[#e4e4e4] w-full rounded-lg p-2 mb-3' />                       */}
+                                 <Autocomplete
+                                    id="country"
+                                    options={country}
+                                    value={selectedCountry}
+                                    getOptionLabel={(option) => option}
+                                    onChange={handleCountryName}
+                                    onInputChange={(event, value) => {
+                                    if (!value) {
+                                        // perform operation when input is cleared
+                                        console.log("Input cleared");
+                                    }
+                                    }}
+                                    renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        InputProps={{
+                                        ...params.InputProps,
+                                        className: "text-white",
+                                        }}
+                                        InputLabelProps={{
+                                        ...params.InputLabelProps,
+                                        style: { color: "white" },
+                                        }}
+                                        className="bg-gray-50 border border-gray-300 text-white text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5 md:p-2.5"
+                                        placeholder="Country"
+                                    // required
+                                    />
+                                    )}
+                                    classes={{
+                                    endAdornment: "text-white",
+                                    }}
+                                    sx={{
+                                    "& .MuiAutocomplete-endAdornment": {
+                                        color: "white",
+                                    },
+                                    }}
+                                />
+                            </div>
+
+
+                            <div className='w-full font-body sm:text-base text-sm flex flex-col gap-2'>
+                                <label htmlFor='state'>State<span className='text-red-600'>*</span></label>
+                                {/* <input
+                                id='state' 
+                                value={state}
+                                onChange={(e) => setState(e.target.value)}
+                                placeholder='State'
+                                type='text' className='border-2 border-[#e4e4e4] w-full rounded-lg p-2 mb-3' />                       */}
+                                 <Autocomplete
+                                    id="state"
+                                    options={state}
+                                    value={selectedState}
+                                    getOptionLabel={(option) => option}
+                                    onChange={handleState}
+                                    onInputChange={(event, value) => {
+                                    if (!value) {
+                                        // perform operation when input is cleared
+                                        console.log("Input cleared");
+                                    }
+                                    }}
+                                    renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        InputProps={{
+                                        ...params.InputProps,
+                                        className: "text-white",
+                                        }}
+                                        InputLabelProps={{
+                                        ...params.InputLabelProps,
+                                        style: { color: "white" },
+                                        }}
+                                        className="bg-gray-50 border border-gray-300 text-white text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5 md:p-2.5"
+                                        placeholder="State"
+                                    // required
+                                    />
+                                    )}
+                                    classes={{
+                                    endAdornment: "text-white",
+                                    }}
+                                    sx={{
+                                    "& .MuiAutocomplete-endAdornment": {
+                                        color: "white",
+                                    },
+                                    }}
+                                />
+                            </div>
+
+                            <div className='w-full font-body sm:text-base text-sm flex flex-col gap-2'>
+                                <label htmlFor='city'>City<span className='text-red-600'>*</span></label>
+                                {/* <input
+                                id='city' 
+                                value={city}
+                                onChange={(e) => setCity(e.target.value)}
+                                placeholder='City'
+                                type='text' className='border-2 border-[#e4e4e4] w-full rounded-lg p-2 mb-3' />                       */}
+                                <Autocomplete
+                                    id="city"
+                                    options={city}
+                                    value={selectedCity}
+                                    getOptionLabel={(option) => option}
+                                    onChange={handleCity}
+                                    onInputChange={(event, value) => {
+                                    if (!value) {
+                                        // perform operation when input is cleared
+                                        console.log("Input cleared");
+                                    }
+                                    }}
+                                    renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        InputProps={{
+                                        ...params.InputProps,
+                                        className: "text-white",
+                                        }}
+                                        InputLabelProps={{
+                                        ...params.InputLabelProps,
+                                        style: { color: "white" },
+                                        }}
+                                        className="bg-gray-50 border border-gray-300 text-white text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5 md:p-2.5"
+                                        placeholder="City"
+                                    // required
+                                    />
+                                    )}
+                                    classes={{
+                                    endAdornment: "text-white",
+                                    }}
+                                    sx={{
+                                    "& .MuiAutocomplete-endAdornment": {
+                                        color: "white",
+                                    },
+                                    }}
+                                />
                             </div>
                         </div>
 

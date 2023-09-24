@@ -3,6 +3,10 @@ import "./Sidebar.css";
 import { useNavigate } from "react-router-dom";
 import dashboard from '../../images/dashboard.png'
 import internal from '../../images/internal.png'
+import gtrackicons from '../../images/gtrackicons.png'
+import isoicon from '../../images/isoicon.png'
+import gs1logowhite from '../../images/gs1logowhite.png'
+import profile from '../../images/profile.png'
 
 const SideBar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -54,7 +58,7 @@ const SideBar = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const handleLogoClick = () => {
     setSelectedItem(null);
-    navigate('/') // Navigate to the "track" component
+    navigate('/dashboard') // Navigate to the "track" component
   };
 
 
@@ -99,7 +103,7 @@ const SideBar = () => {
                 // currentUser?.user?.image
                 //   ? imagePath + currentUser?.user?.image
                 //   : memberprofile
-                dashboard
+                profile
                 }
               className="h-7 w-7 bg-white rounded-full"
               alt=""
@@ -122,7 +126,7 @@ const SideBar = () => {
             onClick={handleLogoClick}
           >
             <img
-            //   src={dashboard}
+              src={gtrackicons}
               className="h-auto w-44 rounded-md "
               alt=""
             />
@@ -151,6 +155,21 @@ const SideBar = () => {
           </div>
 
         </div>
+
+          {/* This two icons  */}
+          <div>
+            <div className="flex justify-between w-[95%] px-2 absolute bottom-0 bg-primary">
+              <div className="main-images-container">
+                <img src={isoicon} className="main-inside-image-gs1logo" alt="" />
+              </div>
+
+              <div className="main-images-container">
+                <a href="https://www.gs1.org.sa" target="_blank" rel="noopener noreferrer">
+                  <img src={gs1logowhite} className="main-inside-image-gs1logo" alt="" />
+                </a>
+              </div>
+            </div>
+          </div>
 
 
         {/* Context Menu */}
