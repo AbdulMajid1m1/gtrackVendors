@@ -3,8 +3,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Login from "./components/Login/Login";
 import PasswordScreen from "./components/Password/Password";
-import Dashboard from "./pages/Dashboard/Dashboard";
-import UpdateVendor from "./pages/UpdateVendor/UpdateVendor";
+import Dashboard from "./Pages/Dashboard/Dashboard";
+import UpdateVendor from "./Pages/UpdateVendor/UpdateVendor";
 
 const App = () => {
   const MainLayout = ({ children }) => {
