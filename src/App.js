@@ -5,6 +5,7 @@ import Login from "./components/Login/Login";
 import PasswordScreen from "./components/Password/Password";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import UpdateVendor from "./Pages/UpdateVendor/UpdateVendor";
+import ListOfCustomer from "./Pages/ListOfCustomer/ListOfCustomer";
 
 const App = () => {
   const MainLayout = ({ children }) => {
@@ -30,6 +31,7 @@ const App = () => {
                         <Routes>
                             <Route path="/dashboard" element={<Dashboard />} />
                             <Route path="/update-vendor" element={<UpdateVendor />} />
+                            <Route path="/customer-list" element={<ListOfCustomer />} />
                         </Routes>
                       </MainLayout>
                     }

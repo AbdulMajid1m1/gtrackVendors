@@ -7,6 +7,7 @@ import gtrackicons from '../../images/gtrackicons.png'
 import isoicon from '../../images/isoicon.png'
 import gs1logowhite from '../../images/gs1logowhite.png'
 import profile from '../../images/profile.png'
+import customers from '../../images/customer.png'
 
 const SideBar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -147,6 +148,22 @@ const SideBar = () => {
               alt=""
             />
             <p className="sidebar-text">Dashboard</p>
+          </div>
+
+          <div
+            className={`main-images-container ${selectedItem === '/customer-list' ? 'selected-item' : ''}`}
+            onClick={() => handleItemClick('/customer-list')}
+            onContextMenu={(event) =>
+              handleContextMenu(event, '/customer-list')
+            }
+
+          >
+            <img
+              src={customers}
+              className="main-inside-image bg-white rounded-full"
+              alt=""
+            />
+            <p className="sidebar-text">List of Customers</p>
           </div>
 
           <div className="main-images-container" onClick={() => navigate("/")}>
