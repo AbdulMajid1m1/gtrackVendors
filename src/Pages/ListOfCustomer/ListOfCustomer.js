@@ -96,8 +96,6 @@ const ListOfCustomer = () => {
                   uniqueId="PICKINGROUTEID"
                   handleRowClickInParent={handleRowClickInParent}
                   loading={isLoading}
-                  setIsLoading={setIsLoading}
-
 
               />
               </div>
@@ -109,10 +107,7 @@ const ListOfCustomer = () => {
                     backButton={true}
                     actionColumnVisibility={false}
                     uniqueId={"barcodeDeletedId"}
-
-                    buttonVisibility={false}
                     loading={isLoading}
-                    setIsLoading={setIsLoading}
 
                 />
               </div>
