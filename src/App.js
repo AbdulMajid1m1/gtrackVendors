@@ -3,8 +3,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Login from "./components/Login/Login";
 import PasswordScreen from "./components/Password/Password";
-import Dashboard from "./Pages/Dashboard/Dashboard";
-import UpdateVendor from "./Pages/UpdateVendor/UpdateVendor";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import UpdateVendor from "./pages/UpdateVendor/UpdateVendor";
 
 const App = () => {
   const MainLayout = ({ children }) => {
@@ -17,27 +17,27 @@ const App = () => {
   };
   return (
     <>
-            <div>
-              <BrowserRouter>
-                <Routes>
-                  <Route path="/" element={<Login />} />
-                  <Route path="/password" element={<PasswordScreen />} />
-                  
-                  <Route
-                    path="/*"
-                    element={
-                      <MainLayout>
-                        <Routes>
-                            <Route path="/dashboard" element={<Dashboard />} />
-                            <Route path="/update-vendor" element={<UpdateVendor />} />
-                        </Routes>
-                      </MainLayout>
-                    }
-                  />
-                </Routes>
-              </BrowserRouter>
-            </div>
-     </>
+      <div>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/password" element={<PasswordScreen />} />
+
+            <Route
+              path="/*"
+              element={
+                <MainLayout>
+                  <Routes>
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/update-vendor" element={<UpdateVendor />} />
+                  </Routes>
+                </MainLayout>
+              }
+            />
+          </Routes>
+        </BrowserRouter>
+      </div>
+    </>
   );
 };
 

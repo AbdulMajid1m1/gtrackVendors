@@ -32,8 +32,9 @@ const Login = () => {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
-          text: 'Something went wrong!',
-          footer: '<a href="">Please Put the Correct Member Email</a>'
+          // show api error
+          text: err.response.data.message ?? 'Something went wrong!',
+          
         })
       })
   }
