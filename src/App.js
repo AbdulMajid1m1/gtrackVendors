@@ -3,8 +3,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Login from "./components/Login/Login";
 import PasswordScreen from "./components/Password/Password";
-import Dashboard from "./pages/Dashboard/Dashboard";
+import Dashboard from "./Pages/Dashboard/Dashboard";
 import UpdateVendor from "./pages/UpdateVendor/UpdateVendor";
+import ListOfCustomer from "./pages/ListOfCustomer/ListOfCustomer";
 
 const App = () => {
   const MainLayout = ({ children }) => {
@@ -30,6 +31,7 @@ const App = () => {
                   <Routes>
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/update-vendor" element={<UpdateVendor />} />
+                    <Route path="/customer-list" element={<ListOfCustomer />} />
                   </Routes>
                 </MainLayout>
               }

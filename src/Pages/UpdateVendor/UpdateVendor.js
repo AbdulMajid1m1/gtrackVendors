@@ -202,7 +202,7 @@ const UpdateVendor = () => {
         <div className="p-3 h-full sm:ml-72">
             <div className='h-auto w-full p-1'>
                 <div className='h-16 w-full shadow-xl flex justify-center items-center px-10 border-l-4 border-[#e49515]'>
-                    <p className='sm:text-2xl text-sm font-body'>Update Vendor Registeration Form</p>
+                    <p className='sm:text-2xl text-sm font-body'>Update Vendor Registration Form</p>
                 </div>
             </div>
 
