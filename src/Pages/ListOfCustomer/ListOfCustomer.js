@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { InventorySuppliersDataColumn, MappedItemsColumn, TblPickingClColumn } from '../../utils/datatablesource'
+import { InventorySuppliersDataColumn } from '../../utils/datatablesource'
 import DataTable from '../../components/Datatable/Datatable';
 import newRequest from '../../utils/userRequest';
 
