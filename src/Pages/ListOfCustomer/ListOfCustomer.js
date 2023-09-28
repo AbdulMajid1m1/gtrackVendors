@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { InventorySuppliersDataColumn } from '../../utils/datatablesource'
+import { InventorySuppliersDataColumn, ListOfCustomersColumn } from '../../utils/datatablesource'
 import DataTable from '../../components/Datatable/Datatable';
 import newRequest from '../../utils/userRequest';
-
+import CustomSnakebar from '../../utils/CustomSnackbar';
 
 const ListOfCustomer = () => {
     const [alldata, setAllData] = useState([]);
@@ -11,6 +11,10 @@ const ListOfCustomer = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [message, setMessage] = useState(null);
+
+    const getVendorData = sessionStorage.getItem("vendorData");
+    const parsedVendorData = JSON.parse(getVendorData);
+    console.log(parsedVendorData);
 
     const resetSnakeBarMessages = () => {
         setError(null);
@@ -23,7 +27,7 @@ const ListOfCustomer = () => {
         const getAllAssetsList = async () => {
             try {
 
-                // const response = await newRequest.get("/getAllTblPickingCL")
+            const response = await newRequest.get(`/getApprovedVendorMembers?email=${parsedVendorData?.user?.email}`)
 
                 console.log(response?.data);
 
@@ -52,7 +56,7 @@ const ListOfCustomer = () => {
                     })
                     .catch(error => {
                         console.error(error);
-                        setError(error?.response?.data?.message ?? "Something went wrong")
+                        // setError(error?.response?.data?.message ?? "Something went wrong")
 
                     });
 
@@ -82,8 +86,8 @@ const ListOfCustomer = () => {
 
         <div>
 
-            {/* {message && <CustomSnakebar message={message} severity="success" onClose={resetSnakeBarMessages} />}
-            {error && <CustomSnakebar message={error} severity="error" onClose={resetSnakeBarMessages} />} */}
+            {message && <CustomSnakebar message={message} severity="success" onClose={resetSnakeBarMessages} />}
+            {error && <CustomSnakebar message={error} severity="error" onClose={resetSnakeBarMessages} />}
 
             <div className="p-3 h-full sm:ml-72">
               <div style={{ marginLeft: '-11px', marginRight: '-11px', marginTop: '-25px' }}>
@@ -91,7 +95,7 @@ const ListOfCustomer = () => {
                   data={alldata}
                   title="LIST OF CUSTOMERS"
                   secondaryColor="secondary"
-                  columnsName={InventorySuppliersDataColumn}
+                  columnsName={ListOfCustomersColumn}
                   backButton={true}
                   uniqueId="PICKINGROUTEID"
                   handleRowClickInParent={handleRowClickInParent}

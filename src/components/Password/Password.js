@@ -34,7 +34,7 @@ const PasswordScreen = () => {
         password: password,
       })
       .then((response) => {
-        console.log(response);
+        console.log(response.data);
         setIsLoading(false);
         Swal.fire("Dashboard", "Welcome To The Vendor Dashboard", "success");
 

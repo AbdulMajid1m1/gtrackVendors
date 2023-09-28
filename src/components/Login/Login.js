@@ -32,7 +32,7 @@ const Login = () => {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
-          text: 'Something went wrong!',
+          text: err?.response?.data?.message ?? 'Something went wrong',
           footer: '<a href="">Please Put the Correct Member Email</a>'
         })
       })
