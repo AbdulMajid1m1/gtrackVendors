@@ -4,8 +4,8 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import Login from "./components/Login/Login";
 import PasswordScreen from "./components/Password/Password";
 import Dashboard from "./Pages/Dashboard/Dashboard";
-import UpdateVendor from "./pages/UpdateVendor/UpdateVendor";
-import ListOfCustomer from "./pages/ListOfCustomer/ListOfCustomer";
+import UpdateVendor from "./Pages/UpdateVendor/UpdateVendor";
+import ListOfCustomer from "./Pages/ListOfCustomer/ListOfCustomer";
 
 const App = () => {
   const MainLayout = ({ children }) => {

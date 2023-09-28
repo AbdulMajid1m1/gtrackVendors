@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { InventorySuppliersDataColumn } from '../../utils/datatablesource'
-import DataTable from '../../components/Datatable/Datatable';
 import newRequest from '../../utils/userRequest';
 
+import DataTable from "../../components/Datatable/Datatable";
 
 const ListOfCustomer = () => {
     const [alldata, setAllData] = useState([]);
@@ -20,24 +20,24 @@ const ListOfCustomer = () => {
 
 
     useEffect(() => {
-        const getAllAssetsList = async () => {
-            try {
+        // const getAllAssetsList = async () => {
+        //     try {
 
-                // const response = await newRequest.get("/getAllTblPickingCL")
+        //         const response = await newRequest.get("/getAllTblPickingCL")
 
-                console.log(response?.data);
+        //         console.log(response?.data);
 
-                setAllData(response?.data ?? [])
-                setIsLoading(false)
+        //         setAllData(response?.data ?? [])
+        //         setIsLoading(false)
 
-            }
-            catch (error) {
-                console.log(error);
-                setIsLoading(false)
-                setError(error?.response?.data?.message ?? "Something went wrong")
-            }
-        };
-        getAllAssetsList();
+        //     }
+        //     catch (error) {
+        //         console.log(error);
+        //         setIsLoading(false)
+        //         setError(error?.response?.data?.message ?? "Something went wrong")
+        //     }
+        // };
+        // getAllAssetsList();
 
         const getMappedBarcodeDeleted = async () => {
             try {
@@ -86,31 +86,31 @@ const ListOfCustomer = () => {
             {error && <CustomSnakebar message={error} severity="error" onClose={resetSnakeBarMessages} />} */}
 
             <div className="p-3 h-full sm:ml-72">
-              <div style={{ marginLeft: '-11px', marginRight: '-11px', marginTop: '-25px' }}>
-              <DataTable
-                  data={alldata}
-                  title="LIST OF CUSTOMERS"
-                  secondaryColor="secondary"
-                  columnsName={InventorySuppliersDataColumn}
-                  backButton={true}
-                  uniqueId="PICKINGROUTEID"
-                  handleRowClickInParent={handleRowClickInParent}
-                  loading={isLoading}
+                <div style={{ marginLeft: '-11px', marginRight: '-11px', marginTop: '-25px' }}>
+                    <DataTable
+                        data={alldata}
+                        title="LIST OF CUSTOMERS"
+                        secondaryColor="secondary"
+                        columnsName={InventorySuppliersDataColumn}
+                        backButton={true}
+                        uniqueId="PICKINGROUTEID"
+                        handleRowClickInParent={handleRowClickInParent}
+                        loading={isLoading}
 
-              />
-              </div>
+                    />
+                </div>
 
-              <div style={{ marginLeft: '-11px', marginRight: '-11px' }}>
-                <DataTable data={filteredData} title="LIST OF CUSTOMERS SHIPMENT REQUEST" 
-                    secondaryColor="secondary"
-                    columnsName={InventorySuppliersDataColumn} 
-                    backButton={true}
-                    actionColumnVisibility={false}
-                    uniqueId={"barcodeDeletedId"}
-                    loading={isLoading}
+                <div style={{ marginLeft: '-11px', marginRight: '-11px' }}>
+                    <DataTable data={filteredData} title="LIST OF CUSTOMERS SHIPMENT REQUEST"
+                        secondaryColor="secondary"
+                        columnsName={InventorySuppliersDataColumn}
+                        backButton={true}
+                        actionColumnVisibility={false}
+                        uniqueId={"barcodeDeletedId"}
+                        loading={isLoading}
 
-                />
-              </div>
+                    />
+                </div>
 
             </div>
         </div >
