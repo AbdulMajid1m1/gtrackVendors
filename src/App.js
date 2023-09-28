@@ -6,6 +6,8 @@ import PasswordScreen from "./components/Password/Password";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import UpdateVendor from "./Pages/UpdateVendor/UpdateVendor";
 import ListOfCustomer from "./Pages/ListOfCustomer/ListOfCustomer";
+import DataTableProvider from "./context/DataTableContext";
+import { SnackbarProvider } from "./context/SnackbarContext";
 
 const App = () => {
   const MainLayout = ({ children }) => {
@@ -18,27 +20,32 @@ const App = () => {
   };
   return (
     <>
-      <div>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/password" element={<PasswordScreen />} />
+      <DataTableProvider>
+        <SnackbarProvider>
 
-            <Route
-              path="/*"
-              element={
-                <MainLayout>
-                  <Routes>
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/update-vendor" element={<UpdateVendor />} />
-                    <Route path="/customer-list" element={<ListOfCustomer />} />
-                  </Routes>
-                </MainLayout>
-              }
-            />
-          </Routes>
-        </BrowserRouter>
-      </div>
+            <div>
+              <BrowserRouter>
+                <Routes>
+                  <Route path="/" element={<Login />} />
+                  <Route path="/password" element={<PasswordScreen />} />
+
+                  <Route
+                    path="/*"
+                    element={
+                      <MainLayout>
+                        <Routes>
+                          <Route path="/dashboard" element={<Dashboard />} />
+                          <Route path="/update-vendor" element={<UpdateVendor />} />
+                          <Route path="/customer-list" element={<ListOfCustomer />} />
+                        </Routes>
+                      </MainLayout>
+                    }
+                  />
+                </Routes>
+              </BrowserRouter>
+            </div>
+        </SnackbarProvider>
+      </DataTableProvider>
     </>
   );
 };

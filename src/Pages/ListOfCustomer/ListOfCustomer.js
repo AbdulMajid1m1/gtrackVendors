@@ -24,24 +24,24 @@ const ListOfCustomer = () => {
 
 
     useEffect(() => {
-        // const getAllAssetsList = async () => {
-        //     try {
+        const getAllAssetsList = async () => {
+            try {
 
-            const response = await newRequest.get(`/getApprovedVendorMembers?email=${parsedVendorData?.user?.email}`)
+                const response = await newRequest.get(`/getApprovedVendorMembers?email=${parsedVendorData?.user?.email}`)
 
-        //         console.log(response?.data);
+                console.log(response?.data);
 
-        //         setAllData(response?.data ?? [])
-        //         setIsLoading(false)
+                setAllData(response?.data ?? [])
+                setIsLoading(false)
 
-        //     }
-        //     catch (error) {
-        //         console.log(error);
-        //         setIsLoading(false)
-        //         setError(error?.response?.data?.message ?? "Something went wrong")
-        //     }
-        // };
-        // getAllAssetsList();
+            }
+            catch (error) {
+                console.log(error);
+                setIsLoading(false)
+                setError(error?.response?.data?.message ?? "Something went wrong")
+            }
+        };
+        getAllAssetsList();
 
         const getMappedBarcodeDeleted = async () => {
             try {
@@ -90,16 +90,16 @@ const ListOfCustomer = () => {
             {error && <CustomSnakebar message={error} severity="error" onClose={resetSnakeBarMessages} />}
 
             <div className="p-3 h-full sm:ml-72">
-              <div style={{ marginLeft: '-11px', marginRight: '-11px', marginTop: '-25px' }}>
-              <DataTable
-                  data={alldata}
-                  title="LIST OF CUSTOMERS"
-                  secondaryColor="secondary"
-                  columnsName={ListOfCustomersColumn}
-                  backButton={true}
-                  uniqueId="PICKINGROUTEID"
-                  handleRowClickInParent={handleRowClickInParent}
-                  loading={isLoading}
+                <div style={{ marginLeft: '-11px', marginRight: '-11px', marginTop: '-25px' }}>
+                    <DataTable
+                        data={alldata}
+                        title="LIST OF CUSTOMERS"
+                        secondaryColor="secondary"
+                        columnsName={ListOfCustomersColumn}
+                        backButton={true}
+                        uniqueId="PICKINGROUTEID"
+                        handleRowClickInParent={handleRowClickInParent}
+                        loading={isLoading}
 
                     />
                 </div>
