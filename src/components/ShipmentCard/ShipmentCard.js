@@ -175,7 +175,7 @@ const ShipmentCard = () => {
             </section>
 
                 <div className='h-16 w-full bg-gray-100 flex justify-end items-center'>
-                    <button className='py-2 px-10 mr-5 bg-primary text-white font-semibold rounded-md'>Next</button>
+                    <button className='py-2 px-10 mr-5 bg-primary text-white font-semibold rounded-md'>Add product</button>
                 </div>
             </div>
             
