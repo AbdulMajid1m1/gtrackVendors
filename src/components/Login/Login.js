@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import logo2 from "../../images/logo2.jpeg"
+import logo2 from "../../Images/logo2.jpeg"
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { RiseLoader } from 'react-spinners';
-import gs1logo from '../../images/gs1logowhite.png'
+import gs1logo from '../../Images/gs1logowhite.png'
 import newRequest from '../../utils/userRequest';
 
 const Login = () => {
