@@ -6,9 +6,10 @@ import PasswordScreen from "./components/Password/Password";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import UpdateVendor from "./Pages/UpdateVendor/UpdateVendor";
 import ListOfCustomer from "./Pages/ListOfCustomer/ListOfCustomer";
-import { SnackbarProvider } from "./context/SnackbarContext";
-import DataTableProvider from "./context/DataTableContext";
+import { SnackbarProvider } from "./Contexts/SnackbarContext";
+import DataTableProvider from "./Contexts/DataTableContext";
 import ShipmentCard from "./components/ShipmentCard/ShipmentCard";
+import AddProducts from "./components/AddProducts/AddProducts";
 
 const App = () => {
   const MainLayout = ({ children }) => {
@@ -39,6 +40,7 @@ const App = () => {
                             <Route path="/update-vendor" element={<UpdateVendor />} />
                             <Route path="/customer-list" element={<ListOfCustomer />} />
                             <Route path="/shipment-card" element={<ShipmentCard />} />
+                            <Route path="/add-products" element={<AddProducts />} />
                         </Routes>
                       </MainLayout>
                     }

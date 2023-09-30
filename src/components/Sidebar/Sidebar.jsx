@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Sidebar.css";
 import { useNavigate } from "react-router-dom";
-import dashboard from '../../images/dashboard.png'
-import internal from '../../images/internal.png'
-import gtrackicons from '../../images/gtrackicons.png'
-import isoicon from '../../images/isoicon.png'
-import gs1logowhite from '../../images/gs1logowhite.png'
-import profile from '../../images/profile.png'
-import customers from '../../images/customer.png'
+import dashboard from '../../Images/dashboard.png'
+import internal from '../../Images/internal.png'
+import gtrackicons from '../../Images/gtrackicons.png'
+import isoicon from '../../Images/isoicon.png'
+import gs1logowhite from '../../Images/gs1logowhite.png'
+import profile from '../../Images/profile.png'
+import customers from '../../Images/customer.png'
 
 const SideBar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);

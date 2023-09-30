@@ -1,6 +1,9 @@
 import React from 'react'
+import { useNavigate } from 'react-router'
 
 const ShipmentCard = () => {
+    const navigate = useNavigate();
+
   return (
     <div>
         <div className="p-1 h-full sm:ml-72">
@@ -174,7 +177,7 @@ const ShipmentCard = () => {
             </div>
             </section>
 
-                <div className='h-16 w-full bg-gray-100 flex justify-end items-center'>
+                <div onClick={() => navigate('/add-products')} className='h-16 w-full bg-gray-100 flex justify-end items-center'>
                     <button className='py-2 px-10 mr-5 bg-primary text-white font-semibold rounded-md'>Next</button>
                 </div>
             </div>
