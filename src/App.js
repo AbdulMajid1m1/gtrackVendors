@@ -6,6 +6,8 @@ import PasswordScreen from "./components/Password/Password";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import UpdateVendor from "./Pages/UpdateVendor/UpdateVendor";
 import ListOfCustomer from "./Pages/ListOfCustomer/ListOfCustomer";
+import { SnackbarProvider } from "./context/SnackbarContext";
+import DataTableProvider from "./context/DataTableContext";
 import ShipmentCard from "./components/ShipmentCard/ShipmentCard";
 
 const App = () => {
@@ -19,12 +21,15 @@ const App = () => {
   };
   return (
     <>
+      <DataTableProvider>
+        <SnackbarProvider>
+
             <div>
               <BrowserRouter>
                 <Routes>
                   <Route path="/" element={<Login />} />
                   <Route path="/password" element={<PasswordScreen />} />
-                  
+
                   <Route
                     path="/*"
                     element={
@@ -41,7 +46,9 @@ const App = () => {
                 </Routes>
               </BrowserRouter>
             </div>
-     </>
+        </SnackbarProvider>
+      </DataTableProvider>
+    </>
   );
 };
 

@@ -27,7 +27,7 @@ const ListOfCustomer = () => {
         const getAllAssetsList = async () => {
             try {
 
-            const response = await newRequest.get(`/getApprovedVendorMembers?email=${parsedVendorData?.user?.email}`)
+                const response = await newRequest.get(`/getApprovedVendorMembers?email=${parsedVendorData?.user?.email}`)
 
                 console.log(response?.data);
 
@@ -90,31 +90,31 @@ const ListOfCustomer = () => {
             {error && <CustomSnakebar message={error} severity="error" onClose={resetSnakeBarMessages} />}
 
             <div className="p-3 h-full sm:ml-72">
-              <div style={{ marginLeft: '-11px', marginRight: '-11px', marginTop: '-25px' }}>
-              <DataTable
-                  data={alldata}
-                  title="LIST OF CUSTOMERS"
-                  secondaryColor="secondary"
-                  columnsName={ListOfCustomersColumn}
-                  backButton={true}
-                  uniqueId="PICKINGROUTEID"
-                  handleRowClickInParent={handleRowClickInParent}
-                  loading={isLoading}
+                <div style={{ marginLeft: '-11px', marginRight: '-11px', marginTop: '-25px' }}>
+                    <DataTable
+                        data={alldata}
+                        title="LIST OF CUSTOMERS"
+                        secondaryColor="secondary"
+                        columnsName={ListOfCustomersColumn}
+                        backButton={true}
+                        uniqueId="PICKINGROUTEID"
+                        handleRowClickInParent={handleRowClickInParent}
+                        loading={isLoading}
 
-              />
-              </div>
+                    />
+                </div>
 
-              <div style={{ marginLeft: '-11px', marginRight: '-11px' }}>
-                <DataTable data={filteredData} title="LIST OF CUSTOMERS SHIPMENT REQUEST" 
-                    secondaryColor="secondary"
-                    columnsName={InventorySuppliersDataColumn} 
-                    backButton={true}
-                    actionColumnVisibility={false}
-                    uniqueId={"barcodeDeletedId"}
-                    loading={isLoading}
+                <div style={{ marginLeft: '-11px', marginRight: '-11px' }}>
+                    <DataTable data={filteredData} title="LIST OF CUSTOMERS SHIPMENT REQUEST"
+                        secondaryColor="secondary"
+                        columnsName={InventorySuppliersDataColumn}
+                        backButton={true}
+                        actionColumnVisibility={false}
+                        uniqueId={"barcodeDeletedId"}
+                        loading={isLoading}
 
-                />
-              </div>
+                    />
+                </div>
 
             </div>
         </div >
