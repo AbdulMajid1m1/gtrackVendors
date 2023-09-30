@@ -6,6 +6,7 @@ import PasswordScreen from "./components/Password/Password";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import UpdateVendor from "./Pages/UpdateVendor/UpdateVendor";
 import ListOfCustomer from "./Pages/ListOfCustomer/ListOfCustomer";
+import ShipmentCard from "./components/ShipmentCard/ShipmentCard";
 
 const App = () => {
   const MainLayout = ({ children }) => {
@@ -32,6 +33,7 @@ const App = () => {
                             <Route path="/dashboard" element={<Dashboard />} />
                             <Route path="/update-vendor" element={<UpdateVendor />} />
                             <Route path="/customer-list" element={<ListOfCustomer />} />
+                            <Route path="/shipment-card" element={<ShipmentCard />} />
                         </Routes>
                       </MainLayout>
                     }
