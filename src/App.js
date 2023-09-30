@@ -38,7 +38,7 @@ const App = () => {
                             <Route path="/dashboard" element={<Dashboard />} />
                             <Route path="/update-vendor" element={<UpdateVendor />} />
                             <Route path="/customer-list" element={<ListOfCustomer />} />
-                            <Route path="/shipment-card" element={<ShipmentCard />} />
+                            <Route path="/new-shipment-request" element={<ShipmentCard />} />
                         </Routes>
                       </MainLayout>
                     }
