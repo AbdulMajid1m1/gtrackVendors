@@ -84,7 +84,7 @@ export const InventorySuppliersDataColumn = [
   export const ListOfCustomersColumn = [
     {
       field: "id",
-      headerName: "ID",
+      headerName: "Customer Id",
       width: 180,
       editable: true,
     },
