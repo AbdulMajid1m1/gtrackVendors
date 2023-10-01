@@ -3,7 +3,8 @@ import { InventorySuppliersDataColumn, ListOfCustomersColumn } from '../../utils
 import DataTable from '../../components/Datatable/Datatable';
 import newRequest from '../../utils/userRequest';
 import CustomSnakebar from '../../utils/CustomSnackbar';
-
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import { useNavigate } from 'react-router-dom';
 const ListOfCustomer = () => {
     const [alldata, setAllData] = useState([]);
     const [secondGridData, setSecondGridData] = useState([]);
@@ -11,7 +12,7 @@ const ListOfCustomer = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [message, setMessage] = useState(null);
-
+    const navigate = useNavigate();
     const getVendorData = sessionStorage.getItem("vendorData");
     const parsedVendorData = JSON.parse(getVendorData);
     console.log(parsedVendorData);
@@ -100,6 +101,25 @@ const ListOfCustomer = () => {
                         uniqueId="PICKINGROUTEID"
                         handleRowClickInParent={handleRowClickInParent}
                         loading={isLoading}
+
+                        dropDownOptions={[
+                            {
+                                label: "New Shipment Request",
+                                icon: <LocalShippingIcon fontSize="small" color="action" style={{ color: "rgb(37 99 235)" }} />
+                                ,
+                                action: () => {
+                                    navigate("/new-shipment-request")
+                                }
+
+                            },
+                            // {
+                            //   label: "Delete",
+                            //   icon: <DeleteIcon fontSize="small" style={{ color: '#FF0032' }} />
+                            //   ,
+                            //   action: handleDelete,
+                            // }
+
+                        ]}
 
                     />
                 </div>
