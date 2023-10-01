@@ -1,47 +1,65 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router';
 import gs1logo from "../../Images/gs1.png";
 import gtrackIcon from "../../Images/gtrackicons.png"
 import DigitalLinkTab from './DigitalLinkTab';
+import newRequest from '../../utils/userRequest';
+import { SnackbarContext } from '../../Contexts/SnackbarContext';
 
 const AddProducts = () => {
     const [activeTab, setActiveTab] = useState('product-Infomation');
     const [data, setData] = useState(null);
+    const [gtinData, setGtinData] = useState('');
     const navigate = useNavigate();
-    
+    const { openSnackbar } = useContext(SnackbarContext);
+
     
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
 
+
+  const handleGtinSearch = () => {
+      newRequest.get(`/getGs1ProdProductsbyBarcode?barcode=${gtinData}`)
+        .then((response) => {
+          console.log(response.data[0]);
+          setData(response.data[0]);
+
+          // store that response in sesstion stroage
+          sessionStorage.setItem('productData', JSON.stringify(gtinData));
+
+        })    
+        .catch((error) => {
+          console.log(error);
+          setData(null);
+          openSnackbar(
+            error?.response?.data?.message ?? "something went wrong!",
+            "error"
+          );
+        })
+
+  };
+
  //Firts tab Table data 
  const products = [
-    // { name: "GTIN", value: data?.gtinArr?.gtin },
-    // { name: "Brand name", value: data?.gtinArr?.brandName },
-    // { name: "Product description", value: data?.gtinArr?.productDescription },
-    // { name: "Product image URL", value: data?.gtinArr?.productImageUrl },
-    // { name: "Global product category", value: data?.gtinArr?.gpcCategoryCode },
-    // // check if data has unitcode then show value
-    // { name: "Net content", value: data?.gtinArr?.unitCode && data?.gtinArr?.unitValue && `${data?.gtinArr?.unitCode} ${data?.gtinArr?.unitValue}` },
-    // { name: "Country of sale", value: data?.gtinArr?.countryOfSaleCode },
-
-    { name: "GTIN", value: "GTIN"},
-    { name: "Brand name", value: "Brand name" },
-    { name: "Product description", value: "Product description" },
-    { name: "Product image URL", value: "Product image URL" },
-    { name: "Global product category", value: "Global product category" },
+    { name: "GTIN", value: data?.barcode },
+    { name: "Brand name", value: data?.BrandName },
+    { name: "Product description", value: data?.HsDescription },
+    { name: "Product image URL", value: data?.front_image },
+    { name: "Global product category", value: data?.gpc },
     // check if data has unitcode then show value
-    { name: "Net content", value: "Net content" },
-    { name: "Country of sale", value: "Country of sale" },
+    { name: "Net content", value: data?.unit && data?.unit && `${data?.unit} ${data?.unit}` },
+    { name: "Country of sale", value: data?.countrySale },
+
   ];
 
 
   const productInformation = [
-    { name: "Company Name", value: "Plastic Corner Factory Company"},
-    { name: "Licence Key", value: "6281000003" },
+    { name: "Company Name", value: data?.productnameenglish },
+    { name: "Licence Key", value: data?.barcode },
     { name: "Licence Type", value: "null" },
-    { name: "Product image URL", value: "Product image URL" },
-    { name: "Licensing GS1 Member Organisation", value: "GS1 SAUDI ARABIA" },
+    { name: "Product image URL", value: data?.front_image },
+    { name: "Licensing GS1 Member Organisation", value: data?.countrySale },
    ];
 
   const [selectedOption, setSelectedOption] = useState("GS1-GPC");
@@ -101,6 +119,16 @@ const AddProducts = () => {
               </div>
             </div>
 
+            <div className='w-full mb-3 mt-2'>
+              <input 
+                type='text' 
+                className='h-10 w-full rounded-md border border-gray-500 px-4' 
+                placeholder='Barcode'
+                onChange={(e) => setGtinData(e.target.value)}
+                onBlur={handleGtinSearch}
+                />
+            </div>
+
             {/* Tabs  */}
             <div className="grid 2xl:grid-cols-4 xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-4 grid-cols-2 gap-5">
                 <button
@@ -142,13 +170,11 @@ const AddProducts = () => {
               <div className="flex flex-col md:flex-row">
                 <div className="w-full md:w-1/3 flex justify-center items-center p-4">
                   {/* Add your image element here */}
-                  {/* {data?.gtinArr?.productImageUrl && (
-                    <img src={data.gtinArr.productImageUrl} alt="Product" className="w-1/2" />
+                  {data?.front_image && (
+                    <img src={data?.front_image} alt="Product" className="w-1/2" />
 
-                  )} */}
-
-                    <img src={gtrackIcon} alt="Product" className="w-1/2" />
-                </div>
+                  )}
+                 </div>
 
                 <div className="w-full md:w-2/3">
                   <div className="container mx-auto mt-6 p-4">
