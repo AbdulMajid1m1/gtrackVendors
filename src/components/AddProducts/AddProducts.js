@@ -5,14 +5,21 @@ import gtrackIcon from "../../Images/gtrackicons.png"
 import DigitalLinkTab from './DigitalLinkTab';
 import newRequest from '../../utils/userRequest';
 import { SnackbarContext } from '../../Contexts/SnackbarContext';
+import { RiseLoader } from 'react-spinners';
+import CodificationTab from './CodificationTab';
+
 
 const AddProducts = () => {
     const [activeTab, setActiveTab] = useState('product-Infomation');
     const [data, setData] = useState(null);
     const [gtinData, setGtinData] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const { openSnackbar } = useContext(SnackbarContext);
 
+    const getVendorData = sessionStorage.getItem("vendorData");
+    const parsedVendorData = JSON.parse(getVendorData);
+    // console.log(parsedVendorData?.user);
     
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -24,7 +31,7 @@ const AddProducts = () => {
         .then((response) => {
           console.log(response.data[0]);
           setData(response.data[0]);
-
+      
           // store that response in sesstion stroage
           sessionStorage.setItem('productData', JSON.stringify(gtinData));
 
@@ -53,7 +60,7 @@ const AddProducts = () => {
 
   ];
 
-
+  // Second Tab table Data
   const productInformation = [
     { name: "Company Name", value: data?.productnameenglish },
     { name: "Licence Key", value: data?.barcode },
@@ -61,6 +68,49 @@ const AddProducts = () => {
     { name: "Product image URL", value: data?.front_image },
     { name: "Licensing GS1 Member Organisation", value: data?.countrySale },
    ];
+
+   
+   // Insert Api 
+   const handleSubmit = () => {
+    setIsLoading(true);
+    const apiBodyData = {
+      shipment_request: {
+        vendor_id: parsedVendorData?.user?.id,
+        customer_id: 2,
+        barcode: data?.barcode,
+      },
+      shipment_product: {
+        productnameenglish: data?.productnameenglish,
+        productnamearabic: data?.productnamearabic,
+        BrandName: data?.BrandName,
+        BrandNameAr: data?.BrandNameAr,
+        model: "Model123",
+        manufacturing_date: data?.created_at,
+        expiry_date: data?.updated_at,
+        serial_number: "SN123456789",
+        pictures: data?.front_image,
+        item_price: 123.45,
+        unit: data?.unit
+      }
+    }
+
+    newRequest.post("/insertShipmentRequestAndProduct", apiBodyData)
+      .then(response => {
+        console.log(response?.data);
+        openSnackbar(response?.data?.message ?? "Something went wrong", "success");
+        setIsLoading(false);
+      
+      })
+      .catch(error => {
+        console.error(error);
+        openSnackbar(error?.response?.data?.message ?? "Something went wrong", "error");
+        setIsLoading(false);
+      });
+
+
+   }
+
+
 
   const [selectedOption, setSelectedOption] = useState("GS1-GPC");
  
@@ -103,6 +153,25 @@ const AddProducts = () => {
 
   return (
     <div>
+        {isLoading &&
+
+        <div className='loading-spinner-background'
+        style={{
+            zIndex: 9999, position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(255, 255, 255, 0.5)',
+            display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'fixed'
+
+
+        }}
+        >
+        <RiseLoader
+            size={18}
+            color={"#6439ff"}
+            // height={4}
+            loading={isLoading}
+        />
+        </div>
+        }
+
         <div className="p-3 h-full sm:ml-72 shadow">
             {/* new design */}
             <div className="popup-header -mt-3">
@@ -124,12 +193,13 @@ const AddProducts = () => {
                 type='text' 
                 className='h-10 w-full rounded-md border border-gray-500 px-4' 
                 placeholder='Barcode'
+                name='barcode'
                 onChange={(e) => setGtinData(e.target.value)}
                 onBlur={handleGtinSearch}
                 />
             </div>
 
-            {/* Tabs  */}
+            {/* Tabs Button */}
             <div className="grid 2xl:grid-cols-4 xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-4 grid-cols-2 gap-5">
                 <button
                     className={`p-4 rounded ${activeTab === 'product-Infomation' ? 'bg-primary text-white' : 'bg-white text-primary'
@@ -193,6 +263,15 @@ const AddProducts = () => {
                   </div>
                 </div>
               </div>
+
+              <div className='flex justify-end px-5'>
+                <button
+                  className="bg-primary text-white px-4 py-2 rounded-md shadow-md"
+                  onClick={handleSubmit}
+                >
+                  Add Product
+                </button>
+              </div>
             </div>
            )}
 
@@ -232,6 +311,7 @@ const AddProducts = () => {
              {/* Fourth Tab */}
               {activeTab === 'Codification' && (
                 <div className="block shadow-lg">
+                  <div className='flex justify-between gap-2 w-full'>
                     <div className='w-[20%] flex flex-col gap-2 mt-2'>
                         <span
                         className={`bg-[#3b5998] py-2 flex justify-start px-1 rounded-md text-white items-center gap-2 cursor-pointer 
@@ -280,6 +360,12 @@ const AddProducts = () => {
                             OTHER
                         </span>
                     </div>
+
+                    
+                    <div className='w-[80%] mt-2 border border-gray-300'>
+                        <CodificationTab />
+                    </div>
+                  </div>
                 </div>
               )}
         </div>
