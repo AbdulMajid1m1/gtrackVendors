@@ -41,6 +41,8 @@ const DataTable = ({
   AssignPickListBtn,
   sendInvitation,
   handleSendInvitationPopup,
+  AddDocBtn,
+  handleAddDoc,
 }) => {
   const navigate = useNavigate();
   const [qrcodeValue, setQRCodeValue] = useState("");
@@ -54,7 +56,7 @@ const DataTable = ({
   const [error, setError] = useState(null);
   const [muiFilteredData, setMuiFilteredData] = useState([]);
   const { rowSelectionModel, setRowSelectionModel, tableSelectedRows, setTableSelectedRows } = useContext(DataTableContext);
-//   const { openSnackbar } = useContext(SnackbarContext);
+  //   const { openSnackbar } = useContext(SnackbarContext);
 
   const resetSnakeBarMessages = () => {
     setError(null);
@@ -441,12 +443,12 @@ const DataTable = ({
   };
 
 
-    const handleSendInvitation = () => {
+  const handleSendInvitation = () => {
     handleSendInvitationPopup();
   };
-  
-  
-  
+
+
+
 
 
   return (
@@ -509,11 +511,13 @@ const DataTable = ({
                 {NewUser && <button onClick={togglePopup} className="link">New User</button>}
                 {Permission && <button onClick={handleEdit}>Permission</button>}
                 {sendInvitation && <button onClick={handleSendInvitation}>Send Invitation</button>}
+                {AddDocBtn && <button onClick={handleAddDoc}>Add</button>}
                 {/* <button onClick={() => handlePdfExport(false)}
                             >Export to Pdf</button> */}
               </span>
             )}
             {AssignPickListBtn && <button onClick={handleUserListPopUp} >Assign Picklist</button>}
+
             {/* {backButton && <button onClick={() => { navigate(-1) }}>Go Back</button>} */}
           </span>
 
@@ -557,7 +561,7 @@ const DataTable = ({
 
           getRowId={(row) => row.no}
 
-        //   rowSelectionModel={rowSelectionModel}
+          //   rowSelectionModel={rowSelectionModel}
           onRowSelectionModelChange={(newRowSelectionModel) => {
             setRowSelectionModel(newRowSelectionModel); // Set the state with selected row ids
             console.log(newRowSelectionModel); // Logs the ids of selected rows
@@ -575,3 +579,5 @@ const DataTable = ({
 };
 
 export default DataTable;
+
+

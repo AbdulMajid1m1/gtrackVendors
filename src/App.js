@@ -10,6 +10,7 @@ import { SnackbarProvider } from "./Contexts/SnackbarContext";
 import DataTableProvider from "./Contexts/DataTableContext";
 import ShipmentCard from "./components/ShipmentCard/ShipmentCard";
 import AddProducts from "./components/AddProducts/AddProducts";
+import ShipmentDocUpload from "./Pages/ShipmentDocUpload/ShipmentDocUpload";
 
 const App = () => {
   const MainLayout = ({ children }) => {
@@ -42,6 +43,7 @@ const App = () => {
                             <Route path="/new-shipment-request" element={<ShipmentCard />} />
                             <Route path="/new-shipment-request" element={<ShipmentCard />} />
                             <Route path="/add-products" element={<AddProducts />} />
+                            <Route path="/shipment-docs" element={<ShipmentDocUpload />} />
                         </Routes>
                       </MainLayout>
                     }
