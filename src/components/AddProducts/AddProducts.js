@@ -17,9 +17,12 @@ const AddProducts = () => {
     const navigate = useNavigate();
     const { openSnackbar } = useContext(SnackbarContext);
 
-    // const getVendorData = sessionStorage.getItem("vendorData");
-    // const parsedVendorData = JSON.parse(getVendorData);
-    // console.log(parsedVendorData?.user);
+      // I get the selected Row data in the session storage
+      const getRowData = sessionStorage.getItem("customerRowData");
+      const parsedRowData = JSON.parse(getRowData);
+      // console.log(parsedRowData);
+  
+ 
     
     // get the shipment request data from session storage
     const getShipmentRequestData = sessionStorage.getItem("shipmentProduct");
@@ -102,6 +105,10 @@ const AddProducts = () => {
         console.log(response?.data);
         openSnackbar(response?.data?.message ?? "Something went wrong", "success");
         setIsLoading(false);
+
+        setTimeout(() => {
+            navigate(-1)
+        }, 2000)
       
       })
       .catch(error => {
@@ -184,8 +191,8 @@ const AddProducts = () => {
                     <img src={gs1logo} className='h-10 w-10' alt='' />
                   </div>
                   <div>
-                    <p className='font-semibold'>Complete Data</p>
-                    <p>This number is registered to company: : <span className='font-semibold'>TEST</span></p>
+                    <p className='font-semibold'>{parsedRowData?.email}</p>
+                    <p>This number is registered to company: : <span className='font-semibold'>{parsedRowData?.company_name_eng}</span></p>
                   </div>
                 </div>
               </div>

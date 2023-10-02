@@ -12,11 +12,18 @@ const ShipmentCard = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [cardData, setCardData] = useState([]);
 
+    // I get the selected Row data in the session storage
+    const getRowData = sessionStorage.getItem("customerRowData");
+    const parsedRowData = JSON.parse(getRowData);
+    // console.log(parsedRowData);
+
+
     // get the session data
     const parsedVendorData = JSON.parse(sessionStorage.getItem("shipmentRequest"));
     console.log(parsedVendorData)
     // how i can get the shipment id from the session data
     console.log(parsedVendorData?.insertedShipmentRequestData?.shipment_id);
+
 
     useEffect(() => {
         // newRequest.get(`/getShipmentProductByShipmentId?shipmentId=${parsedVendorData?.insertedShipmentRequestData?.shipment_id}`)
@@ -68,18 +75,19 @@ const ShipmentCard = () => {
                      {/* Header I add */}
                     <div className="popup-header">
                       <div className="flex justify-between w-full font-body p-6 shadow-xl rounded-md text-black bg-[#D4EDDA] text-xl mb:2 md:mb-5">
-                          <div className='flex justify-start gap-2 text-xs sm:text-sm'>
+                          <div className='flex justify-start items-center gap-2 text-xs sm:text-sm'>
                             <div>
                                 <img src={gs1logo} className='h-10 w-10' alt='' />
                             </div>
                             <div>
-                                <p className='font-semibold'>Complete Data</p>
-                                <p>This number is registered to company: : <span className='font-semibold'>TEST</span></p>
+                                <p className='font-semibold'>{parsedRowData?.email}</p>
+                                <p>This number is registered to company: : <span className='font-semibold'>{parsedRowData?.company_name_eng}</span></p>
+                                <p>Member ID: : <span className='font-semibold'>{parsedRowData?.id}</span></p>
                             </div>
                         </div>
                         {/* Next Button */}
                         <div onClick={() => navigate('/add-products')} className=''>
-                            <button className='py-1 px-5 mr-5 bg-primary text-lg text-white rounded-md'>Add Product</button>
+                            <button className='py-1 sm:px-5 px-1 sm:mr-5 mr-0 bg-primary sm:text-lg text-sm text-white rounded-md'>Add Product</button>
                         </div>
                       </div>
                       

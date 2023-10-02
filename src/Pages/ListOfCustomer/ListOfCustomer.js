@@ -98,6 +98,8 @@ const ListOfCustomer = () => {
     const handleShipmentRequest = async (row) => {
         setIsLoading(true);
         console.log(row?.id);
+        // store that row data in sesstion storage
+        sessionStorage.setItem("customerRowData", JSON.stringify(row));
         try {
             const response = await newRequest.post("/insertShipmentRequest", {
                 vendor_id: parsedVendorData?.user?.id,
