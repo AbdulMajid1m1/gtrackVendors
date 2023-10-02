@@ -12,8 +12,8 @@ const ShipmentCard = () => {
     const [cardData, setCardData] = useState([]);
 
     // get the session data
-    const getVendorData = sessionStorage.getItem("shipmentRequest");
-    const parsedVendorData = JSON.parse(getVendorData);
+    const parsedVendorData = JSON.parse(sessionStorage.getItem("shipmentRequest"));
+    console.log(parsedVendorData)
     // how i can get the shipment id from the session data
     console.log(parsedVendorData?.insertedShipmentRequestData?.shipment_id);
 

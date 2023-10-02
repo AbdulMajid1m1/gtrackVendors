@@ -132,6 +132,7 @@ const ShipmentDocUpload = () => {
                     closeDocPopup={closeDocPopup}
                     onClose={onClose}
                     refectDocList={refectDocList}
+                    productId={productId}
 
 
                 />

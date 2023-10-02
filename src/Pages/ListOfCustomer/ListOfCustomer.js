@@ -1,4 +1,4 @@
-import React, { useContext,useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ListOfCustomersColumn, ShipmentRequestColumns } from '../../utils/datatablesource'
 import DataTable from '../../components/Datatable/Datatable';
 import newRequest from '../../utils/userRequest';
@@ -99,32 +99,32 @@ const ListOfCustomer = () => {
         setIsLoading(true);
         console.log(row?.id);
         try {
-           const response = await newRequest.post("/insertShipmentRequest", {
+            const response = await newRequest.post("/insertShipmentRequest", {
                 vendor_id: parsedVendorData?.user?.id,
                 customer_id: row?.id,
-           })
-                .then(response => {
-                    console.log(response?.data);
-                    openSnackbar(response?.data?.message ?? "Shipment Request Created Successfully", "success");
-                    
-                    navigate("/new-shipment-request")
-                    setIsLoading(false);
+            })
 
-                    // save the api response in session storage
-                    sessionStorage.setItem("shipmentRequest", JSON.stringify(response?.data));
+            console.log(response?.data);
+            openSnackbar(response?.data?.message ?? "Shipment Request Created Successfully", "success");
 
-                })
-                .catch(error => {
-                    console.error(error);
-                    // setError(error?.response?.data?.message ?? "Something went wrong")
-                    openSnackbar(error?.response?.data?.message ?? "Something went wrong", "error");
-                    setIsLoading(false);
+            setIsLoading(false);
+            console.log(response?.data)
+            console.log(response?.data?.insertedShipmentRequestData)
 
-                });
+            // save the api response in session storage
+            sessionStorage.setItem("shipmentRequest", JSON.stringify(response?.data));
+
+            navigate("/new-shipment-request")
+
 
         }
         catch (error) {
             console.log(error);
+            openSnackbar(error?.response?.data?.message ?? "Something went wrong", "error");
+
+        }
+        finally {
+            setIsLoading(false);
         }
     }
 
@@ -136,21 +136,21 @@ const ListOfCustomer = () => {
 
             {isLoading &&
 
-            <div className='loading-spinner-background'
-            style={{
-                zIndex: 9999, position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(255, 255, 255, 0.5)',
-                display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'fixed'
+                <div className='loading-spinner-background'
+                    style={{
+                        zIndex: 9999, position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                        display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'fixed'
 
 
-            }}
-            >
-            <RiseLoader
-                size={18}
-                color={"#6439ff"}
-                // height={4}
-                loading={isLoading}
-            />
-            </div>
+                    }}
+                >
+                    <RiseLoader
+                        size={18}
+                        color={"#6439ff"}
+                        // height={4}
+                        loading={isLoading}
+                    />
+                </div>
             }
 
 
