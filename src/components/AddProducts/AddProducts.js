@@ -267,14 +267,14 @@ const AddProducts = () => {
                 </div>
               </div>
 
-              <div className='flex justify-end px-5'>
+              {/* <div className='flex justify-end px-5'>
                 <button
                   className="bg-primary text-white px-4 py-2 rounded-md shadow-md"
                   onClick={handleSubmit}
                 >
                   Add Product
                 </button>
-              </div>
+              </div> */}
             </div>
            )}
 
@@ -371,6 +371,15 @@ const AddProducts = () => {
                   </div>
                 </div>
               )}
+
+              <div className='flex justify-end px-5 mt-2'>
+                <button
+                  className="bg-primary text-white px-4 py-2 rounded-md shadow-md"
+                  onClick={handleSubmit}
+                >
+                  Add Product
+                </button>
+              </div>
         </div>
     </div>
   )

@@ -61,8 +61,14 @@ const ShipmentCard = () => {
                 </div>
             }
 
-            <div className="p-1 h-full sm:ml-72">
+            <div className="p-1 h-full sm:ml-72 -mt-6">
                 <div className="bg-white">
+
+                    {/* Next Button */}
+                    <div onClick={() => navigate('/add-products')} className='h-16 w-full bg-gray-100 flex justify-end items-center'>
+                        <button className='py-2 px-10 mr-5 bg-primary text-white font-semibold rounded-md'>Next</button>
+                    </div>
+                    
                     {/* <!-- Product List --> */}
                     <section className="py-1 bg-gray-100">
                         <div className="mx-auto grid max-w-6xl  grid-cols-1 gap-5 p-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
@@ -136,9 +142,9 @@ const ShipmentCard = () => {
                         </div>
                     </section>
 
-                    <div onClick={() => navigate('/add-products')} className='h-16 w-full bg-gray-100 flex justify-end items-center'>
+                    {/* <div onClick={() => navigate('/add-products')} className='h-16 w-full bg-gray-100 flex justify-end items-center'>
                         <button className='py-2 px-10 mr-5 bg-primary text-white font-semibold rounded-md'>Next</button>
-                    </div>
+                    </div> */}
                 </div>
 
             </div>
