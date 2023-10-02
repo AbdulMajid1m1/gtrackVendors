@@ -72,7 +72,10 @@ const ShipmentCard = () => {
                                         <a href="#">
                                             <div className="relative h-56 flex items-end overflow-hidden rounded-xl">
                                                 <img className='' src={item?.pictures} alt="image"
-                                                    style={{ objectFit: 'contain' }}
+                                                    style={{
+                                                        objectFit: 'contain',
+                                                        height: '100%', margin: 'auto'
+                                                    }}
 
                                                 />
                                             </div>
