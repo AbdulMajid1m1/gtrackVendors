@@ -24,7 +24,6 @@ const ShipmentCard = () => {
             console.log(response?.data);
             setCardData(response?.data ?? [])
             setIsLoading(false);
-            // openSnackbar(response?.data?.message ?? "Data ", "success");    
             
             // save the response in session storage
             sessionStorage.setItem("shipmentProduct", JSON.stringify(response?.data[0]));
