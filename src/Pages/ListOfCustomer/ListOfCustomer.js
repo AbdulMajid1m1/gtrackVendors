@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext,useEffect, useState } from 'react'
 import { ListOfCustomersColumn, ShipmentRequestColumns } from '../../utils/datatablesource'
 import DataTable from '../../components/Datatable/Datatable';
 import newRequest from '../../utils/userRequest';
 import CustomSnakebar from '../../utils/CustomSnackbar';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import { SnackbarContext } from '../../Contexts/SnackbarContext';
+import { RiseLoader } from 'react-spinners';
 import { useNavigate } from 'react-router-dom';
 const ListOfCustomer = () => {
     const [alldata, setAllData] = useState([]);
@@ -92,9 +94,38 @@ const ListOfCustomer = () => {
         setFilteredData(filteredData)
     }
 
-    const handleViewShipmentRequestView = () => {
-        console.log(item);
 
+    const handleShipmentRequest = async (row) => {
+        setIsLoading(true);
+        console.log(row?.id);
+        try {
+           const response = await newRequest.post("/insertShipmentRequest", {
+                vendor_id: parsedVendorData?.user?.id,
+                customer_id: row?.id,
+           })
+                .then(response => {
+                    console.log(response?.data);
+                    openSnackbar(response?.data?.message ?? "Shipment Request Created Successfully", "success");
+                    
+                    navigate("/new-shipment-request")
+                    setIsLoading(false);
+
+                    // save the api response in session storage
+                    sessionStorage.setItem("shipmentRequest", JSON.stringify(response?.data));
+
+                })
+                .catch(error => {
+                    console.error(error);
+                    // setError(error?.response?.data?.message ?? "Something went wrong")
+                    openSnackbar(error?.response?.data?.message ?? "Something went wrong", "error");
+                    setIsLoading(false);
+
+                });
+
+        }
+        catch (error) {
+            console.log(error);
+        }
     }
 
     return (
