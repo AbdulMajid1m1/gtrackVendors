@@ -43,7 +43,7 @@ const App = () => {
                             <Route path="/new-shipment-request" element={<ShipmentCard />} />
                             <Route path="/new-shipment-request" element={<ShipmentCard />} />
                             <Route path="/add-products" element={<AddProducts />} />
-                            <Route path="/shipment-docs" element={<ShipmentDocUpload />} />
+                            <Route path="/shipment-docs/:productId" element={<ShipmentDocUpload />} />
                         </Routes>
                       </MainLayout>
                     }

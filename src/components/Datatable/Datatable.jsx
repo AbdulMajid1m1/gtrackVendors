@@ -117,10 +117,17 @@ const DataTable = ({
       });
     });
   };
-
+  const ids = [
+    'gln_id',
+    'purchaseOrderId',
+    'gtinMainTableId',
+    'ssccTableId',
+    'customerListId'
+  ]
   const handleRowClick = (item) => {
     console.log(item)
-    if (uniqueId === "gln_id" || uniqueId === 'purchaseOrderId' || uniqueId === 'gtinMainTableId' || uniqueId === 'ssccTableId') {
+    // check if the uniqueId is in the ids array
+    if (ids.includes(uniqueId)) {
       handleRowClickInParent(item);
       return;
     }
@@ -511,7 +518,7 @@ const DataTable = ({
                 {NewUser && <button onClick={togglePopup} className="link">New User</button>}
                 {Permission && <button onClick={handleEdit}>Permission</button>}
                 {sendInvitation && <button onClick={handleSendInvitation}>Send Invitation</button>}
-                {AddDocBtn && <button onClick={handleAddDoc}>Add</button>}
+                {AddDocBtn && <button onClick={handleAddDoc}>Add Document</button>}
                 {/* <button onClick={() => handlePdfExport(false)}
                             >Export to Pdf</button> */}
               </span>
@@ -541,7 +548,7 @@ const DataTable = ({
           getRowClassName={(params) =>
             params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd"
           }
-          editMode="row"
+          editMode="none" // set to row if need to edit row
           processRowUpdate={processRowUpdate ? processRowUpdate : null}
           onProcessRowUpdateError={(params, error) => {
             console.log(error);

@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from 'react'
-import { InventorySuppliersDataColumn, ListOfCustomersColumn } from '../../utils/datatablesource'
+import { ListOfCustomersColumn, ShipmentRequestColumns } from '../../utils/datatablesource'
 import DataTable from '../../components/Datatable/Datatable';
 import newRequest from '../../utils/userRequest';
 import CustomSnakebar from '../../utils/CustomSnackbar';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useNavigate } from 'react-router-dom';
 const ListOfCustomer = () => {
     const [alldata, setAllData] = useState([]);
     const [secondGridData, setSecondGridData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isShipmentDataLoading, setIsShipmentDataLoading] = useState(false);
     const [error, setError] = useState(null);
     const [message, setMessage] = useState(null);
     const navigate = useNavigate();
     const getVendorData = sessionStorage.getItem("vendorData");
     const parsedVendorData = JSON.parse(getVendorData);
     console.log(parsedVendorData);
+
 
     const resetSnakeBarMessages = () => {
         setError(null);
@@ -25,7 +28,8 @@ const ListOfCustomer = () => {
 
 
     useEffect(() => {
-        const getAllAssetsList = async () => {
+        const getAllCustomers = async () => {
+            setIsLoading(true)
             try {
 
                 const response = await newRequest.get(`/getApprovedVendorMembers?email=${parsedVendorData?.user?.email}`)
@@ -33,52 +37,62 @@ const ListOfCustomer = () => {
                 console.log(response?.data);
 
                 setAllData(response?.data ?? [])
-                setIsLoading(false)
 
             }
             catch (error) {
                 console.log(error);
-                setIsLoading(false)
+
                 setError(error?.response?.data?.message ?? "Something went wrong")
             }
-        };
-        getAllAssetsList();
+            finally {
+                setIsLoading(false)
+            }
 
-        const getMappedBarcodeDeleted = async () => {
+        };
+        getAllCustomers();
+
+        const getAllShipments = async () => {
+            setIsShipmentDataLoading(true)
             try {
 
-                newRequest.get("/getAllTblMappedBarcodesDeleted")
-                    .then(response => {
-                        console.log(response?.data);
+                const response = await newRequest.get("/getAllShipmentRequests")
 
-                        setSecondGridData(response?.data ?? [])
-                        setFilteredData(response?.data ?? [])
+                console.log(response?.data);
 
-                    })
-                    .catch(error => {
-                        console.error(error);
-                        // setError(error?.response?.data?.message ?? "Something went wrong")
-
-                    });
-
+                setSecondGridData(response?.data ?? [])
+                setFilteredData(response?.data ?? [])
             }
             catch (error) {
                 console.log(error);
+                setError(error?.response?.data?.message ?? "Something went wrong")
+
+            }
+            finally {
+                setIsShipmentDataLoading(false)
             }
         };
-        getMappedBarcodeDeleted();
+        getAllShipments();
 
 
     }, []);
 
     const handleRowClickInParent = (item) => {
         console.log(item);
-        // filter data for second grid using item.ITEMID and JOURNALMOVEMENTCLID
+
+        if (item.length === 0) {
+            setFilteredData(secondGridData)
+            return
+        }
         const filteredData = secondGridData.filter((data) => {
-            return data?.Remarks === item?.PICKINGROUTEID
+            return data?.customer_id === item?.id
         })
         console.log(filteredData);
         setFilteredData(filteredData)
+    }
+
+    const handleViewShipmentRequestView = () => {
+        console.log(item);
+
     }
 
     return (
@@ -98,9 +112,10 @@ const ListOfCustomer = () => {
                         secondaryColor="secondary"
                         columnsName={ListOfCustomersColumn}
                         backButton={true}
-                        uniqueId="PICKINGROUTEID"
+                        uniqueId="customerListId"
                         handleRowClickInParent={handleRowClickInParent}
                         loading={isLoading}
+                        checkboxSelection='disabled'
 
                         dropDownOptions={[
                             {
@@ -127,11 +142,24 @@ const ListOfCustomer = () => {
                 <div style={{ marginLeft: '-11px', marginRight: '-11px' }}>
                     <DataTable data={filteredData} title="LIST OF CUSTOMERS SHIPMENT REQUEST"
                         secondaryColor="secondary"
-                        columnsName={InventorySuppliersDataColumn}
+                        columnsName={ShipmentRequestColumns}
                         backButton={true}
-                        actionColumnVisibility={false}
-                        uniqueId={"barcodeDeletedId"}
-                        loading={isLoading}
+                        checkboxSelection="disabled"
+                        dropDownOptions={[
+                            {
+                                label: "View",
+                                icon: (
+                                    <VisibilityIcon
+                                        fontSize="small"
+                                        color="action"
+                                        style={{ color: "rgb(37 99 235)" }}
+                                    />
+                                ),
+                                action: handleViewShipmentRequestView,
+                            },
+                        ]}
+                        uniqueId={"shipmentRequestId"}
+                        loading={isShipmentDataLoading}
 
                     />
                 </div>

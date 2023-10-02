@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import { ShipmentDocColumns } from '../../utils/datatablesource'
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -10,46 +10,60 @@ import newRequest from '../../utils/userRequest'
 import DataTable from '../../components/Datatable/Datatable';
 import ShipmentDocUploadPopup from '../../components/ShipmentDocUploadPopup/ShipmentDocUploadPopup';
 import Swal from 'sweetalert2';
+import imageLiveUrl from '../../utils/urlConverter/imageLiveUrl';
 
 const ShipmentDocUpload = () => {
     const [data, setData] = useState([]);
     const { openSnackbar } = useContext(SnackbarContext);
     const [isLoading, setIsLoading] = useState(true);
     const [openPopup, setOpenPopup] = useState(false);
+    const [onClose, setOnClose] = useState(false);
     const navigate = useNavigate()
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await newRequest.get("/getAllShipmentDocuments");
-                console.log(response.data);
-                setData(response?.data || []);
-                setIsLoading(false)
-            }
-            catch (err) {
-                console.log(err);
-                setIsLoading(false)
-            }
-        };
+    // take product id from url
+    const productId = useParams().productId;
+    console.log(productId);
 
-        fetchData();
+    const refectDocList = async () => {
+        try {
+            const response = await newRequest.get("/getDocumentByProductId?productId=" + productId);
+            console.log(response.data);
+            setData(response?.data || []);
+            setIsLoading(false)
+        }
+        catch (err) {
+            console.log(err);
+            setIsLoading(false)
+        }
+    };
+    useEffect(() => {
+        refectDocList();
     }, []);
+
+
+
 
 
     const handleDownload = async (row) => {
         // get url from row
         const url = row?.document_url;
+        const liveUrl = imageLiveUrl(url)
+        console.log(liveUrl);
+        // download file
+        window.open(liveUrl, '_blank').focus();
+
+
         console.log(url);
 
 
     }
 
-    const handleView = async (row) => {
-        // open url in new chorme with small window
-        const url = row?.document_url;
-        console.log(url);
+    // const handleView = async (row) => {
+    //     // open url in new chorme with small window
+    //     const url = row?.document_url;
+    //     console.log(url);
 
-    }
+    // }
 
 
     const handleDelete = async (row) => {
@@ -65,18 +79,32 @@ const ShipmentDocUpload = () => {
             cancelButtonColor: '#FF0032',
         }).then(async (result) => {
             if (result.isConfirmed) {
-                const isDeleted = await deleteFunction("/deleteShipmentDocument?documentId=" + row?.id);
-                if (!isDeleted) {
+                try {
+                    // convert row id to number
+                    const documentId = Number(row.document_id);
+                    console.log(row);
+                    console.log(documentId);
+                    await newRequest.delete("/deleteShipmentDocument?documentId=" + documentId);
+
+                    openSnackbar("Record Deleted Successfully", 'success');
+                    // remove the deleted user from the data
+                    console.log(data);
+                    console.log(documentId);
+                    const updatedData = data.filter((item) => item.document_id !== row.document_id);
+                    setData(updatedData);
+                }
+                catch (err) {
+                    console.log(err);
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'Something went wrong'
+                        text: err?.response?.data?.message || 'Something went wrong'
                     })
                     return
                 }
+
                 // filter out the deleted user from the data
-                const filteredData = data.filter((item) => item?.id !== row?.id);
-                setData(filteredData);
+
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 return
             }
@@ -84,10 +112,15 @@ const ShipmentDocUpload = () => {
     }
 
     const handleAddDoc = () => {
-
         setOpenPopup(true)
+        setOnClose(false)
+    }
 
 
+
+    const closeDocPopup = () => {
+        setOpenPopup(false)
+        setOnClose(true)
     }
 
 
@@ -96,6 +129,9 @@ const ShipmentDocUpload = () => {
             <div className="p-3 h-full sm:ml-72">
                 <ShipmentDocUploadPopup
                     open={openPopup}
+                    closeDocPopup={closeDocPopup}
+                    onClose={onClose}
+                    refectDocList={refectDocList}
 
 
                 />
@@ -115,12 +151,12 @@ const ShipmentDocUpload = () => {
                                 ,
                                 action: handleDownload,
                             },
-                            {
-                                label: "View",
-                                icon: <VisibilityIcon fontSize="small" style={{ color: "rgb(37 99 235)" }} />
-                                ,
-                                action: handleView,
-                            },
+                            // {
+                            //     label: "View",
+                            //     icon: <VisibilityIcon fontSize="small" style={{ color: "rgb(37 99 235)" }} />
+                            //     ,
+                            //     action: handleView,
+                            // },
                             {
                                 label: "Delete",
                                 icon: <DeleteIcon fontSize="small" style={{ color: '#FF0032' }} />

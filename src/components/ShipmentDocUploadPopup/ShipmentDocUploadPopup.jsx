@@ -55,7 +55,7 @@ function CustomLoadingButton({ loading, children, ...otherProps }) {
     );
 }
 
-export default function ShipmentDocUploadPopup({ open, onClose }) {
+export default function ShipmentDocUploadPopup({ open, onClose, closeDocPopup, refectDocList }) {
     const [documentType, setDocumentType] = useState('');
     const [selectedFile, setSelectedFile] = useState(null);
     const [uploading, setUploading] = useState(false);
@@ -82,7 +82,7 @@ export default function ShipmentDocUploadPopup({ open, onClose }) {
 
         // Prepare the form data
         const formData = new FormData();
-        formData.append('shipment_id', '1');
+        formData.append('product_id', '9');
         formData.append('document_type', documentType);
         formData.append('document', selectedFile);
         try {
@@ -93,7 +93,9 @@ export default function ShipmentDocUploadPopup({ open, onClose }) {
 
             setUploaded(true);
             openSnackbar('Document uploaded successfully', 'success');
-           
+            refectDocList();
+            closeDocPopup();
+
 
         } catch (error) {
             console.log(error);
@@ -106,7 +108,7 @@ export default function ShipmentDocUploadPopup({ open, onClose }) {
 
     return (
         <ThemeProvider theme={theme}>
-            <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
+            <Dialog open={open} onClose={closeDocPopup} maxWidth="sm" fullWidth>
                 <DialogTitle>Select Document Type and Upload</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -145,7 +147,7 @@ export default function ShipmentDocUploadPopup({ open, onClose }) {
                     </div>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={onClose} color="primary">
+                    <Button onClick={closeDocPopup} color="primary">
                         Cancel
                     </Button>
                     <Button onClick={handleUpload} color="primary" disabled={uploading}>

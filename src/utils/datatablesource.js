@@ -86,7 +86,7 @@ export const ListOfCustomersColumn = [
   {
     field: "id",
     headerName: "Customer Id",
-    width: 180,
+    width: 120,
     editable: true,
   },
   {
@@ -282,6 +282,27 @@ export const ListOfCustomersColumn = [
     editable: true,
   },
   // Add more fields as needed
+];
+
+
+
+export const ShipmentRequestColumns = [
+  {
+    field: "shipment_id",
+    headerName: "Shipment Id",
+    width: 120,
+  },
+  {
+    field: "vendor_id",
+    headerName: "Vendor Id",
+    width: 120,
+
+  },
+  {
+    field: "customer_id",
+    headerName: "Customer Id",
+    width: 120,
+  },
 ];
 
 
