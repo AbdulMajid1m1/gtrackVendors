@@ -105,7 +105,6 @@ const ListOfCustomer = () => {
             })
 
             console.log(response?.data);
-            openSnackbar(response?.data?.message ?? "Shipment Request Created Successfully", "success");
 
             setIsLoading(false);
             console.log(response?.data)
@@ -205,7 +204,10 @@ const ListOfCustomer = () => {
                                         style={{ color: "rgb(37 99 235)" }}
                                     />
                                 ),
-                                // action: handleViewShipmentRequestView,
+                                action: (row) => {
+                                    console.log(row);
+
+                                },
                             },
                         ]}
                         uniqueId={"shipmentRequestId"}
