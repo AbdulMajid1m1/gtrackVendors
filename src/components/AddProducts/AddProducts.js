@@ -10,6 +10,8 @@ import CodificationTab from './CodificationTab';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import ClearIcon from '@mui/icons-material/Clear';
 
 
 const style = {
@@ -17,7 +19,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 1000,
+  width: 1100,
   bgcolor: 'background.paper',
   boxShadow: 24,
   p: 4,
@@ -31,17 +33,16 @@ const AddProducts = () => {
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const { openSnackbar } = useContext(SnackbarContext);
+    
+    // this is the popup code
     const [open, setOpen] = useState(false);
-
     const handleOpen = () => {
       setOpen(true);
     };
 
     useEffect(() => {
-      // Automatically open the Modal when the component mounts
       setOpen(true);
-    }, []); // The empty dependency array ensures this effect runs only once, like componentDidMount
-  
+    }, []); 
     
     const handleClose = () => {
       setOpen(false);
@@ -215,13 +216,28 @@ const AddProducts = () => {
         <Button style={{marginLeft: '294px', backgroundColor: '#1E3B8B', color: 'white'}} onClick={handleOpen}>Open Again Add Product Screen</Button>
             <Modal
               open={open}
-              onClose={handleClose}
+              // onClose={handleClose}
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
             >
          <Box sx={style}>
+             {/* Close button */}
+             <IconButton
+              edge="end"
+              color="inherit"
+              onClick={handleClose} // Close the Modal when the button is clicked
+              aria-label="close"
+              sx={{
+                position: 'absolute',
+                top: '16px',
+                right: '12px',
+              }}
+            >
+              <ClearIcon />
+            </IconButton>
+
                
-        <div className="p-3 h-full shadow"  style={{ maxHeight: '500px', overflowY: 'auto' }}>
+        <div className="p-3 h-full shadow"  style={{ maxHeight: '550px', overflowY: 'auto' }}>
             {/* new design */}
             <div className="popup-header -mt-3">
               <div className="w-full font-body p-6 shadow-xl rounded-md text-black bg-[#D4EDDA] text-xl mb:2 md:mb-5">
