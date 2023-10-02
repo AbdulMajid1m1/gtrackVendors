@@ -346,10 +346,7 @@ export const ShipmentDocColumns = [
       );
     },
 
-    renderEditCell: (params) =>
-      renderDocEditInputCell({ ...params, fieldUpdated: "logoUpdated" }),
-    editable: true,
-    type: "string",
+
   },
 ]
 
