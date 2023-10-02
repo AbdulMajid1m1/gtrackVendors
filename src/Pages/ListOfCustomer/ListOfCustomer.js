@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { InventorySuppliersDataColumn, ListOfCustomersColumn } from '../../utils/datatablesource'
 import DataTable from '../../components/Datatable/Datatable';
 import newRequest from '../../utils/userRequest';
 import CustomSnakebar from '../../utils/CustomSnackbar';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import { SnackbarContext } from '../../Contexts/SnackbarContext';
 import { useNavigate } from 'react-router-dom';
 const ListOfCustomer = () => {
     const [alldata, setAllData] = useState([]);
@@ -13,6 +14,8 @@ const ListOfCustomer = () => {
     const [error, setError] = useState(null);
     const [message, setMessage] = useState(null);
     const navigate = useNavigate();
+    const { openSnackbar } = useContext(SnackbarContext);
+
     const getVendorData = sessionStorage.getItem("vendorData");
     const parsedVendorData = JSON.parse(getVendorData);
     console.log(parsedVendorData);
@@ -81,6 +84,33 @@ const ListOfCustomer = () => {
         setFilteredData(filteredData)
     }
 
+
+    const handleShipmentRequest = async (row) => {
+        console.log(row?.id);
+        try {
+           const response = await newRequest.post("/insertShipmentRequest", {
+                vendor_id: parsedVendorData?.user?.id,
+                customer_id: row?.id,
+           })
+                .then(response => {
+                    console.log(response?.data);
+                    openSnackbar(response?.data?.message ?? "Shipment Request Created Successfully", "success");
+                    navigate("/new-shipment-request")
+
+                })
+                .catch(error => {
+                    console.error(error);
+                    // setError(error?.response?.data?.message ?? "Something went wrong")
+                    openSnackbar(error?.response?.data?.message ?? "Something went wrong", "error");
+
+                });
+
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
 
 
@@ -107,10 +137,7 @@ const ListOfCustomer = () => {
                                 label: "New Shipment Request",
                                 icon: <LocalShippingIcon fontSize="small" color="action" style={{ color: "rgb(37 99 235)" }} />
                                 ,
-                                action: () => {
-                                    navigate("/new-shipment-request")
-                                }
-
+                                action: handleShipmentRequest,
                             },
                             // {
                             //   label: "Delete",
