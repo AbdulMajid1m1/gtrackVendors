@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import gs1logo from "../../Images/gs1.png";
 import gtrackIcon from "../../Images/gtrackicons.png"
@@ -7,6 +7,21 @@ import newRequest from '../../utils/userRequest';
 import { SnackbarContext } from '../../Contexts/SnackbarContext';
 import { RiseLoader } from 'react-spinners';
 import CodificationTab from './CodificationTab';
+import Button from '@mui/material/Button';
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 1000,
+  bgcolor: 'background.paper',
+  boxShadow: 24,
+  p: 4,
+};
 
 
 const AddProducts = () => {
@@ -16,7 +31,22 @@ const AddProducts = () => {
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const { openSnackbar } = useContext(SnackbarContext);
+    const [open, setOpen] = useState(false);
 
+    const handleOpen = () => {
+      setOpen(true);
+    };
+
+    useEffect(() => {
+      // Automatically open the Modal when the component mounts
+      setOpen(true);
+    }, []); // The empty dependency array ensures this effect runs only once, like componentDidMount
+  
+    
+    const handleClose = () => {
+      setOpen(false);
+    };
+    
       // I get the selected Row data in the session storage
       const getRowData = sessionStorage.getItem("customerRowData");
       const parsedRowData = JSON.parse(getRowData);
@@ -182,7 +212,16 @@ const AddProducts = () => {
         </div>
         }
 
-        <div className="p-3 h-full sm:ml-72 shadow">
+        <Button style={{marginLeft: '294px', backgroundColor: '#1E3B8B', color: 'white'}} onClick={handleOpen}>Open Again Add Product Screen</Button>
+            <Modal
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+         <Box sx={style}>
+               
+        <div className="p-3 h-full shadow"  style={{ maxHeight: '500px', overflowY: 'auto' }}>
             {/* new design */}
             <div className="popup-header -mt-3">
               <div className="w-full font-body p-6 shadow-xl rounded-md text-black bg-[#D4EDDA] text-xl mb:2 md:mb-5">
@@ -387,7 +426,9 @@ const AddProducts = () => {
                   Save Product
                 </button>
               </div>
-        </div>
+          </div>
+        </Box>
+      </Modal>
     </div>
   )
 }
