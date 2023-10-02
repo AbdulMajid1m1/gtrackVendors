@@ -43,7 +43,7 @@ const AddProducts = () => {
     useEffect(() => {
       setOpen(true);
     }, []); 
-    
+
     const handleClose = () => {
       setOpen(false);
     };
@@ -139,7 +139,7 @@ const AddProducts = () => {
 
         setTimeout(() => {
             navigate(-1)
-        }, 2000)
+        }, 1000)
       
       })
       .catch(error => {
