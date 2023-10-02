@@ -1,51 +1,149 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import gtrackIcon from "../../Images/gtrackicons.png"
 import { useState } from 'react';
+import newRequest from '../../utils/userRequest';
+import { SnackbarContext } from '../../Contexts/SnackbarContext';
 
 const DigitalLinkTab = () => {
     const [selectedOption, setSelectedOption] = useState("Safety-Information");
- 
+    const [safetyInformation, setSafetyInformation] = useState([]);
+    const [recipe, setRecipe] = useState([]);
+    const [productContent, setProductContent] = useState([]);
+    const [promotionalOffers, setPromotionalOffers] = useState([]);
+    const [productLocationofOrigin, setProductLocationofOrigin] = useState([]);
+    const [productRecall, setProductRecall] = useState([]);
+    const [packagingComposition, setPackagingComposition] = useState([]);
+    const [electronicLeaflets, setElectronicLeaflets] = useState([]);
+    const { openSnackbar } = useContext(SnackbarContext);
+
+    
+    // get that sesstion storage data
+    const getGtinData = sessionStorage.getItem("productData");
+    const gtinData = JSON.parse(getGtinData);
+    console.log(gtinData);
+
   //Digital Link Tab
   const handleOptionChange = (option) => {
     setSelectedOption(option);
     
     switch (option) {
       case "Safety-Information":
-        // newRequest
-        //   .get(`/getSafetyInformationByGtin/${gtinData?.gtin}`)
-        //   .then((response) => {
-        //     console.log(response.data);
-        //     setSafetyInformation(response.data);
-        //   })
-        //   .catch((err) => {
-        //     console.log(err);
-        //     openSnackbar(
-        //       err?.response?.data?.message ?? "something went wrong!",
-        //       "error"
-        //     );
-        //     setSafetyInformation([]);
-        //   });
+        newRequest
+          .get(`/getSafetyInformationByGtin/${gtinData}`)
+          .then((response) => {
+            console.log(response.data);
+            setSafetyInformation(response.data);
+          })
+          .catch((err) => {
+            console.log(err);
+            openSnackbar(
+              err?.response?.data?.message ?? "something went wrong!",
+              "error"
+            );
+            setSafetyInformation([]);
+          });
         break;
 
       case "Promotional-Offers":
-      break;
+        newRequest
+          .get(`/getPromotionalOffersByGtin/${gtinData}`)
+          .then((response) => {
+            console.log(response.data);
+            setPromotionalOffers(response.data);
+          })
+          .catch((err) => {
+            console.log(err);
+            openSnackbar(err?.response?.data?.message, "error");
+            setPromotionalOffers([]);
+          });
+        break;
 
       case "Product-Contents":
-      break;
+        newRequest
+          .get(`/getProductContentByGtin/${gtinData}`)
+          .then((response) => {
+            console.log(response.data);
+            console.log("called");
+            setProductContent(response.data);
+          })
+          .catch((err) => {
+            console.log(err);
+            openSnackbar(err?.response?.data?.message, "error");
+            setProductContent([]);
+          });
+        break;
 
       case "Product-Location":
-      break;
+        newRequest
+          .get(`/getProductLocationOriginByGtin/${gtinData}`)
+          .then((response) => {
+            console.log(response.data);
+            setProductLocationofOrigin(response.data);
+          })
+          .catch((err) => {
+            console.log(err);
+            openSnackbar(err?.response?.data?.message, "error");
+            setProductLocationofOrigin([]);
+          });
+        break;
 
-      case "Product-Recall":
-      break;
+      case "ProductRecall":
+        newRequest
+          .get(`/getProductsRecallByGtin/${gtinData}`)
+          .then((response) => {
+            console.log(response.data);
+            setProductRecall(response.data);
+          })
+          .catch((err) => {
+            console.log(err);
+            openSnackbar(err?.response?.data?.message, "error");
+            setProductRecall([]);
+          });
+        break;
 
       case "Recipe":
-      break;
+        newRequest
+          .get(`/getRecipeDataByGtin/${gtinData}`)
+          .then((response) => {
+            console.log(response.data);
+            setRecipe(response.data);
+          })
+          .catch((err) => {
+            console.log(err);
+            openSnackbar(err?.response?.data?.message, "error");
+            setRecipe([]);
+          });
+        break;
 
       case "Packaging-Composition":
-      break;
+        newRequest
+          .get(
+            `/getAlltblPkgCompositionDataByGtin/${gtinData}`
+          )
+          .then((response) => {
+            console.log(response.data);
+            setPackagingComposition(response.data);
+          })
+          .catch((err) => {
+            console.log(err);
+            openSnackbar(err?.response?.data?.message, "error");
+
+            setPackagingComposition([]);
+          });
+        break;
 
       case "Electronic-Leaflets":
+        newRequest
+          .get(`/getProductLeafLetsDataByGtin/${gtinData}`)
+          .then((response) => {
+            console.log(response.data);
+            setElectronicLeaflets(response.data);
+          })
+          .catch((err) => {
+            console.log(err);
+            openSnackbar(err?.response?.data?.message, "error");
+            setElectronicLeaflets([]);
+          });
         break;
 
       // Add more cases for other options
@@ -69,8 +167,7 @@ const DigitalLinkTab = () => {
                     </div>
                     <div className='flex w-[50%] overflow-x-auto gap-2'>
                       <p>:</p>
-                      {/* <span className='ml-1 text-[#CD8742]'>{safetyInformation?.[0]?.SafetyDetailedInformation}</span> */}
-                      <span className='ml-1 text-[#CD8742]'>Safety Information</span>
+                      <span className='ml-1 text-[#CD8742]'>{safetyInformation?.[0]?.SafetyDetailedInformation}</span>
                     </div>
                 </div>
                   <div className='flex justify-between'>
@@ -79,8 +176,7 @@ const DigitalLinkTab = () => {
                       </div>
                       <div className='flex w-[50%] overflow-x-auto gap-2'>
                         <p>:</p>
-                          {/* <span className='ml-1 text-[#CD8742]'>{safetyInformation?.[0]?.LinkType}</span> */}
-                          <span className='ml-1 text-[#CD8742]'>Link Type</span>
+                          <span className='ml-1 text-[#CD8742]'>{safetyInformation?.[0]?.LinkType}</span>
                       </div>
                   </div>
 
@@ -90,8 +186,7 @@ const DigitalLinkTab = () => {
                       </div>
                       <div className='flex w-[50%] overflow-x-auto gap-2'>
                         <p>:</p>
-                          {/* <span className='ml-1 text-[#CD8742]'>{safetyInformation?.[0]?.TargetURL}</span> */}
-                          <span className='ml-1 text-[#CD8742]'>Target URL</span>
+                          <span className='ml-1 text-[#CD8742]'>{safetyInformation?.[0]?.TargetURL}</span>
                       </div>
                   </div>
 
@@ -101,8 +196,7 @@ const DigitalLinkTab = () => {
                       </div>
                       <div className='flex w-[50%] overflow-x-auto gap-2'>
                         <p>:</p>
-                          {/* <span className='ml-1 text-[#CD8742]'>{safetyInformation?.[0]?.companyName}</span> */}
-                          <span className='ml-1 text-[#CD8742]'>Company Name</span>
+                          <span className='ml-1 text-[#CD8742]'>{safetyInformation?.[0]?.companyName}</span>
                       </div>
                   </div>
             </div>
@@ -121,8 +215,8 @@ const DigitalLinkTab = () => {
                       </div>
                       <div className='flex w-[50%] overflow-x-auto gap-2'>
                         <p>:</p>
-                          {/* <span className='ml-1 text-[#CD8742]'>{promotionalOffers?.[0]?.PromotionalOffers}</span> */}
-                          <span className='ml-1 text-[#CD8742]'>Promotional Offers</span>
+                          <span className='ml-1 text-[#CD8742]'>{promotionalOffers?.[0]?.PromotionalOffers}</span>
+                          {/* <span className='ml-1 text-[#CD8742]'>Promotional Offers</span> */}
                       </div>
                   </div>
                
@@ -132,8 +226,7 @@ const DigitalLinkTab = () => {
                       </div>
                       <div className='flex w-[50%] overflow-x-auto gap-2'>
                         <p>:</p>
-                        {/* < span className='ml-1 text-[#CD8742]'>{promotionalOffers?.[0]?.LinkType}</span> */}
-                          <span className='ml-1 text-[#CD8742]'>Link Type</span>
+                        < span className='ml-1 text-[#CD8742]'>{promotionalOffers?.[0]?.LinkType}</span>
                       </div>
                   </div>
 
@@ -143,8 +236,7 @@ const DigitalLinkTab = () => {
                       </div>
                       <div className='flex w-[50%] overflow-x-auto gap-2'>
                         <p>:</p>
-                          {/* <span className='ml-1 text-[#CD8742]'>{promotionalOffers?.[0]?.TargetURL}</span> */}
-                          <span className='ml-1 text-[#CD8742]'>Target URL</span>
+                          <span className='ml-1 text-[#CD8742]'>{promotionalOffers?.[0]?.TargetURL}</span>
                       </div>
                   </div>
 
@@ -154,8 +246,7 @@ const DigitalLinkTab = () => {
                       </div>
                       <div className='flex w-[50%] overflow-x-auto gap-2'>
                         <p>:</p>
-                          {/* <span className='ml-1 text-[#CD8742]'>{promotionalOffers?.[0]?.price}</span> */}
-                          <span className='ml-1 text-[#CD8742]'>Price</span>
+                          <span className='ml-1 text-[#CD8742]'>{promotionalOffers?.[0]?.price}</span>
                       </div>
                   </div>
             </div>
@@ -174,8 +265,7 @@ const DigitalLinkTab = () => {
                       </div>
                       <div className='flex w-[50%] overflow-x-auto gap-2'>
                         <p>:</p>
-                        {/* <span className='ml-1 text-[#CD8742]'>{productContent?.[0]?.ProductAllergenInformation}</span> */}
-                          <span className='ml-1 text-[#CD8742]'>Product Allergen Information</span>
+                        <span className='ml-1 text-[#CD8742]'>{productContent?.[0]?.ProductAllergenInformation}</span>
                       </div>
                   </div>
               
@@ -185,8 +275,7 @@ const DigitalLinkTab = () => {
                       </div>
                       <div className='flex w-[50%] overflow-x-auto gap-2'>
                         <p>:</p>
-                        {/* <span className='ml-1 text-[#CD8742]'>{productContent?.[0]?.allergen_info}</span> */}
-                          <span className='ml-1 text-[#CD8742]'>Allergen Info</span>
+                        <span className='ml-1 text-[#CD8742]'>{productContent?.[0]?.allergen_info}</span>
                       </div>
                   </div>
 
@@ -196,8 +285,7 @@ const DigitalLinkTab = () => {
                       </div>
                       <div className='flex w-[50%] overflow-x-auto gap-2'>
                         <p>:</p>
-                        {/* <span className='ml-1 text-[#CD8742]'>{productContent?.[0]?.ingredients}</span> */}
-                          <span className='ml-1 text-[#CD8742]'>Ingredients</span>
+                        <span className='ml-1 text-[#CD8742]'>{productContent?.[0]?.ingredients}</span>
                       </div>
                   </div>
 
@@ -207,8 +295,7 @@ const DigitalLinkTab = () => {
                       </div>
                       <div className='flex w-[50%] overflow-x-auto gap-2'>
                         <p>:</p>
-                        {/* <span className='ml-1 text-[#CD8742]'>{productContent?.[0]?.ManufacturingDate}</span> */}
-                          <span className='ml-1 text-[#CD8742]'>Manufacturing Date</span>
+                        <span className='ml-1 text-[#CD8742]'>{productContent?.[0]?.ManufacturingDate}</span>
                       </div>
                   </div>
 
@@ -218,8 +305,7 @@ const DigitalLinkTab = () => {
                       </div>
                       <div className='flex w-[50%] overflow-x-auto gap-2'>
                         <p>:</p>
-                        {/* <span className='ml-1 text-[#CD8742]'>{productContent?.[0]?.bestBeforeDate}</span> */}
-                          <span className='ml-1 text-[#CD8742]'>Best Before Date</span>
+                        <span className='ml-1 text-[#CD8742]'>{productContent?.[0]?.bestBeforeDate}</span>
                       </div>
                   </div> 
                 </div>
@@ -238,8 +324,7 @@ const DigitalLinkTab = () => {
                       </div>
                       <div className='flex w-[50%] overflow-x-auto gap-2'>
                         <p>:</p>
-                        {/* <span className='ml-1 text-[#CD8742]'>{productLocationofOrigin?.[0]?.ProductLocationOrigin}</span> */}
-                          <span className='ml-1 text-[#CD8742]'>Product Location Origin</span>
+                        <span className='ml-1 text-[#CD8742]'>{productLocationofOrigin?.[0]?.ProductLocationOrigin}</span>
                       </div>
               </div>
 
@@ -249,8 +334,7 @@ const DigitalLinkTab = () => {
                   </div>
                   <div className='flex w-[50%] overflow-x-auto gap-2'>
                     <p>:</p>
-                    {/* <span className='ml-1 text-[#CD8742]'>{productLocationofOrigin?.[0]?.LinkType}</span> */}
-                    <span className='ml-1 text-[#CD8742]'>Link Type</span>
+                    <span className='ml-1 text-[#CD8742]'>{productLocationofOrigin?.[0]?.LinkType}</span>
                   </div>
               </div>
 
@@ -260,8 +344,7 @@ const DigitalLinkTab = () => {
                   </div>
                   <div className='flex w-[50%] overflow-x-auto gap-2'>
                     <p>:</p>
-                    {/* <span className='ml-1 text-[#CD8742]'>{productLocationofOrigin?.[0]?.GTIN}</span> */}
-                    <span className='ml-1 text-[#CD8742]'>Ingredients</span>
+                    <span className='ml-1 text-[#CD8742]'>{productLocationofOrigin?.[0]?.GTIN}</span>
                   </div>
               </div>
 
@@ -271,8 +354,7 @@ const DigitalLinkTab = () => {
                   </div>
                   <div className='flex w-[50%] overflow-x-auto gap-2'>
                     <p>:</p>
-                    {/* <span className='ml-1 text-[#CD8742]'>{productLocationofOrigin?.[0]?.ExpiryDate}</span> */}
-                    <span className='ml-1 text-[#CD8742]'>Manufacturing Date</span>
+                    <span className='ml-1 text-[#CD8742]'>{productLocationofOrigin?.[0]?.ExpiryDate}</span>
                   </div>
               </div>
           </div>
@@ -292,8 +374,7 @@ const DigitalLinkTab = () => {
                   </div>
                   <div className='flex w-[50%] overflow-x-auto gap-2'>
                     <p>:</p>
-                    {/* <span className='ml-1 text-[#CD8742]'>{productRecall?.[0]?.ProductRecall}</span> */}
-                    <span className='ml-1 text-[#CD8742]'>ProductRecall</span>
+                    <span className='ml-1 text-[#CD8742]'>{productRecall?.[0]?.ProductRecall}</span>
                   </div>
                </div>
                
@@ -303,8 +384,7 @@ const DigitalLinkTab = () => {
                   </div>
                   <div className='flex w-[50%] overflow-x-auto gap-2'>
                     <p>:</p>
-                    {/* <span className='ml-1 text-[#CD8742]'>{productRecall?.[0]?.GTIN}</span> */}
-                    <span className='ml-1 text-[#CD8742]'>GTIN</span>
+                    <span className='ml-1 text-[#CD8742]'>{productRecall?.[0]?.GTIN}</span>
                   </div>
                 </div>
 
@@ -315,8 +395,7 @@ const DigitalLinkTab = () => {
                   </div>
                   <div className='flex w-[50%] overflow-x-auto gap-2'>
                     <p>:</p>
-                    {/* <span className='ml-1 text-[#CD8742]'>{productRecall?.[0]?.LinkType}</span> */}
-                    <span className='ml-1 text-[#CD8742]'>Link Type</span>
+                    <span className='ml-1 text-[#CD8742]'>{productRecall?.[0]?.LinkType}</span>
                   </div>
                 </div>
 
@@ -327,8 +406,7 @@ const DigitalLinkTab = () => {
                   </div>
                   <div className='flex w-[50%] overflow-x-auto gap-2'>
                     <p>:</p>
-                    {/* <span className='ml-1 text-[#CD8742]'>{productRecall?.[0]?.ExpiryDate}</span> */}
-                    <span className='ml-1 text-[#CD8742]'>Expiry Date</span>
+                    <span className='ml-1 text-[#CD8742]'>{productRecall?.[0]?.ExpiryDate}</span>
                   </div>
                 </div>
             </div>
@@ -346,8 +424,7 @@ const DigitalLinkTab = () => {
                   </div>
                   <div className='flex w-[50%] overflow-x-auto gap-2'>
                     <p>:</p>
-                    {/* <span className='ml-1 text-[#CD8742]'>{recipe?.[0]?.title}</span> */}
-                    <span className='ml-1 text-[#CD8742]'>Title</span>
+                    <span className='ml-1 text-[#CD8742]'>{recipe?.[0]?.title}</span>
                   </div>
                 </div>
 
@@ -357,8 +434,7 @@ const DigitalLinkTab = () => {
                   </div>
                   <div className='flex w-[50%] overflow-x-auto gap-2'>
                     <p>:</p>
-                    {/* <span className='ml-1 text-[#CD8742]'>{recipe?.[0]?.description}</span> */}
-                    <span className='ml-1 text-[#CD8742]'>Description</span>
+                    <span className='ml-1 text-[#CD8742]'>{recipe?.[0]?.description}</span>
                   </div>
                 </div>
 
@@ -371,8 +447,7 @@ const DigitalLinkTab = () => {
                   </div>
                   <div className='flex w-[50%] overflow-x-auto gap-2'>
                     <p>:</p>
-                    {/* <span className='ml-1 text-[#CD8742]'>{recipe?.[0]?.ingredients}</span> */}
-                    <span className='ml-1 text-[#CD8742]'>Ingredients</span>
+                    <span className='ml-1 text-[#CD8742]'>{recipe?.[0]?.ingredients}</span>
                   </div>
                 </div>
 
@@ -385,8 +460,7 @@ const DigitalLinkTab = () => {
                   </div>
                   <div className='flex w-[50%] overflow-x-auto gap-2'>
                     <p>:</p>
-                    {/* <span className='ml-1 text-[#CD8742]'>{recipe?.[0]?.LinkType}</span> */}
-                    <span className='ml-1 text-[#CD8742]'>Link Type</span>
+                    <span className='ml-1 text-[#CD8742]'>{recipe?.[0]?.LinkType}</span>
                   </div>
                 </div>
             </div>
@@ -405,8 +479,7 @@ const DigitalLinkTab = () => {
                   </div>
                   <div className='flex w-[50%] overflow-x-auto gap-2'>
                     <p>:</p>
-                    {/* <span className='ml-1 text-[#CD8742]'>{packagingComposition?.[0]?.consumerProductVariant}</span> */}
-                    <span className='ml-1 text-[#CD8742]'>Packaging Composition</span>
+                    <span className='ml-1 text-[#CD8742]'>{packagingComposition?.[0]?.consumerProductVariant}</span>
                   </div>
                 </div>
                
@@ -417,8 +490,7 @@ const DigitalLinkTab = () => {
                   </div>
                   <div className='flex w-[50%] overflow-x-auto gap-2'>
                     <p>:</p>
-                    {/* <span className='ml-1 text-[#CD8742]'>{packagingComposition?.[0]?.LinkType}</span> */}
-                    <span className='ml-1 text-[#CD8742]'>Link Type</span>
+                    <span className='ml-1 text-[#CD8742]'>{packagingComposition?.[0]?.LinkType}</span>
                   </div>
                 </div>
 
@@ -428,8 +500,7 @@ const DigitalLinkTab = () => {
                   </div>
                   <div className='flex w-[50%] overflow-x-auto gap-2'>
                     <p>:</p>
-                    {/* <span className='ml-1 text-[#CD8742]'>{packagingComposition?.[0]?.recyclability}</span> */}
-                    <span className='ml-1 text-[#CD8742]'>Recyclability</span>
+                    <span className='ml-1 text-[#CD8742]'>{packagingComposition?.[0]?.recyclability}</span>
                   </div>
                 </div>
 
@@ -442,8 +513,7 @@ const DigitalLinkTab = () => {
                   </div>
                   <div className='flex w-[50%] overflow-x-auto gap-2'>
                     <p>:</p>
-                    {/* <span className='ml-1 text-[#CD8742]'>{packagingComposition?.[0]?.material}</span> */}
-                    <span className='ml-1 text-[#CD8742]'>Material</span>
+                    <span className='ml-1 text-[#CD8742]'>{packagingComposition?.[0]?.material}</span>
                   </div>
                 </div>
 
@@ -463,8 +533,7 @@ const DigitalLinkTab = () => {
                   </div>
                   <div className='flex w-[50%] overflow-x-auto gap-2'>
                     <p>:</p>
-                    {/* <span className='ml-1 text-[#CD8742]'>{electronicLeaflets?.[0]?.ProductLeafletInformation}</span> */}
-                    <span className='ml-1 text-[#CD8742]'>Product Leaflet Information</span>
+                    <span className='ml-1 text-[#CD8742]'>{electronicLeaflets?.[0]?.ProductLeafletInformation}</span>
                   </div>
                 </div>
 
@@ -475,8 +544,7 @@ const DigitalLinkTab = () => {
                   </div>
                   <div className='flex w-[50%] overflow-x-auto gap-2'>
                     <p>:</p>
-                    {/* <span className='ml-1 text-[#CD8742]'>{electronicLeaflets?.[0]?.LinkType}</span> */}
-                    <span className='ml-1 text-[#CD8742]'>Link Type</span>
+                    <span className='ml-1 text-[#CD8742]'>{electronicLeaflets?.[0]?.LinkType}</span>
                   </div>
                 </div>
 
@@ -486,8 +554,7 @@ const DigitalLinkTab = () => {
                   </div>
                   <div className='flex w-[50%] overflow-x-auto gap-2'>
                     <p>:</p>
-                    {/* <span className='ml-1 text-[#CD8742]'>{electronicLeaflets?.[0]?.Lang}</span> */}
-                    <span className='ml-1 text-[#CD8742]'>Language</span>
+                    <span className='ml-1 text-[#CD8742]'>{electronicLeaflets?.[0]?.Lang}</span>
                   </div>
                 </div>
 
@@ -497,8 +564,7 @@ const DigitalLinkTab = () => {
                   </div>
                   <div className='flex w-[50%] overflow-x-auto gap-2'>
                     <p>:</p>
-                    {/* <span className='ml-1 text-[#CD8742]'>{electronicLeaflets?.[0]?.GTIN}</span> */}
-                    <span className='ml-1 text-[#CD8742]'>GTIN</span>
+                    <span className='ml-1 text-[#CD8742]'>{electronicLeaflets?.[0]?.GTIN}</span>
                   </div>
                 </div>
               </div>
