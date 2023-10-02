@@ -17,9 +17,11 @@ const ShipmentCard = () => {
     // how i can get the shipment id from the session data
     console.log(parsedVendorData?.insertedShipmentRequestData?.shipment_id);
 
+    let shipmentId = parsedVendorData?.insertedShipmentRequestData?.shipment_id;
+
     useEffect(() => {
         // newRequest.get(`/getShipmentProductByShipmentId?shipmentId=${parsedVendorData?.insertedShipmentRequestData?.shipment_id}`)
-        newRequest.get(`/getShipmentProductByShipmentId?shipmentId=1`)
+        newRequest.get(`/getShipmentProductByShipmentId?shipmentId=${shipmentId}`)
             .then(response => {
                 console.log(response?.data);
                 setCardData(response?.data ?? [])
@@ -68,7 +70,7 @@ const ShipmentCard = () => {
                     <div onClick={() => navigate('/add-products')} className='h-16 w-full bg-gray-100 flex justify-end items-center'>
                         <button className='py-2 px-10 mr-5 bg-primary text-white font-semibold rounded-md'>Next</button>
                     </div>
-                    
+
                     {/* <!-- Product List --> */}
                     <section className="py-1 bg-gray-100">
                         <div className="mx-auto grid max-w-6xl  grid-cols-1 gap-5 p-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
