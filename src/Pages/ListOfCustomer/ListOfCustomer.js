@@ -15,6 +15,8 @@ const ListOfCustomer = () => {
     const [error, setError] = useState(null);
     const [message, setMessage] = useState(null);
     const navigate = useNavigate();
+    const { openSnackbar } = useContext(SnackbarContext);
+
     const getVendorData = sessionStorage.getItem("vendorData");
     const parsedVendorData = JSON.parse(getVendorData);
     console.log(parsedVendorData);
@@ -101,6 +103,26 @@ const ListOfCustomer = () => {
 
         <div>
 
+            {isLoading &&
+
+            <div className='loading-spinner-background'
+            style={{
+                zIndex: 9999, position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'fixed'
+
+
+            }}
+            >
+            <RiseLoader
+                size={18}
+                color={"#6439ff"}
+                // height={4}
+                loading={isLoading}
+            />
+            </div>
+            }
+
+
             {message && <CustomSnakebar message={message} severity="success" onClose={resetSnakeBarMessages} />}
             {error && <CustomSnakebar message={error} severity="error" onClose={resetSnakeBarMessages} />}
 
@@ -122,10 +144,7 @@ const ListOfCustomer = () => {
                                 label: "New Shipment Request",
                                 icon: <LocalShippingIcon fontSize="small" color="action" style={{ color: "rgb(37 99 235)" }} />
                                 ,
-                                action: () => {
-                                    navigate("/new-shipment-request")
-                                }
-
+                                action: handleShipmentRequest,
                             },
                             // {
                             //   label: "Delete",
