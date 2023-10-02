@@ -71,7 +71,10 @@ const ShipmentCard = () => {
                                     <article key={index} className="rounded-xl bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 ">
                                         <a href="#">
                                             <div className="relative h-56 flex items-end overflow-hidden rounded-xl">
-                                                <img className='' src={item?.pictures} alt="image" />
+                                                <img className='' src={item?.pictures} alt="image"
+                                                    style={{ objectFit: 'contain' }}
+
+                                                />
                                             </div>
 
                                             <div className="mt-1 p-2 flex flex-col gap-1">
