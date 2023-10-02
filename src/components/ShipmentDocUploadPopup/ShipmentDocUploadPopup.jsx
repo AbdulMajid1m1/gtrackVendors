@@ -55,7 +55,7 @@ function CustomLoadingButton({ loading, children, ...otherProps }) {
     );
 }
 
-export default function ShipmentDocUploadPopup({ open, onClose, closeDocPopup, refectDocList }) {
+export default function ShipmentDocUploadPopup({ open, onClose, productId, closeDocPopup, refectDocList }) {
     const [documentType, setDocumentType] = useState('');
     const [selectedFile, setSelectedFile] = useState(null);
     const [uploading, setUploading] = useState(false);
@@ -82,7 +82,7 @@ export default function ShipmentDocUploadPopup({ open, onClose, closeDocPopup, r
 
         // Prepare the form data
         const formData = new FormData();
-        formData.append('product_id', '9');
+        formData.append('product_id', productId);
         formData.append('document_type', documentType);
         formData.append('document', selectedFile);
         try {

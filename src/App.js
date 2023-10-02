@@ -41,7 +41,6 @@ const App = () => {
                             <Route path="/update-vendor" element={<UpdateVendor />} />
                             <Route path="/customer-list" element={<ListOfCustomer />} />
                             <Route path="/new-shipment-request" element={<ShipmentCard />} />
-                            <Route path="/new-shipment-request" element={<ShipmentCard />} />
                             <Route path="/add-products" element={<AddProducts />} />
                             <Route path="/shipment-docs/:productId" element={<ShipmentDocUpload />} />
                         </Routes>
