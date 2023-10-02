@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router'
 import newRequest from '../../utils/userRequest';
 import { RiseLoader } from 'react-spinners';
 import { SnackbarContext } from '../../Contexts/SnackbarContext';
+import gs1logo from "../../Images/gs1.png";
 
 
 const ShipmentCard = () => {
@@ -64,9 +65,24 @@ const ShipmentCard = () => {
             <div className="p-1 h-full sm:ml-72 -mt-6">
                 <div className="bg-white">
 
-                    {/* Next Button */}
-                    <div onClick={() => navigate('/add-products')} className='h-16 w-full bg-gray-100 flex justify-end items-center'>
-                        <button className='py-2 px-10 mr-5 bg-primary text-white font-semibold rounded-md'>Next</button>
+                     {/* Header I add */}
+                    <div className="popup-header">
+                      <div className="flex justify-between w-full font-body p-6 shadow-xl rounded-md text-black bg-[#D4EDDA] text-xl mb:2 md:mb-5">
+                          <div className='flex justify-start gap-2 text-xs sm:text-sm'>
+                            <div>
+                                <img src={gs1logo} className='h-10 w-10' alt='' />
+                            </div>
+                            <div>
+                                <p className='font-semibold'>Complete Data</p>
+                                <p>This number is registered to company: : <span className='font-semibold'>TEST</span></p>
+                            </div>
+                        </div>
+                        {/* Next Button */}
+                        <div onClick={() => navigate('/add-products')} className=''>
+                            <button className='py-1 px-5 mr-5 bg-primary text-lg text-white rounded-md'>Add Product</button>
+                        </div>
+                      </div>
+                      
                     </div>
                     
                     {/* <!-- Product List --> */}
