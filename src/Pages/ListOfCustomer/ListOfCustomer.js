@@ -5,6 +5,7 @@ import newRequest from '../../utils/userRequest';
 import CustomSnakebar from '../../utils/CustomSnackbar';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import { SnackbarContext } from '../../Contexts/SnackbarContext';
+import { RiseLoader } from 'react-spinners';
 import { useNavigate } from 'react-router-dom';
 const ListOfCustomer = () => {
     const [alldata, setAllData] = useState([]);
@@ -86,6 +87,7 @@ const ListOfCustomer = () => {
 
 
     const handleShipmentRequest = async (row) => {
+        setIsLoading(true);
         console.log(row?.id);
         try {
            const response = await newRequest.post("/insertShipmentRequest", {
@@ -95,13 +97,19 @@ const ListOfCustomer = () => {
                 .then(response => {
                     console.log(response?.data);
                     openSnackbar(response?.data?.message ?? "Shipment Request Created Successfully", "success");
+                    
                     navigate("/new-shipment-request")
+                    setIsLoading(false);
+
+                    // save the api response in session storage
+                    sessionStorage.setItem("shipmentRequest", JSON.stringify(response?.data));
 
                 })
                 .catch(error => {
                     console.error(error);
                     // setError(error?.response?.data?.message ?? "Something went wrong")
                     openSnackbar(error?.response?.data?.message ?? "Something went wrong", "error");
+                    setIsLoading(false);
 
                 });
 
@@ -116,6 +124,26 @@ const ListOfCustomer = () => {
 
 
         <div>
+
+            {isLoading &&
+
+            <div className='loading-spinner-background'
+            style={{
+                zIndex: 9999, position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'fixed'
+
+
+            }}
+            >
+            <RiseLoader
+                size={18}
+                color={"#6439ff"}
+                // height={4}
+                loading={isLoading}
+            />
+            </div>
+            }
+
 
             {message && <CustomSnakebar message={message} severity="success" onClose={resetSnakeBarMessages} />}
             {error && <CustomSnakebar message={error} severity="error" onClose={resetSnakeBarMessages} />}

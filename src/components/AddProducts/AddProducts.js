@@ -17,10 +17,16 @@ const AddProducts = () => {
     const navigate = useNavigate();
     const { openSnackbar } = useContext(SnackbarContext);
 
-    const getVendorData = sessionStorage.getItem("vendorData");
-    const parsedVendorData = JSON.parse(getVendorData);
+    // const getVendorData = sessionStorage.getItem("vendorData");
+    // const parsedVendorData = JSON.parse(getVendorData);
     // console.log(parsedVendorData?.user);
     
+    // get the shipment request data from session storage
+    const getShipmentRequestData = sessionStorage.getItem("shipmentProduct");
+    const parsedShipmentRequestData = JSON.parse(getShipmentRequestData);
+    console.log(parsedShipmentRequestData);
+
+
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
@@ -74,27 +80,24 @@ const AddProducts = () => {
    const handleSubmit = () => {
     setIsLoading(true);
     const apiBodyData = {
-      shipment_request: {
-        vendor_id: parsedVendorData?.user?.id,
-        customer_id: 2,
-        barcode: data?.barcode,
-      },
-      shipment_product: {
+        shipment_id: parsedShipmentRequestData?.shipment_id,
         productnameenglish: data?.productnameenglish,
         productnamearabic: data?.productnamearabic,
         BrandName: data?.BrandName,
         BrandNameAr: data?.BrandNameAr,
-        model: "Model123",
-        manufacturing_date: data?.created_at,
-        expiry_date: data?.updated_at,
-        serial_number: "SN123456789",
-        pictures: data?.front_image,
-        item_price: 123.45,
-        unit: data?.unit
-      }
+        model: parsedShipmentRequestData?.model,
+        manufacturing_date: parsedShipmentRequestData?.manufacturing_date,
+        expiry_date: parsedShipmentRequestData?.expiry_date,
+        serial_number: parsedShipmentRequestData?.serial_number,
+        pictures: parsedShipmentRequestData?.pictures,
+        item_price: parsedShipmentRequestData?.item_price,
+        unit: data?.unit,
+        member_id: data?.id,
+        barcode: data?.barcode
+      
     }
 
-    newRequest.post("/insertShipmentRequestAndProduct", apiBodyData)
+    newRequest.post("/insertShipmentProduct", apiBodyData)
       .then(response => {
         console.log(response?.data);
         openSnackbar(response?.data?.message ?? "Something went wrong", "success");
