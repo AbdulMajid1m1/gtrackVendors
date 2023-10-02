@@ -25,6 +25,7 @@ const ShipmentCard = () => {
             setCardData(response?.data ?? [])
             setIsLoading(false);
             
+            
             // save the response in session storage
             sessionStorage.setItem("shipmentProduct", JSON.stringify(response?.data[0]));
 
