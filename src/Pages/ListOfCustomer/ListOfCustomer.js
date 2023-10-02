@@ -113,7 +113,7 @@ const ListOfCustomer = () => {
             console.log(response?.data?.insertedShipmentRequestData)
 
             // save the api response in session storage
-            sessionStorage.setItem("shipmentRequest", JSON.stringify(response?.data));
+            sessionStorage.setItem("shipmentRequest", JSON.stringify(response?.data?.insertedShipmentRequestData));
 
             navigate("/new-shipment-request")
 

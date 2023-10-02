@@ -4,11 +4,11 @@ import newRequest from '../../utils/userRequest';
 import { RiseLoader } from 'react-spinners';
 import { SnackbarContext } from '../../Contexts/SnackbarContext';
 import gs1logo from "../../Images/gs1.png";
+import Swal from 'sweetalert2';
 
 
 const ShipmentCard = () => {
     const navigate = useNavigate();
-    const { openSnackbar } = useContext(SnackbarContext);
     const [isLoading, setIsLoading] = useState(true);
     const [cardData, setCardData] = useState([]);
 
@@ -22,27 +22,29 @@ const ShipmentCard = () => {
     const parsedVendorData = JSON.parse(sessionStorage.getItem("shipmentRequest"));
     console.log(parsedVendorData)
     // how i can get the shipment id from the session data
-    console.log(parsedVendorData?.insertedShipmentRequestData?.shipment_id);
+
+    let shipmentId = parsedVendorData?.shipment_id
 
 
     useEffect(() => {
-        // newRequest.get(`/getShipmentProductByShipmentId?shipmentId=${parsedVendorData?.insertedShipmentRequestData?.shipment_id}`)
-        newRequest.get(`/getShipmentProductByShipmentId?shipmentId=1`)
+        newRequest.get(`/getShipmentProductByShipmentId?shipmentId=${shipmentId}`)
             .then(response => {
                 console.log(response?.data);
                 setCardData(response?.data ?? [])
                 setIsLoading(false);
-                // openSnackbar(response?.data?.message ?? "Data ", "success");    
 
-                // save the response in session storage
-                sessionStorage.setItem("shipmentProduct", JSON.stringify(response?.data[0]));
 
 
             })
             .catch(error => {
                 console.error(error);
                 setIsLoading(false);
-                openSnackbar(error?.response?.data?.message ?? "Something went wrong", "error");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: error?.response?.data?.message ?? 'Something went wrong!',
+                })
+                setCardData([]);
 
             });
     }, [])
@@ -92,7 +94,7 @@ const ShipmentCard = () => {
                       </div>
                       
                     </div>
-                    
+
                     {/* <!-- Product List --> */}
                     <section className="py-1 bg-gray-100">
                         <div className="mx-auto grid max-w-6xl  grid-cols-1 gap-5 p-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
@@ -116,12 +118,12 @@ const ShipmentCard = () => {
                                                     <p className="mt-1 font-semibold text-sm text-slate-700">{item?.productnamearabic}</p>
                                                 </div>
                                                 <div className='flex justify-between'>
-                                                    <p className="mt-1 font-semibold text-sm text-slate-700">{item?.model}</p>
-                                                    <p className="mt-1 font-semibold text-sm text-slate-700">{item?.manufacturing_date}</p>
+                                                    {/* <p className="mt-1 font-semibold text-sm text-slate-700">{item?.model}</p> */}
+                                                    {/* <p className="mt-1 font-semibold text-sm text-slate-700">{item?.manufacturing_date}</p> */}
                                                 </div>
                                                 <div className='flex justify-between'>
-                                                    <p className="mt-1 font-semibold text-sm text-slate-700">{item?.serial_number}</p>
-                                                    <p className="mt-1 font-semibold text-sm text-slate-700">{item?.item_price}</p>
+                                                    <p className="mt-1 font-semibold text-sm text-slate-700">{item?.barcode}</p>
+                                                    <p className="mt-1 font-semibold text-sm text-slate-700">{item?.unit}</p>
                                                 </div>
                                                 <p className="mt-1 font-semibold text-sm text-slate-700">{item?.BrandName}</p>
                                             </div>
@@ -129,7 +131,8 @@ const ShipmentCard = () => {
                                                 <button
                                                     onClick={() => navigate('/shipment-docs/' + item?.id)}
                                                     className='h-auto w-auto px-4 py-1 text-sm bg-primary rounded-md text-white'>View Documents</button>
-                                                <p className="text-sm font-bold text-red-500">{item?.expiry_date.split('T')[0]}</p>
+                                                {/* <p className="text-sm font-bold text-red-500">{item?.expiry_date.split('T')[0]}</p> */}
+                                                <p className="text-sm font-bold text-red-500">{item?.BrandNameAr}</p>
                                             </div>
                                         </a>
                                     </article>
