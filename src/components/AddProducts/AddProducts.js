@@ -212,8 +212,8 @@ const AddProducts = ({ title, handleOpen, handleClose, open, handleRefetch }) =>
               aria-label="close"
               sx={{
                 position: 'absolute',
-                top: '16px',
-                right: '12px',
+                top: '6px',
+                right: '18px',
               }}
             >
               <ClearIcon />
