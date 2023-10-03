@@ -83,7 +83,13 @@ const ShipmentCard = () => {
 
         }
     }
-     
+
+
+    // Function to handle saving card data to session storage
+  const saveCardDataToSessionStorage = (item) => {
+    sessionStorage.setItem("selectedCardData", JSON.stringify(item));
+  };
+   
     return (
         <div>
 
@@ -142,7 +148,7 @@ const ShipmentCard = () => {
                             {cardData?.map((item, index) => {
                                 return (
                                     <article key={index} className="rounded-xl bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 ">
-                                        <a href="#">
+                                        {/* <a href="#"> */}
                                             <div className="relative h-56 flex items-end overflow-hidden rounded-xl">
                                                 <img className='' src={phpImagesBaseUrl + "/" + item?.front_image} alt="image"
                                                     style={{
@@ -170,12 +176,16 @@ const ShipmentCard = () => {
                                             </div>
                                             <div className="mt-3 flex justify-between px-2">
                                                 <button
-                                                    onClick={() => navigate('/shipment-docs/' + item?.id)}
+                                                    onClick={() => {
+                                                        saveCardDataToSessionStorage(item);
+                                                        navigate('/shipment-docs/' + item?.id);
+                                                      }}
+                                                    // onClick={() => navigate('/shipment-docs/' + item?.id)}
                                                     className='h-auto w-auto px-4 py-1 text-sm bg-primary rounded-md text-white'>View Documents</button>
                                                 {/* <p className="text-sm font-bold text-red-500">{item?.expiry_date.split('T')[0]}</p> */}
                                                 <p className="text-sm font-bold text-red-500">{item?.BrandNameAr}</p>
                                             </div>
-                                        </a>
+                                        {/* </a> */}
                                     </article>
                                 )
                             })

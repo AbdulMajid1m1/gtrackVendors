@@ -11,6 +11,7 @@ import DataTable from '../../components/Datatable/Datatable';
 import ShipmentDocUploadPopup from '../../components/ShipmentDocUploadPopup/ShipmentDocUploadPopup';
 import Swal from 'sweetalert2';
 import imageLiveUrl from '../../utils/urlConverter/imageLiveUrl';
+import gs1logo from "../../Images/gs1.png";
 
 const ShipmentDocUpload = () => {
     const [data, setData] = useState([]);
@@ -64,6 +65,10 @@ const ShipmentDocUpload = () => {
     //     console.log(url);
 
     // }
+
+    // get the cardData from sesstion stoaage
+    const cardData = JSON.parse(sessionStorage.getItem('selectedCardData'));
+    console.log(cardData);
 
 
     const handleDelete = async (row) => {
@@ -127,6 +132,21 @@ const ShipmentDocUpload = () => {
     return (
         <div>
             <div className="p-3 h-full sm:ml-72">
+                {/* Header */}
+                <div className="popup-header -mt-3">
+                    <div className="w-full font-body p-6 shadow-xl rounded-md text-black bg-[#D4EDDA] text-xl mb:2 md:mb-5">
+                    <div className='flex justify-start items-center gap-2 text-xs sm:text-sm'>
+                        <div>
+                            <img src={gs1logo} className='h-10 w-10' alt='' />
+                        </div>
+                        <div>
+                            <p className='font-semibold'>Document Id {productId}</p>
+                            <p>Product Name: : <span className='font-semibold'>{cardData?.productnameenglish}</span></p>
+                          {/* <p>Member ID: : <span className='font-semibold'>{parsedRowData?.id}</span></p> */}
+                        </div>
+                    </div>
+                    </div>
+                </div>
                 <ShipmentDocUploadPopup
                     open={openPopup}
                     closeDocPopup={closeDocPopup}
