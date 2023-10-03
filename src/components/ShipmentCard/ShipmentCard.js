@@ -6,12 +6,25 @@ import { SnackbarContext } from '../../Contexts/SnackbarContext';
 import gs1logo from "../../Images/gs1.png";
 import Swal from 'sweetalert2';
 import { phpImagesBaseUrl } from '../../utils/config';
+import AddProducts from '../AddProducts/AddProducts';
 
 
 const ShipmentCard = () => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
     const [cardData, setCardData] = useState([]);
+
+    // this is the popup code
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => {
+      setOpen(true);
+    };
+
+    const handleClose = () => {
+      setOpen(false);
+    };
+  
+
 
     // I get the selected Row data in the session storage
     const getRowData = sessionStorage.getItem("customerRowData");
@@ -50,6 +63,27 @@ const ShipmentCard = () => {
         fetcShipmentProducts();
     }, [])
 
+    const handleRefetch = async () => {
+        setIsLoading(true);
+        try {
+            const response = await newRequest.get(`/getShipmentProductByShipmentId?shipmentId=${shipmentId}`)
+
+            console.log(response?.data);
+            setCardData(response?.data ?? [])
+            setIsLoading(false);
+        } catch (error) {
+            console.log(error);
+            setIsLoading(false);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: error?.response?.data?.message ?? 'Something went wrong!',
+            })
+            setCardData([]);
+
+        }
+    }
+     
     return (
         <div>
 
@@ -89,8 +123,14 @@ const ShipmentCard = () => {
                                 </div>
                             </div>
                             {/* Next Button */}
-                            <div onClick={() => navigate('/add-products')} className=''>
-                                <button className='py-1 sm:px-5 px-1 sm:mr-5 mr-0 bg-primary sm:text-lg text-sm text-white rounded-md'>Add Product</button>
+                            <div className=''>
+                                {/* <button className='py-1 sm:px-5 px-1 sm:mr-5 mr-0 bg-primary sm:text-lg text-sm text-white rounded-md'>Add Product</button> */}
+                                <AddProducts title={"Add Product"} 
+                                    handleClose={handleClose}
+                                    handleOpen={handleOpen}
+                                    open={open}
+                                    handleRefetch={handleRefetch}
+                                    />
                             </div>
                         </div>
 

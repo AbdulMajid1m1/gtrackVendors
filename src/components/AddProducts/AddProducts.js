@@ -28,7 +28,7 @@ const style = {
   p: 4,
 };
 
-const AddProducts = () => {
+const AddProducts = ({ title, handleOpen, handleClose, open, handleRefetch }) => {
   const [activeTab, setActiveTab] = useState('product-Infomation');
   const [data, setData] = useState(null);
   const [gtinData, setGtinData] = useState('');
@@ -36,19 +36,15 @@ const AddProducts = () => {
   const navigate = useNavigate();
   const { openSnackbar } = useContext(SnackbarContext);
 
-    // this is the popup code
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => {
-      setOpen(true);
-    };
+    // // this is the popup code
+    // const [open, setOpen] = useState(false);
+    // const handleOpen = () => {
+    //   setOpen(true);
+    // };
 
-    useEffect(() => {
-      setOpen(true);
-    }, []); 
-
-    const handleClose = () => {
-      setOpen(false);
-    };
+    // const handleClose = () => {
+    //   setOpen(false);
+    // };
     
     // I get the selected Row data in the session storage
     const getRowData = sessionStorage.getItem("customerRowData");
@@ -145,16 +141,19 @@ const AddProducts = () => {
       //   timer: 1500
       // })
       openSnackbar("Product Added Successfully", "success");
-
+      handleRefetch();
+      setData(null);
+      setGtinData('');
+      
       setTimeout(() => {
-        navigate(-1)
+        handleClose();
       }, 1500)
+
       // navigate(-1)
 
 
     }
     catch (error) {
-
 
       // Swal.fire({
       //   icon: 'error',
@@ -162,6 +161,7 @@ const AddProducts = () => {
       //   text: error?.response?.data?.message ?? "something went wrong!",
       // })
       openSnackbar(error?.response?.data?.message ?? "something went wrong!", "error");
+
     }
     finally {
       setIsLoading(false);
@@ -196,7 +196,7 @@ const AddProducts = () => {
       }
 
 
-<Button style={{marginLeft: '294px', backgroundColor: '#1E3B8B', color: 'white'}} onClick={handleOpen}>Open Again Add Product Screen</Button>
+<Button style={{marginLeft: '294px', backgroundColor: '#1E3B8B', color: 'white'}} onClick={handleOpen}>{title}</Button>
             <Modal
               open={open}
               // onClose={handleClose}
@@ -237,15 +237,24 @@ const AddProducts = () => {
             </div>
         </div>
 
-        <div className='w-full mb-3 mt-2'>
+        <div className='flex w-full mb-3 mt-2'>
           <input
             type='text'
-            className='h-10 w-full rounded-md border border-gray-500 px-4'
+            className='h-10 w-[80%] rounded-md border border-gray-500 px-4'
             placeholder='Barcode'
             name='barcode'
             onChange={(e) => setGtinData(e.target.value)}
             onBlur={handleGtinSearch}
           />
+
+          <div className='w-[20%] flex justify-end px-5'>
+          <button
+            className="bg-primary text-white px-4 py-2 rounded-md shadow-md"
+            onClick={handleSubmit}
+          >
+            Add Product
+          </button>
+        </div>
         </div>
 
         {/* Tabs Button */}
@@ -365,14 +374,14 @@ const AddProducts = () => {
           </div>
         )}
 
-        <div className='flex justify-end px-5 mt-2'>
+        {/* <div className='flex justify-end px-5 mt-2'>
           <button
             className="bg-primary text-white px-4 py-2 rounded-md shadow-md"
             onClick={handleSubmit}
           >
             Add Product
           </button>
-        </div>
+        </div> */}
       </div>
       </Box>
     </Modal>
