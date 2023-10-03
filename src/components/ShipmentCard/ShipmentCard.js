@@ -5,6 +5,7 @@ import { RiseLoader } from 'react-spinners';
 import { SnackbarContext } from '../../Contexts/SnackbarContext';
 import gs1logo from "../../Images/gs1.png";
 import Swal from 'sweetalert2';
+import { phpImagesBaseUrl } from '../../utils/config';
 
 
 const ShipmentCard = () => {
@@ -103,7 +104,7 @@ const ShipmentCard = () => {
                                     <article key={index} className="rounded-xl bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 ">
                                         <a href="#">
                                             <div className="relative h-56 flex items-end overflow-hidden rounded-xl">
-                                                <img className='' src={item?.pictures} alt="image"
+                                                <img className='' src={phpImagesBaseUrl + "/" + item?.front_image} alt="image"
                                                     style={{
                                                         objectFit: 'contain',
                                                         height: '100%', margin: 'auto'
