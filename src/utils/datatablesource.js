@@ -313,6 +313,12 @@ export const ShipmentRequestColumns = [
     headerName: "Customer Id",
     width: 120,
   },
+  {
+    field: "datetime",
+    headerName: "Date Time",
+    width: 120,
+  
+  },
 ];
 
 
