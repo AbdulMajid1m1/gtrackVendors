@@ -38,11 +38,7 @@ const ShipmentCard = () => {
             } catch (error) {
                 console.log(error);
                 setIsLoading(false);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: error?.response?.data?.message ?? 'Something went wrong!',
-                })
+
                 setCardData([]);
 
             }
