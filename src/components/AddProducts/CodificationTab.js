@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { FaAngleRight, FaAngleDown } from 'react-icons/fa';
 import gtrackIcon from "../../Images/gtrackicons.png"
+import axios from 'axios';
+import { SnackbarContext } from '../../Contexts/SnackbarContext';
 
 const CodificationTab = () => {
   const [open, setOpen] = useState(false);
@@ -9,6 +11,9 @@ const CodificationTab = () => {
   const [fourthOpen, setFourthOpen] = useState(false);
   const [fifthOpen, setFifthOpen] = useState(false);
   const [sixthOpen, setSixthOpen] = useState(false);
+  const [hsCode, setHsCode] = useState('');
+  const { openSnackbar } = useContext(SnackbarContext);
+
 
   const toggleOpen = () => {
     setOpen(!open);
@@ -39,6 +44,9 @@ const CodificationTab = () => {
     setSixthOpen(!sixthOpen);
     }
 
+    // get the product session data
+    const gtinData = JSON.parse(sessionStorage.getItem("productData"));
+    console.log(gtinData);
 
     const [selectedOption, setSelectedOption] = useState("GS1-GPC");
 
@@ -65,7 +73,21 @@ const CodificationTab = () => {
         break;
 
       case "HS-CODES":
-        
+          axios.post('https://gs1ksa.org/api/find/hscode', {
+            // "hscode": gtinData
+            "hscode": "0204 42"
+          })
+          .then((response) => {
+            console.log(response?.data)
+            setHsCode(response?.data)
+          })
+          .catch((error) => {
+            console.log(error);
+            openSnackbar(
+              error?.response?.data?.message ?? "something went wrong!",
+              "error"
+            );
+          })
         break;
 
       case "UNSPSC":
@@ -202,9 +224,13 @@ const CodificationTab = () => {
         );
 
       case "HS-CODES":
-        <div>
-          <h1>HS-CODES</h1>
-        </div>
+        return (
+          <div className='h-auto w-full mt-3 px-2'>
+              <h1>{hsCode?.gpc?.code}</h1>
+              <h1>{hsCode?.gpc?.name}</h1>
+              <h1>{hsCode?.gpc?.title}</h1>
+          </div>
+        );
     }     
   }
 
