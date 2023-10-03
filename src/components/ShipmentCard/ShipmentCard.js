@@ -28,7 +28,7 @@ const ShipmentCard = () => {
     // I get the selected Row data in the session storage
     const getRowData = sessionStorage.getItem("customerRowData");
     const parsedRowData = JSON.parse(getRowData);
-    // console.log(parsedRowData);
+    console.log(parsedRowData);
 
 
     // get the session data
@@ -121,10 +121,34 @@ const ShipmentCard = () => {
                                 <div>
                                     <img src={gs1logo} className='h-10 w-10' alt='' />
                                 </div>
-                                <div>
-                                    <p className='font-semibold'>{parsedRowData?.email}</p>
-                                    <p>This number is registered to company: : <span className='font-semibold'>{parsedRowData?.company_name_eng}</span></p>
-                                    <p>Member ID: : <span className='font-semibold'>{parsedRowData?.id}</span></p>
+                                <div className='flex flex-col gap-2'>
+                                    <div className='flex justify-between -mt-1'>
+                                        <div className='w-[50%]'>
+                                            <p className='font-semibold'>Customer Name</p>
+                                        </div>
+                                        <div className='flex w-[50%] gap-2'>
+                                            <p>:</p>
+                                            <p className='font-semibold'>{parsedRowData?.company_name_eng}</p>
+                                        </div>
+                                    </div>
+                                    <div className='flex justify-between -mt-1'>
+                                        <div className='w-[50%]'>
+                                            <p className='font-semibold'>Email ID</p>
+                                        </div>
+                                        <div className='flex w-[50%] gap-2'>
+                                            <p>:</p>
+                                            <p className='font-semibold'>{parsedRowData?.email}</p>
+                                        </div>
+                                    </div>
+                                    <div className='flex justify-between -mt-1'>
+                                        <div className='w-[50%]'>
+                                            <p className='font-semibold'>Customer No</p>
+                                        </div>
+                                        <div className='flex w-[50%] gap-2'>
+                                            <p>:</p>
+                                            <p className='font-semibold'>{parsedRowData?.no}</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             {/* Next Button */}
@@ -137,7 +161,6 @@ const ShipmentCard = () => {
                                     />
                             </div>
                         </div>
-
                     </div>
 
                     {/* <!-- Product List --> */}
