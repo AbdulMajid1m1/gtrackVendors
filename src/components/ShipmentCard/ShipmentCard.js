@@ -27,17 +27,15 @@ const ShipmentCard = () => {
 
 
     useEffect(() => {
-        newRequest.get(`/getShipmentProductByShipmentId?shipmentId=${shipmentId}`)
-            .then(response => {
+        const fetcShipmentProducts = async () => {
+            try {
+                const response = await newRequest.get(`/getShipmentProductByShipmentId?shipmentId=${shipmentId}`)
+
                 console.log(response?.data);
                 setCardData(response?.data ?? [])
                 setIsLoading(false);
-
-
-
-            })
-            .catch(error => {
-                console.error(error);
+            } catch (error) {
+                console.log(error);
                 setIsLoading(false);
                 Swal.fire({
                     icon: 'error',
@@ -46,7 +44,9 @@ const ShipmentCard = () => {
                 })
                 setCardData([]);
 
-            });
+            }
+        }
+        fetcShipmentProducts();
     }, [])
 
     return (
@@ -74,25 +74,25 @@ const ShipmentCard = () => {
             <div className="p-1 h-full sm:ml-72 -mt-6">
                 <div className="bg-white">
 
-                     {/* Header I add */}
+                    {/* Header I add */}
                     <div className="popup-header">
-                      <div className="flex justify-between w-full font-body p-6 shadow-xl rounded-md text-black bg-[#D4EDDA] text-xl mb:2 md:mb-5">
-                          <div className='flex justify-start items-center gap-2 text-xs sm:text-sm'>
-                            <div>
-                                <img src={gs1logo} className='h-10 w-10' alt='' />
+                        <div className="flex justify-between w-full font-body p-6 shadow-xl rounded-md text-black bg-[#D4EDDA] text-xl mb:2 md:mb-5">
+                            <div className='flex justify-start items-center gap-2 text-xs sm:text-sm'>
+                                <div>
+                                    <img src={gs1logo} className='h-10 w-10' alt='' />
+                                </div>
+                                <div>
+                                    <p className='font-semibold'>{parsedRowData?.email}</p>
+                                    <p>This number is registered to company: : <span className='font-semibold'>{parsedRowData?.company_name_eng}</span></p>
+                                    <p>Member ID: : <span className='font-semibold'>{parsedRowData?.id}</span></p>
+                                </div>
                             </div>
-                            <div>
-                                <p className='font-semibold'>{parsedRowData?.email}</p>
-                                <p>This number is registered to company: : <span className='font-semibold'>{parsedRowData?.company_name_eng}</span></p>
-                                <p>Member ID: : <span className='font-semibold'>{parsedRowData?.id}</span></p>
+                            {/* Next Button */}
+                            <div onClick={() => navigate('/add-products')} className=''>
+                                <button className='py-1 sm:px-5 px-1 sm:mr-5 mr-0 bg-primary sm:text-lg text-sm text-white rounded-md'>Add Product</button>
                             </div>
                         </div>
-                        {/* Next Button */}
-                        <div onClick={() => navigate('/add-products')} className=''>
-                            <button className='py-1 sm:px-5 px-1 sm:mr-5 mr-0 bg-primary sm:text-lg text-sm text-white rounded-md'>Add Product</button>
-                        </div>
-                      </div>
-                      
+
                     </div>
 
                     {/* <!-- Product List --> */}

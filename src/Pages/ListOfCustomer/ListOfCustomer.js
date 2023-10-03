@@ -6,8 +6,11 @@ import CustomSnakebar from '../../utils/CustomSnackbar';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { SnackbarContext } from '../../Contexts/SnackbarContext';
+import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
+
 import { RiseLoader } from 'react-spinners';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 const ListOfCustomer = () => {
     const [alldata, setAllData] = useState([]);
     const [secondGridData, setSecondGridData] = useState([]);
@@ -129,6 +132,80 @@ const ListOfCustomer = () => {
         }
     }
 
+
+    const handleStatusChange = async (selectedShipment) => {
+        const statusOptions = ['created', 'submitted', 'approved'];
+        const initialStatus = selectedShipment?.status;
+        console.log(initialStatus);
+
+        const { value: selectedStatus } = await Swal.fire({
+            title: `<strong>Update Status for Shipment ${selectedShipment?.shipment_id}</strong>`,
+
+            input: 'select',
+            inputValue: initialStatus,
+            inputOptions: statusOptions.reduce((options, status) => {
+                options[status] = status;
+                return options;
+            }, {}),
+            inputPlaceholder: 'Select Status',
+            showCancelButton: true,
+            confirmButtonText: 'Update',
+            confirmButtonColor: '#1E3B8B',
+            cancelButtonColor: '#FF0032',
+        });
+
+        if (selectedStatus === undefined) { // Cancel button was pressed
+            return;
+        }
+
+
+        if (selectedStatus === initialStatus) {
+            Swal.fire({
+                icon: 'info',
+                title: 'No changes were made',
+                showConfirmButton: false,
+                timer: 2000,
+            });
+            return;
+        }
+        console.log(selectedShipment)
+        try {
+            const res = await newRequest.put('/updateShipmentRequest', {
+                shipment_id: selectedShipment.shipment_id,
+                status: selectedStatus, // Use the selected status here
+            });
+
+            // change the status in the table
+            const updatedData = filteredData.map((shipment) => {
+                if (shipment.shipment_id === selectedShipment.shipment_id) {
+                    return {
+                        ...shipment,
+                        status: selectedStatus,
+                    };
+                }
+                return shipment;
+            });
+            setFilteredData(updatedData);
+
+            Swal.fire({
+                icon: 'success',
+                title: res?.data?.message || 'Status updated successfully',
+                showConfirmButton: false,
+                timer: 2000,
+            });
+        } catch (error) {
+            const errorMessage = error?.response?.data?.message || 'Failed to update status!';
+            console.log(error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Failed to update Status',
+                text: errorMessage,
+                showConfirmButton: true,
+            });
+        }
+
+    };
+
     return (
 
 
@@ -207,9 +284,17 @@ const ListOfCustomer = () => {
                                     />
                                 ),
                                 action: (row) => {
-                                    console.log(row);
+                                    sessionStorage.setItem("shipmentRequest", JSON.stringify(row));
+                                    navigate("/new-shipment-request")
 
                                 },
+                            },
+                            {
+                                label: "Change status",
+                                icon: <SwapHorizIcon fontSize="small" color="action" style={{ color: "rgb(37 99 235)" }} />
+                                ,
+                                action: handleStatusChange,
+
                             },
                         ]}
                         uniqueId={"shipmentRequestId"}

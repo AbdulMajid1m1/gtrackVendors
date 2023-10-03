@@ -303,6 +303,16 @@ export const ShipmentRequestColumns = [
     headerName: "Customer Id",
     width: 120,
   },
+  {
+    field: "status",
+    headerName: "Status",
+    width: 120,
+  },
+  {
+    field: "customer_id",
+    headerName: "Customer Id",
+    width: 120,
+  },
 ];
 
 
