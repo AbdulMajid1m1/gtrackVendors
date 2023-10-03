@@ -119,9 +119,18 @@ const ShipmentCard = () => {
                         <div className="flex justify-between w-full font-body p-6 shadow-xl rounded-md text-black bg-[#D4EDDA] text-xl mb:2 md:mb-5">
                             <div className='flex justify-start items-center gap-2 text-xs sm:text-sm'>
                                 <div>
-                                    <img src={gs1logo} className='h-10 w-10' alt='' />
+                                    <img src={gs1logo} className='h-10 w-12' alt='' />
                                 </div>
-                                <div className='flex flex-col gap-2'>
+                                <div className='flex flex-col w-full gap-2'>
+                                    <div className='flex justify-between -mt-1'>
+                                        <div className='w-[50%]'>
+                                            <p className='font-semibold'>Shipment Id</p>
+                                        </div>
+                                        <div className='flex w-[50%] gap-2'>
+                                            <p>:</p>
+                                            <p className='font-semibold'>{parsedVendorData?.shipment_id}</p>
+                                        </div>
+                                    </div>
                                     <div className='flex justify-between -mt-1'>
                                         <div className='w-[50%]'>
                                             <p className='font-semibold'>Customer Name</p>
