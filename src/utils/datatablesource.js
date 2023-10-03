@@ -316,9 +316,20 @@ export const ShipmentRequestColumns = [
   {
     field: "datetime",
     headerName: "Date Time",
-    width: 120,
-  
-  },
+    width: 180,
+    renderCell: (params) => {
+      const dateObject = new Date(params.value);  // Assuming the datetime is in a format recognizable by JavaScript's Date constructor
+      return new Intl.DateTimeFormat('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      }).format(dateObject);
+    }
+  }
+
 ];
 
 
