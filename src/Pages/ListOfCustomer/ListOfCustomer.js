@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+ import React, { useContext, useEffect, useState } from 'react'
 import { ListOfCustomersColumn, ShipmentRequestColumns } from '../../utils/datatablesource'
 import DataTable from '../../components/Datatable/Datatable';
 import newRequest from '../../utils/userRequest';
@@ -6,9 +6,10 @@ import CustomSnakebar from '../../utils/CustomSnackbar';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { SnackbarContext } from '../../Contexts/SnackbarContext';
-import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
-
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import { RiseLoader } from 'react-spinners';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 const ListOfCustomer = () => {
@@ -48,8 +49,12 @@ const ListOfCustomer = () => {
             }
             catch (error) {
                 console.log(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: error?.response?.data?.message || 'Something went wrong'
+                })
 
-                setError(error?.response?.data?.message ?? "Something went wrong")
             }
             finally {
                 setIsLoading(false)
@@ -62,7 +67,7 @@ const ListOfCustomer = () => {
             setIsShipmentDataLoading(true)
             try {
 
-                const response = await newRequest.get("/getAllShipmentRequests")
+                const response = await newRequest.get("/getShipmentRequestByVendorId?vendor_id=" + parsedVendorData?.user?.id)
 
                 console.log(response?.data);
 
@@ -71,7 +76,7 @@ const ListOfCustomer = () => {
             }
             catch (error) {
                 console.log(error);
-                setError(error?.response?.data?.message ?? "Something went wrong")
+                // setError(error?.response?.data?.message ?? "Something went wrong")
 
             }
             finally {
@@ -134,45 +139,32 @@ const ListOfCustomer = () => {
 
 
     const handleStatusChange = async (selectedShipment) => {
-        const statusOptions = ['created', 'submitted', 'approved'];
-        const initialStatus = selectedShipment?.status;
-        console.log(initialStatus);
-
-        const { value: selectedStatus } = await Swal.fire({
-            title: `<strong>Update Status for Shipment ${selectedShipment?.shipment_id}</strong>`,
-
-            input: 'select',
-            inputValue: initialStatus,
-            inputOptions: statusOptions.reduce((options, status) => {
-                options[status] = status;
-                return options;
-            }, {}),
-            inputPlaceholder: 'Select Status',
-            showCancelButton: true,
-            confirmButtonText: 'Update',
-            confirmButtonColor: '#1E3B8B',
-            cancelButtonColor: '#FF0032',
-        });
-
-        if (selectedStatus === undefined) { // Cancel button was pressed
-            return;
-        }
 
 
-        if (selectedStatus === initialStatus) {
+        if (selectedShipment?.status === 'approved') {
             Swal.fire({
                 icon: 'info',
-                title: 'No changes were made',
+                title: 'Shipment Request already approved',
                 showConfirmButton: false,
                 timer: 2000,
             });
             return;
         }
-        console.log(selectedShipment)
+
+        if (selectedShipment?.status === 'submitted') {
+            Swal.fire({
+                icon: 'info',
+                title: 'Shipment Request already submitted',
+                showConfirmButton: false,
+                timer: 2000,
+            });
+            return;
+        }
+
         try {
             const res = await newRequest.put('/updateShipmentRequest', {
                 shipment_id: selectedShipment.shipment_id,
-                status: selectedStatus, // Use the selected status here
+                status: "submitted"
             });
 
             // change the status in the table
@@ -180,7 +172,7 @@ const ListOfCustomer = () => {
                 if (shipment.shipment_id === selectedShipment.shipment_id) {
                     return {
                         ...shipment,
-                        status: selectedStatus,
+                        status: "submitted",
                     };
                 }
                 return shipment;
@@ -189,10 +181,12 @@ const ListOfCustomer = () => {
 
             Swal.fire({
                 icon: 'success',
-                title: res?.data?.message || 'Status updated successfully',
+                title: "Shipment Request submitted successfully",
                 showConfirmButton: false,
                 timer: 2000,
             });
+
+            return;
         } catch (error) {
             const errorMessage = error?.response?.data?.message || 'Failed to update status!';
             console.log(error);
@@ -202,9 +196,60 @@ const ListOfCustomer = () => {
                 text: errorMessage,
                 showConfirmButton: true,
             });
+            return;
         }
 
     };
+
+
+    const handleShipmentDelete = async (row) => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You will not be able to recover this Record!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, keep it',
+            // changes the color of the confirm button to red
+            confirmButtonColor: '#1E3B8B',
+            cancelButtonColor: '#FF0032',
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    // convert row id to number
+                    const shipment_id = Number(row.shipment_id);
+                    console.log(row);
+                    console.log(shipment_id);
+                    await newRequest.delete("/deleteShipmentRequest?shipment_id=" + shipment_id);
+
+
+                    const updatedData = filteredData.filter((item) => item?.shipment_id !== row?.shipment_id);
+                    setFilteredData(updatedData);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Deleted!',
+                        text: 'Record has been deleted.',
+                        showConfirmButton: false,
+                        timer: 2000,
+                    });
+                }
+                catch (err) {
+                    console.log(err);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: err?.response?.data?.message || 'Something went wrong'
+                    })
+                    return
+                }
+
+                // filter out the deleted user from the data
+
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                return
+            }
+        })
+    }
 
     return (
 
@@ -290,11 +335,17 @@ const ListOfCustomer = () => {
                                 },
                             },
                             {
-                                label: "Change status",
+                                label: "Submit Request",
                                 icon: <SwapHorizIcon fontSize="small" color="action" style={{ color: "rgb(37 99 235)" }} />
                                 ,
                                 action: handleStatusChange,
 
+                            },
+                            {
+                                label: "Delete",
+                                icon: <DeleteIcon fontSize="small" style={{ color: '#FF0032' }} />
+                                ,
+                                action: handleShipmentDelete,
                             },
                         ]}
                         uniqueId={"shipmentRequestId"}

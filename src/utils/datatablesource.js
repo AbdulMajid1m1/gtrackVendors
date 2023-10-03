@@ -149,12 +149,12 @@ export const ListOfCustomersColumn = [
     width: 180,
     editable: true,
   },
-  {
-    field: "image",
-    headerName: "Image",
-    width: 180,
-    editable: true,
-  },
+  // {
+  //   field: "image",
+  //   headerName: "Image",
+  //   width: 180,
+  //   editable: true,
+  // },
   {
     field: "address",
     headerName: "Address",
@@ -323,12 +323,12 @@ export const ShipmentDocColumns = [
     headerName: "Document Id",
     width: 180,
   },
-  {
-    field: "shipment_id",
-    headerName: "Shipment Id",
-    width: 180,
+  // {
+  //   field: "shipment_id",
+  //   headerName: "Shipment Id",
+  //   width: 180,
 
-  },
+  // },
   {
     field: "document_type",
     headerName: "Document type",
