@@ -8,7 +8,6 @@ import Swal from 'sweetalert2';
 import { phpImagesBaseUrl } from '../../utils/config';
 import AddProducts from '../AddProducts/AddProducts';
 
-
 const ShipmentCard = () => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
@@ -129,8 +128,7 @@ const ShipmentCard = () => {
                                 </div>
                             </div>
                             {/* Next Button */}
-                            <div className=''>
-                                {/* <button className='py-1 sm:px-5 px-1 sm:mr-5 mr-0 bg-primary sm:text-lg text-sm text-white rounded-md'>Add Product</button> */}
+                            <div className='flex gap-3 justify-end'>
                                 <AddProducts title={"Add Product"} 
                                     handleClose={handleClose}
                                     handleOpen={handleOpen}
