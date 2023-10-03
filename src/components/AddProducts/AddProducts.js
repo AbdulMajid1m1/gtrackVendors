@@ -13,6 +13,7 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import ClearIcon from '@mui/icons-material/Clear';
+import { phpImagesBaseUrl } from '../../utils/config';
 
 
 // MUI Style 
@@ -21,7 +22,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 1100,
+  width: 1000,
   bgcolor: 'background.paper',
   boxShadow: 24,
   p: 4,
@@ -79,11 +80,12 @@ const AddProducts = () => {
       .catch((error) => {
         console.log(error);
         setData(null);
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: error?.response?.data?.message ?? "something went wrong!",
-        })
+        // Swal.fire({
+        //   icon: 'error',
+        //   title: 'Oops...',
+        //   text: error?.response?.data?.message ?? "something went wrong!",
+        // })
+        openSnackbar(error?.response?.data?.message ?? "something went wrong!", "error");
       })
 
   };
@@ -136,25 +138,30 @@ const AddProducts = () => {
       const response = await newRequest.post("/insertShipmentProduct", apiBodyData)
 
       console.log(response?.data);
-      Swal.fire({
-        icon: 'success',
-        title: 'Product Added Successfully',
-        showConfirmButton: false,
-        timer: 1500
-      })
+      // Swal.fire({
+      //   icon: 'success',
+      //   title: 'Product Added Successfully',
+      //   showConfirmButton: false,
+      //   timer: 1500
+      // })
+      openSnackbar("Product Added Successfully", "success");
 
-      navigate(-1)
+      setTimeout(() => {
+        navigate(-1)
+      }, 1500)
+      // navigate(-1)
 
 
     }
     catch (error) {
 
 
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: error?.response?.data?.message ?? "something went wrong!",
-      })
+      // Swal.fire({
+      //   icon: 'error',
+      //   title: 'Oops...',
+      //   text: error?.response?.data?.message ?? "something went wrong!",
+      // })
+      openSnackbar(error?.response?.data?.message ?? "something went wrong!", "error");
     }
     finally {
       setIsLoading(false);
@@ -255,13 +262,14 @@ const AddProducts = () => {
          {/* new design */}
          <div className="popup-header -mt-3">
             <div className="w-full font-body p-6 shadow-xl rounded-md text-black bg-[#D4EDDA] text-xl mb:2 md:mb-5">
-              <div className='flex justify-start gap-2 text-xs sm:text-sm'>
+              <div className='flex justify-start items-center gap-2 text-xs sm:text-sm'>
                 <div>
                   <img src={gs1logo} className='h-10 w-10' alt='' />
                 </div>
                 <div>
                   <p className='font-semibold'>{parsedRowData?.email}</p>
                   <p>This number is registered to company: : <span className='font-semibold'>{parsedRowData?.company_name_eng}</span></p>
+                  <p>Member ID: : <span className='font-semibold'>{parsedRowData?.id}</span></p>
                 </div>
               </div>
             </div>
@@ -320,8 +328,7 @@ const AddProducts = () => {
               <div className="w-full md:w-1/3 flex justify-center items-center p-4">
                 {/* Add your image element here */}
                 {data?.front_image && (
-                  <img src={data?.front_image} alt="Product" className="w-1/2" />
-
+                  <img src={`${phpImagesBaseUrl}/${data.front_image}`} alt="Product" className="w-1/2" />
                 )}
               </div>
 
