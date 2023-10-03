@@ -104,13 +104,13 @@ export const ListOfCustomersColumn = [
   {
     field: "location_uk",
     headerName: "Location UK",
-    width: 180,
+    width: 100,
     editable: true,
   },
   {
     field: "have_cr",
     headerName: "Have CR",
-    width: 180,
+    width: 100,
     editable: true,
   },
   {
@@ -194,7 +194,7 @@ export const ListOfCustomersColumn = [
   {
     field: "no_of_staff",
     headerName: "Number of Staff",
-    width: 180,
+    width: 100,
     editable: true,
   },
   {
@@ -230,7 +230,7 @@ export const ListOfCustomersColumn = [
   {
     field: "unit_number",
     headerName: "Unit Number",
-    width: 180,
+    width: 100,
     editable: true,
   },
   {

@@ -1,4 +1,4 @@
- import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ListOfCustomersColumn, ShipmentRequestColumns } from '../../utils/datatablesource'
 import DataTable from '../../components/Datatable/Datatable';
 import newRequest from '../../utils/userRequest';
@@ -17,6 +17,7 @@ const ListOfCustomer = () => {
     const [secondGridData, setSecondGridData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [shipmentRequestLoader, setShipmentRequestLoader] = useState(false);
     const [isShipmentDataLoading, setIsShipmentDataLoading] = useState(false);
     const [error, setError] = useState(null);
     const [message, setMessage] = useState(null);
@@ -60,6 +61,7 @@ const ListOfCustomer = () => {
                 setIsLoading(false)
             }
 
+
         };
         getAllCustomers();
 
@@ -89,22 +91,20 @@ const ListOfCustomer = () => {
     }, []);
 
     const handleRowClickInParent = (item) => {
-        console.log(item);
 
         if (item.length === 0) {
             setFilteredData(secondGridData)
             return
         }
-        const filteredData = secondGridData.filter((data) => {
-            return data?.customer_id === item?.id
+        const filteredData = secondGridData.filter((singleItem) => {
+            return Number(singleItem?.customer_id) == Number(item[0]?.id)
         })
-        console.log(filteredData);
         setFilteredData(filteredData)
     }
 
 
     const handleShipmentRequest = async (row) => {
-        setIsLoading(true);
+        setShipmentRequestLoader(true);
         console.log(row?.id);
         // store that row data in sesstion storage
         sessionStorage.setItem("customerRowData", JSON.stringify(row));
@@ -116,7 +116,7 @@ const ListOfCustomer = () => {
 
             console.log(response?.data);
 
-            setIsLoading(false);
+
             console.log(response?.data)
             console.log(response?.data?.insertedShipmentRequestData)
 
@@ -133,7 +133,7 @@ const ListOfCustomer = () => {
 
         }
         finally {
-            setIsLoading(false);
+            setShipmentRequestLoader(false);
         }
     }
 
@@ -257,7 +257,7 @@ const ListOfCustomer = () => {
 
         <div>
 
-            {isLoading &&
+            {shipmentRequestLoader &&
 
                 <div className='loading-spinner-background'
                     style={{
@@ -271,7 +271,7 @@ const ListOfCustomer = () => {
                         size={18}
                         color={"#6439ff"}
                         // height={4}
-                        loading={isLoading}
+                        loading={shipmentRequestLoader}
                     />
                 </div>
             }

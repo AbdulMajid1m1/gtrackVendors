@@ -556,10 +556,14 @@ const DataTable = ({
           slots={{ toolbar: GridToolbar }}
           rows={filteredData}
           columns={
-            actionColumnVisibility !== false
-              ? idColumn.concat(columnsName.concat(actionColumn))
-              : idColumn.concat(columnsName)
+            uniqueId === "customerListId"
+              ? [...idColumn.slice(0, 1), ...actionColumn, ...idColumn.slice(1), ...columnsName]
+              : (actionColumnVisibility !== false
+                ? idColumn.concat(columnsName.concat(actionColumn))
+                : idColumn.concat(columnsName))
           }
+
+
           pageSize={30}
           rowsPerPageOptions={[30, 50, 100]}
           checkboxSelection={checkboxSelectionValue}
