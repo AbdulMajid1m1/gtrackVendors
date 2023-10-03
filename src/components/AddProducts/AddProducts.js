@@ -173,45 +173,7 @@ const AddProducts = () => {
 
 
 
-  const [selectedOption, setSelectedOption] = useState("GS1-GPC");
-
-  //Second Tab
-  const handleOptionChange = (option) => {
-    setSelectedOption(option);
-
-    switch (option) {
-      case "GS1-GPC":
-        // newRequest
-        //   .get(`/getSafetyInformationByGtin/${gtinData?.gtin}`)
-        //   .then((response) => {
-        //     console.log(response.data);
-        //     setSafetyInformation(response.data);
-        //   })
-        //   .catch((err) => {
-        //     console.log(err);
-        //     openSnackbar(
-        //       err?.response?.data?.message ?? "something went wrong!",
-        //       "error"
-        //     );
-        //     setSafetyInformation([]);
-        //   });
-        break;
-
-      case "HS-CODES":
-        break;
-
-      case "UNSPSC":
-        break;
-
-      case "OTHER":
-        break;
-
-      // Add more cases for other options
-      default:
-        break;
-    }
-  };
-
+  
   return (
     <div>
       {isLoading &&
@@ -397,61 +359,9 @@ const AddProducts = () => {
         {/* Fourth Tab */}
         {activeTab === 'Codification' && (
           <div className="block shadow-lg">
-            <div className='flex justify-between gap-2 w-full'>
-              <div className='w-[20%] flex flex-col gap-2 mt-2'>
-                <span
-                  className={`bg-[#3b5998] py-2 flex justify-start px-1 rounded-md text-white items-center gap-2 cursor-pointer 
-                            }`}
-                  onClick={() => handleOptionChange("GS1-GPC")}
-                >
-                  <img
-                    src={gtrackIcon}
-                    className="w-5 h-5 ml-1"
-                    alt=""
-                  />
-                  GS1 GPC
-                </span>
-                <span
-                  className={`bg-[#00acee] py-2 flex justify-start px-1 rounded-md text-white items-center gap-2 cursor-pointer ${selectedOption === "HS-CODES" ? "bg-yellow-500" : ""
-                    }`}
-                  onClick={() => handleOptionChange("HS-CODES")}
-                >
-                  <img
-                    src={gtrackIcon}
-                    className="w-5 h-5 ml-1"
-                    alt=""
-                  />
-                  HS CODES
-                </span>
-                <span
-                  className={`bg-[#0072b1] py-2 flex justify-start px-1 rounded-md text-white items-center gap-2 cursor-pointer ${selectedOption === "UNSPSC" ? "bg-yellow-500" : ""
-                    }`}
-                  onClick={() => handleOptionChange("UNSPSC")}
-                >
-                  <img src={gtrackIcon} className="w-5 h-5 ml-1" alt="" />
-                  UNSPSC
-                </span>
-                <span
-                  className={`bg-[#E60023] py-2 flex justify-start px-1 rounded-md text-white items-center gap-2 cursor-pointer ${selectedOption === "OTHER"
-                    ? "bg-yellow-500"
-                    : ""
-                    }`}
-                  onClick={() => handleOptionChange("OTHER")}
-                >
-                  <img
-                    src={gtrackIcon}
-                    className="w-5 h-5 ml-1"
-                    alt=""
-                  />
-                  OTHER
-                </span>
-              </div>
-
-
-              <div className='w-[80%] mt-2 border border-gray-300'>
+              <div className='mt-2 border border-gray-300'>
                 <CodificationTab />
               </div>
-            </div>
           </div>
         )}
 
