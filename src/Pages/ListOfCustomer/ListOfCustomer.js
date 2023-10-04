@@ -99,6 +99,11 @@ const ListOfCustomer = () => {
         const filteredData = secondGridData.filter((singleItem) => {
             return Number(singleItem?.customer_id) == Number(item[0]?.id)
         })
+
+        // sort the data by datetime show latest first
+        filteredData.sort((a, b) => {
+            return new Date(b?.created_at) - new Date(a?.created_at);
+        });
         setFilteredData(filteredData)
     }
 
