@@ -8,6 +8,7 @@ import isoicon from '../../Images/isoicon.png'
 import gs1logowhite from '../../Images/gs1logowhite.png'
 import profile from '../../Images/profile.png'
 import customers from '../../Images/customer.png'
+import backarrow from '../../Images/backarrow.png';
 
 const SideBar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -95,11 +96,22 @@ const SideBar = () => {
               Gtrack Vendors Portal
             </p>
           </div>
+
           <div
             className="flex justify-center items-center cursor-pointer mt-1 px-4"
-            onClick={() => navigate("/update-vendor")}
           >
+           <div className='flex justify-end items-center px-0 mr-4'>
+                  <span onClick={() => navigate(-1)} className='cursor-pointer'
+                  >
+                  <img src={backarrow}
+                    className='h-8 w-8 text-secondary mr-3'
+                    style={{ filter: 'invert(1)' }}
+                    alt=''
+                  />
+                </span>
+              </div>
             <img
+              onClick={() => navigate("/update-vendor")}
               src={
                 // currentUser?.user?.image
                 //   ? imagePath + currentUser?.user?.image
@@ -109,6 +121,7 @@ const SideBar = () => {
               className="h-7 w-7 bg-white rounded-full"
               alt=""
             />
+
           </div>
         </div>
       </div>

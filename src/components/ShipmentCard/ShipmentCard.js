@@ -8,7 +8,6 @@ import Swal from 'sweetalert2';
 import { phpImagesBaseUrl } from '../../utils/config';
 import AddProducts from '../AddProducts/AddProducts';
 
-
 const ShipmentCard = () => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
@@ -29,7 +28,7 @@ const ShipmentCard = () => {
     // I get the selected Row data in the session storage
     const getRowData = sessionStorage.getItem("customerRowData");
     const parsedRowData = JSON.parse(getRowData);
-    // console.log(parsedRowData);
+    console.log(parsedRowData);
 
 
     // get the session data
@@ -116,17 +115,49 @@ const ShipmentCard = () => {
                         <div className="flex justify-between w-full font-body p-6 shadow-xl rounded-md text-black bg-[#D4EDDA] text-xl mb:2 md:mb-5">
                             <div className='flex justify-start items-center gap-2 text-xs sm:text-sm'>
                                 <div>
-                                    <img src={gs1logo} className='h-10 w-10' alt='' />
+                                    <img src={gs1logo} className='h-10 w-12' alt='' />
                                 </div>
-                                <div>
-                                    <p className='font-semibold'>{parsedRowData?.email}</p>
-                                    <p>This number is registered to company: : <span className='font-semibold'>{parsedRowData?.company_name_eng}</span></p>
-                                    <p>Member ID: : <span className='font-semibold'>{parsedRowData?.id}</span></p>
+                                <div className='flex flex-col w-full gap-2'>
+                                    <div className='flex justify-between -mt-1'>
+                                        <div className='w-[50%]'>
+                                            <p className='font-semibold'>Shipment Id</p>
+                                        </div>
+                                        <div className='flex w-[50%] gap-2'>
+                                            <p>:</p>
+                                            <p className='font-semibold'>{parsedVendorData?.shipment_id}</p>
+                                        </div>
+                                    </div>
+                                    <div className='flex justify-between -mt-1'>
+                                        <div className='w-[50%]'>
+                                            <p className='font-semibold'>Customer Name</p>
+                                        </div>
+                                        <div className='flex w-[50%] gap-2'>
+                                            <p>:</p>
+                                            <p className='font-semibold'>{parsedRowData?.company_name_eng}</p>
+                                        </div>
+                                    </div>
+                                    <div className='flex justify-between -mt-1'>
+                                        <div className='w-[50%]'>
+                                            <p className='font-semibold'>Email ID</p>
+                                        </div>
+                                        <div className='flex w-[50%] gap-2'>
+                                            <p>:</p>
+                                            <p className='font-semibold'>{parsedRowData?.email}</p>
+                                        </div>
+                                    </div>
+                                    <div className='flex justify-between -mt-1'>
+                                        <div className='w-[50%]'>
+                                            <p className='font-semibold'>Customer No</p>
+                                        </div>
+                                        <div className='flex w-[50%] gap-2'>
+                                            <p>:</p>
+                                            <p className='font-semibold'>{parsedRowData?.no}</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             {/* Next Button */}
-                            <div className=''>
-                                {/* <button className='py-1 sm:px-5 px-1 sm:mr-5 mr-0 bg-primary sm:text-lg text-sm text-white rounded-md'>Add Product</button> */}
+                            <div className='flex gap-3 justify-end'>
                                 <AddProducts title={"Add Product"} 
                                     handleClose={handleClose}
                                     handleOpen={handleOpen}
@@ -135,7 +166,6 @@ const ShipmentCard = () => {
                                     />
                             </div>
                         </div>
-
                     </div>
 
                     {/* <!-- Product List --> */}
