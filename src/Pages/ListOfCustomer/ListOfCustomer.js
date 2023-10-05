@@ -42,9 +42,6 @@ const ListOfCustomer = () => {
             try {
 
                 const response = await newRequest.get(`/getApprovedVendorMembers?email=${parsedVendorData?.user?.email}`)
-
-                console.log(response?.data);
-
                 setAllData(response?.data ?? [])
 
             }
@@ -71,8 +68,6 @@ const ListOfCustomer = () => {
 
                 const response = await newRequest.get("/getShipmentRequestByVendorId?vendor_id=" + parsedVendorData?.user?.id)
 
-                console.log(response?.data);
-
                 setSecondGridData(response?.data ?? [])
                 setFilteredData(response?.data ?? [])
             }
@@ -90,21 +85,46 @@ const ListOfCustomer = () => {
 
     }, []);
 
-    const handleRowClickInParent = (item) => {
+    const handleRowClickInParent = async (item) => {
 
         if (item.length === 0) {
             setFilteredData(secondGridData)
             return
         }
-        const filteredData = secondGridData.filter((singleItem) => {
-            return Number(singleItem?.customer_id) == Number(item[0]?.id)
-        })
+        // const filteredData = secondGridData.filter((singleItem) => {
+        //     return Number(singleItem?.customer_id) == Number(item[0]?.id)
+        // })
 
-        // sort the data by datetime show latest first
-        filteredData.sort((a, b) => {
-            return new Date(b?.created_at) - new Date(a?.created_at);
-        });
-        setFilteredData(filteredData)
+        // // sort the data by datetime show latest first
+        // filteredData.sort((a, b) => {
+        //     return new Date(b?.datetime) - new Date(a?.datetime);
+        // });
+        setIsShipmentDataLoading(true)
+        try {
+
+            const res = await newRequest.get("/getShipmentRequestByCustomerId?customer_id=" + item[0]?.id)
+            console.log(res?.data)
+            setFilteredData(res?.data ?? [])
+        }
+
+        catch (error) {
+            console.log(error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: error?.response?.data?.message || 'Something went wrong',
+                timer: 2000,
+                timerProgressBar: true,
+
+            })
+
+
+        }
+        finally {
+            setIsShipmentDataLoading(false)
+        }
+
+
     }
 
 
