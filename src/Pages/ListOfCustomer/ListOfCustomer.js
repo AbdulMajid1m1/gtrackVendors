@@ -64,6 +64,7 @@ const ListOfCustomer = () => {
 
         const getAllShipments = async () => {
             setIsShipmentDataLoading(true)
+
             try {
 
                 const response = await newRequest.get("/getShipmentRequestByVendorId?vendor_id=" + parsedVendorData?.user?.id)
@@ -80,7 +81,22 @@ const ListOfCustomer = () => {
                 setIsShipmentDataLoading(false)
             }
         };
-        getAllShipments();
+
+
+        const deleteEmptyShipmentRequest = async () => {
+            try {
+                const response = await newRequest.delete("/deleteEmptyShipmentRequestsForVendor?vendor_id=" + parsedVendorData?.user?.id)
+                console.log(response?.data)
+            }
+            catch (error) {
+                console.log(error);
+            }
+            finally {
+                getAllShipments();
+            }
+        }
+
+        deleteEmptyShipmentRequest();
 
 
     }, []);

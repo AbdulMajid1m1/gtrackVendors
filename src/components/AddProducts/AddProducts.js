@@ -171,21 +171,7 @@ const AddProducts = ({ title, handleOpen, handleClose, open, handleRefetch }) =>
 
   }
 
-  const handleBackBtnClick = async () => {
-    try {
-      const res = await newRequest.delete(`/deleteEmptyShipmentRequest?shipment_id=${shipmentRequestData?.shipment_id}`)
-      console.log(res);
-      sessionStorage.removeItem('shipmentRequest');
 
-    }
-    catch (error) {
-      console.log(error);
-
-    }
-    finally {
-      navigate(-1);
-    }
-  }
 
 
 
@@ -217,7 +203,6 @@ const AddProducts = ({ title, handleOpen, handleClose, open, handleRefetch }) =>
         }}
       >
 
-        <Button style={{ backgroundColor: '#1E3B8B', color: 'white' }} onClick={handleBackBtnClick} >Back</Button>
         <Button style={{ backgroundColor: '#1E3B8B', color: 'white' }} onClick={handleOpen}>{title}</Button>
       </div>
       <Modal
