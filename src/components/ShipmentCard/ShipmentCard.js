@@ -116,8 +116,10 @@ const ShipmentCard = () => {
 
                     {/* Header I add */}
                     <div className="popup-header">
-                        <div className="flex justify-between w-full font-body p-6 shadow-xl rounded-md text-black bg-[#D4EDDA] text-xl mb:2 md:mb-5">
-                            <div className='flex justify-start items-center gap-2 text-xs sm:text-sm'>
+                    <div className="flex flex-col md:flex-row justify-between w-full font-body p-6 shadow-xl rounded-md text-black bg-[#D4EDDA] text-xl mb:2 md:mb-5">
+                        {/* <div className="flex justify-between w-full font-body p-6 shadow-xl rounded-md text-black bg-[#D4EDDA] text-xl mb:2 md:mb-5"> */}
+                            {/* <div className='flex justify-start w-[40%] bg-red-400 items-center gap-2 text-xs sm:text-sm'> */}
+                            <div className="md:w-[40%] flex items-center gap-2 text-xs sm:text-sm">
                                 <div>
                                     <img src={gs1logo} className='h-10 w-12' alt='' />
                                 </div>
@@ -146,7 +148,7 @@ const ShipmentCard = () => {
                                         </div>
                                         <div className='flex w-[50%] gap-2'>
                                             <p>:</p>
-                                            <p className='font-semibold'>{parsedRowData?.email}</p>
+                                            <p className='font-semibold overflow-x-auto md:overflow-visible'>{parsedRowData?.email}</p>
                                         </div>
                                     </div>
                                     <div className='flex justify-between -mt-1'>
@@ -160,7 +162,6 @@ const ShipmentCard = () => {
                                     </div>
                                 </div>
                             </div>
-                            {/* Next Button */}
                             <div className='flex gap-3 justify-end'>
                                 <AddProducts title={"Add Product"} 
                                     handleClose={handleClose}
