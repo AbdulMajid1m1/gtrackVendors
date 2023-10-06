@@ -12,6 +12,7 @@ import ShipmentDocUploadPopup from '../../components/ShipmentDocUploadPopup/Ship
 import Swal from 'sweetalert2';
 import imageLiveUrl from '../../utils/urlConverter/imageLiveUrl';
 import gs1logo from "../../Images/gs1.png";
+import PDFViewer from '../../components/PdfView/PDFViewer';
 
 const ShipmentDocUpload = () => {
     const [data, setData] = useState([]);
@@ -59,12 +60,20 @@ const ShipmentDocUpload = () => {
 
     }
 
-    // const handleView = async (row) => {
-    //     // open url in new chorme with small window
-    //     const url = row?.document_url;
-    //     console.log(url);
+    const [pdfUrl, setPdfUrl] = useState(null);
 
-    // }
+    const handleView = async (row) => {
+        try {
+            const url = row?.document_url;
+            const liveUrl = imageLiveUrl(url);
+            setPdfUrl(liveUrl);
+        } catch (error) {
+            console.error('There was a problem fetching the PDF:', error);
+        }
+    };
+
+
+
 
     // get the cardData from sesstion stoaage
     const cardData = JSON.parse(sessionStorage.getItem('selectedCardData'));
@@ -131,22 +140,31 @@ const ShipmentDocUpload = () => {
 
     return (
         <div>
+            {pdfUrl && <PDFViewer file={pdfUrl} />}
+
+           
             <div className="p-3 h-full sm:ml-72">
                 {/* Header */}
+
                 <div className="popup-header -mt-3">
                     <div className="w-full font-body p-6 shadow-xl rounded-md text-black bg-[#D4EDDA] text-xl mb:2 md:mb-5">
-                    <div className='flex justify-start items-center gap-2 text-xs sm:text-sm'>
-                        <div>
-                            <img src={gs1logo} className='h-10 w-10' alt='' />
+                        <div className='flex justify-start items-center gap-2 text-xs sm:text-sm'>
+                            <div>
+                                <img src={gs1logo} className='h-10 w-10' alt='' />
+                            </div>
+                            <div>
+                                <p className='font-semibold'>Document Id {productId}</p>
+                                <p>Product Name: : <span className='font-semibold'>{cardData?.productnameenglish}</span></p>
+                                {/* <p>Member ID: : <span className='font-semibold'>{parsedRowData?.id}</span></p> */}
+                            </div>
                         </div>
-                        <div>
-                            <p className='font-semibold'>Document Id {productId}</p>
-                            <p>Product Name: : <span className='font-semibold'>{cardData?.productnameenglish}</span></p>
-                          {/* <p>Member ID: : <span className='font-semibold'>{parsedRowData?.id}</span></p> */}
-                        </div>
-                    </div>
                     </div>
                 </div>
+                <div>
+                <a href="http://localhost:7000/uploadss/cv.pdf" target="_blank" rel="noopener noreferrer">
+                    View PDF
+                </a>
+            </div>
                 <ShipmentDocUploadPopup
                     open={openPopup}
                     closeDocPopup={closeDocPopup}
@@ -172,12 +190,12 @@ const ShipmentDocUpload = () => {
                                 ,
                                 action: handleDownload,
                             },
-                            // {
-                            //     label: "View",
-                            //     icon: <VisibilityIcon fontSize="small" style={{ color: "rgb(37 99 235)" }} />
-                            //     ,
-                            //     action: handleView,
-                            // },
+                            {
+                                label: "View",
+                                icon: <VisibilityIcon fontSize="small" style={{ color: "rgb(37 99 235)" }} />
+                                ,
+                                action: handleView,
+                            },
                             {
                                 label: "Delete",
                                 icon: <DeleteIcon fontSize="small" style={{ color: '#FF0032' }} />
