@@ -7,7 +7,7 @@ import gs1logo from "../../Images/gs1.png";
 import Swal from 'sweetalert2';
 import { phpImagesBaseUrl } from '../../utils/config';
 import AddProducts from '../AddProducts/AddProducts';
-
+import Button from '@mui/material/Button';
 const ShipmentCard = () => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
@@ -16,13 +16,13 @@ const ShipmentCard = () => {
     // this is the popup code
     const [open, setOpen] = useState(false);
     const handleOpen = () => {
-      setOpen(true);
+        setOpen(true);
     };
 
     const handleClose = () => {
-      setOpen(false);
+        setOpen(false);
     };
-  
+
 
 
     // I get the selected Row data in the session storage
@@ -50,11 +50,7 @@ const ShipmentCard = () => {
             } catch (error) {
                 console.log(error);
                 setIsLoading(false);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: error?.response?.data?.message ?? 'Something went wrong!',
-                })
+
                 setCardData([]);
 
             }
@@ -85,10 +81,10 @@ const ShipmentCard = () => {
 
 
     // Function to handle saving card data to session storage
-  const saveCardDataToSessionStorage = (item) => {
-    sessionStorage.setItem("selectedCardData", JSON.stringify(item));
-  };
-   
+    const saveCardDataToSessionStorage = (item) => {
+        sessionStorage.setItem("selectedCardData", JSON.stringify(item));
+    };
+
     return (
         <div>
 
@@ -163,12 +159,13 @@ const ShipmentCard = () => {
                                 </div>
                             </div>
                             <div className='flex gap-3 justify-end'>
-                                <AddProducts title={"Add Product"} 
+
+                                <AddProducts title={"Add Product"}
                                     handleClose={handleClose}
                                     handleOpen={handleOpen}
                                     open={open}
                                     handleRefetch={handleRefetch}
-                                    />
+                                />
                             </div>
                         </div>
                     </div>
@@ -180,42 +177,42 @@ const ShipmentCard = () => {
                                 return (
                                     <article key={index} className="rounded-xl bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 ">
                                         {/* <a href="#"> */}
-                                            <div className="relative h-56 flex items-end overflow-hidden rounded-xl">
-                                                <img className='' src={phpImagesBaseUrl + "/" + item?.front_image} alt="image"
-                                                    style={{
-                                                        objectFit: 'contain',
-                                                        height: '100%', margin: 'auto'
-                                                    }}
+                                        <div className="relative h-56 flex items-end overflow-hidden rounded-xl">
+                                            <img className='' src={phpImagesBaseUrl + "/" + item?.front_image} alt="image"
+                                                style={{
+                                                    objectFit: 'contain',
+                                                    height: '100%', margin: 'auto'
+                                                }}
 
-                                                />
-                                            </div>
+                                            />
+                                        </div>
 
-                                            <div className="mt-1 p-2 flex flex-col gap-1">
-                                                <div className='flex justify-between items-center'>
-                                                    <p className="text-sm font-semibold text-slate-700">{item?.productnameenglish}</p>
-                                                    <p className="mt-1 font-semibold text-sm text-slate-700">{item?.productnamearabic}</p>
-                                                </div>
-                                                <div className='flex justify-between'>
-                                                    {/* <p className="mt-1 font-semibold text-sm text-slate-700">{item?.model}</p> */}
-                                                    {/* <p className="mt-1 font-semibold text-sm text-slate-700">{item?.manufacturing_date}</p> */}
-                                                </div>
-                                                <div className='flex justify-between'>
-                                                    <p className="mt-1 font-semibold text-sm text-slate-700">{item?.barcode}</p>
-                                                    <p className="mt-1 font-semibold text-sm text-slate-700">{item?.unit}</p>
-                                                </div>
-                                                <p className="mt-1 font-semibold text-sm text-slate-700">{item?.BrandName}</p>
+                                        <div className="mt-1 p-2 flex flex-col gap-1">
+                                            <div className='flex justify-between items-center'>
+                                                <p className="text-sm font-semibold text-slate-700">{item?.productnameenglish}</p>
+                                                <p className="mt-1 font-semibold text-sm text-slate-700">{item?.productnamearabic}</p>
                                             </div>
-                                            <div className="mt-3 flex justify-between px-2">
-                                                <button
-                                                    onClick={() => {
-                                                        saveCardDataToSessionStorage(item);
-                                                        navigate('/shipment-docs/' + item?.id);
-                                                      }}
-                                                    // onClick={() => navigate('/shipment-docs/' + item?.id)}
-                                                    className='h-auto w-auto px-4 py-1 text-sm bg-primary rounded-md text-white'>View Documents</button>
-                                                {/* <p className="text-sm font-bold text-red-500">{item?.expiry_date.split('T')[0]}</p> */}
-                                                <p className="text-sm font-bold text-red-500">{item?.BrandNameAr}</p>
+                                            <div className='flex justify-between'>
+                                                {/* <p className="mt-1 font-semibold text-sm text-slate-700">{item?.model}</p> */}
+                                                {/* <p className="mt-1 font-semibold text-sm text-slate-700">{item?.manufacturing_date}</p> */}
                                             </div>
+                                            <div className='flex justify-between'>
+                                                <p className="mt-1 font-semibold text-sm text-slate-700">{item?.barcode}</p>
+                                                <p className="mt-1 font-semibold text-sm text-slate-700">{item?.unit}</p>
+                                            </div>
+                                            <p className="mt-1 font-semibold text-sm text-slate-700">{item?.BrandName}</p>
+                                        </div>
+                                        <div className="mt-3 flex justify-between px-2">
+                                            <button
+                                                onClick={() => {
+                                                    saveCardDataToSessionStorage(item);
+                                                    navigate('/shipment-docs/' + item?.id);
+                                                }}
+                                                // onClick={() => navigate('/shipment-docs/' + item?.id)}
+                                                className='h-auto w-auto px-4 py-1 text-sm bg-primary rounded-md text-white'>View Documents</button>
+                                            {/* <p className="text-sm font-bold text-red-500">{item?.expiry_date.split('T')[0]}</p> */}
+                                            <p className="text-sm font-bold text-red-500">{item?.BrandNameAr}</p>
+                                        </div>
                                         {/* </a> */}
                                     </article>
                                 )

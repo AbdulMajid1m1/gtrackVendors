@@ -38,15 +38,16 @@ const theme = createTheme({
 });
 
 
+// const docType = [
+//     "Certificate of Conformity",
+//     "Commercial Sales Invoice",
+//     "Product Test Certificate",
+//     "Barcode Certificate",
+//     "Company License",
+//     "GLN Certificate"
+// ]
 
-const docType = [
-    "Certificate of Conformity",
-    "Commercial Sales Invoice",
-    "Product Test Certificate",
-    "Barcode Certificate",
-    "Company License",
-    "GLN Certificate"
-]
+
 function CustomLoadingButton({ loading, children, ...otherProps }) {
     return (
         <Button {...otherProps} disabled={loading}>
@@ -61,6 +62,21 @@ export default function ShipmentDocUploadPopup({ open, onClose, productId, close
     const [uploading, setUploading] = useState(false);
     const [uploaded, setUploaded] = useState(false);
     const { openSnackbar } = React.useContext(SnackbarContext);
+    const [docTypes, setDocTypes] = useState([]);
+
+    React.useEffect(() => {
+        const getDocTypes = async () => {
+            try {
+                const response = await newRequest.get('/getAllShipmentDocumentTypes');
+                console.log(response);
+                setDocTypes(response?.data || []);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getDocTypes();
+    }, []);
+
 
 
     const handleDocumentTypeChange = (event) => {
@@ -106,6 +122,8 @@ export default function ShipmentDocUploadPopup({ open, onClose, productId, close
     };
 
 
+
+
     return (
         <ThemeProvider theme={theme}>
             <Dialog open={open} onClose={closeDocPopup} maxWidth="sm" fullWidth>
@@ -126,9 +144,9 @@ export default function ShipmentDocUploadPopup({ open, onClose, productId, close
                             <MenuItem value="">
                                 <em>None</em>
                             </MenuItem>
-                            {docType.map((doc) => (
-                                <MenuItem key={doc} value={doc}>
-                                    {doc}
+                            {docTypes.map((doc) => (
+                                <MenuItem key={doc?.document_type_id} value={doc?.document_name}>
+                                    {doc?.document_name}
                                 </MenuItem>
                             ))}
 

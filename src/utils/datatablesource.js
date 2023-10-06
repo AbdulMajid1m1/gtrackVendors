@@ -104,13 +104,13 @@ export const ListOfCustomersColumn = [
   {
     field: "location_uk",
     headerName: "Location UK",
-    width: 180,
+    width: 100,
     editable: true,
   },
   {
     field: "have_cr",
     headerName: "Have CR",
-    width: 180,
+    width: 100,
     editable: true,
   },
   {
@@ -149,12 +149,12 @@ export const ListOfCustomersColumn = [
     width: 180,
     editable: true,
   },
-  {
-    field: "image",
-    headerName: "Image",
-    width: 180,
-    editable: true,
-  },
+  // {
+  //   field: "image",
+  //   headerName: "Image",
+  //   width: 180,
+  //   editable: true,
+  // },
   {
     field: "address",
     headerName: "Address",
@@ -194,7 +194,7 @@ export const ListOfCustomersColumn = [
   {
     field: "no_of_staff",
     headerName: "Number of Staff",
-    width: 180,
+    width: 100,
     editable: true,
   },
   {
@@ -230,7 +230,7 @@ export const ListOfCustomersColumn = [
   {
     field: "unit_number",
     headerName: "Unit Number",
-    width: 180,
+    width: 100,
     editable: true,
   },
   {
@@ -313,6 +313,23 @@ export const ShipmentRequestColumns = [
     headerName: "Customer Id",
     width: 120,
   },
+  {
+    field: "datetime",
+    headerName: "Date Time",
+    width: 180,
+    renderCell: (params) => {
+      const dateObject = new Date(params.value);  // Assuming the datetime is in a format recognizable by JavaScript's Date constructor
+      return new Intl.DateTimeFormat('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      }).format(dateObject);
+    }
+  }
+
 ];
 
 
@@ -323,12 +340,12 @@ export const ShipmentDocColumns = [
     headerName: "Document Id",
     width: 180,
   },
-  {
-    field: "shipment_id",
-    headerName: "Shipment Id",
-    width: 180,
+  // {
+  //   field: "shipment_id",
+  //   headerName: "Shipment Id",
+  //   width: 180,
 
-  },
+  // },
   {
     field: "document_type",
     headerName: "Document type",
@@ -359,6 +376,8 @@ export const ShipmentDocColumns = [
 
   },
 ]
+
+
 
 
 
