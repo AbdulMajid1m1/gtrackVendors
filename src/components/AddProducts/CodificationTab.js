@@ -17,7 +17,7 @@ const CodificationTab = () => {
 
   const toggleOpen = () => {
     setOpen(!open);
-  };
+  }; 
 
   const toggleSubOpen = (e) => {
     e.stopPropagation(); // Prevent parent from closing when a sub-item is clicked
