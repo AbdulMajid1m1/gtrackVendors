@@ -137,7 +137,7 @@ const ShipmentCard = () => {
                                             <p>:</p>
                                             <p className='font-semibold'>{parsedRowData?.company_name_eng}</p>
                                         </div>
-                                    </div>
+                                    </div> 
                                     <div className='flex justify-between -mt-1'>
                                         <div className='w-[50%]'>
                                             <p className='font-semibold'>Email ID</p>
