@@ -36,7 +36,7 @@ const PasswordScreen = () => {
       .then((response) => {
         console.log(response.data);
         setIsLoading(false);
-        Swal.fire("Dashboard", "Welcome To The Vendor Dashboard", "success");
+        Swal.fire("Dashboard", "Welcome To The Supplier/Vendor Portal", "success");
 
         sessionStorage.setItem("vendorData", JSON.stringify(response.data));
 
