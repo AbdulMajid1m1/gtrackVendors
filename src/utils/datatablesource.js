@@ -381,3 +381,46 @@ export const ShipmentDocColumns = [
 
 
 
+export const orderLineColumns = [
+  {
+    field: "name",
+    headerName: "PRODUCT NAME",
+    width: 200, // Adjusted for the product name
+  },
+  {
+    field: "quantity",
+    headerName: "QUANTITY",
+    width: 120, // Adjusted for quantity
+  },
+  {
+    field: "price",
+    headerName: "UNIT PRICE",
+    width: 150, // Adjusted for unit price
+  },
+  {
+    field: "price_subtotal",
+    headerName: "SUBTOTAL",
+    width: 180, // Adjusted for subtotal
+  },
+  {
+    field: "price_total",
+    headerName: "TOTAL PRICE",
+    width: 180, // Adjusted for total price
+  },
+  {
+    field: "date_order",
+    headerName: "DATE ORDER",
+    width: 220, // Adjusted for date
+  },
+  {
+    field: "state",
+    headerName: "STATE",
+    width: 140, // Adjusted for state
+  },
+  {
+    field: "partner",
+    headerName: "PARTNER",
+    width: 250, // Adjusted for partner name
+  }
+];
+

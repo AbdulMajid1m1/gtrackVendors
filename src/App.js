@@ -11,6 +11,7 @@ import DataTableProvider from "./Contexts/DataTableContext";
 import ShipmentCard from "./components/ShipmentCard/ShipmentCard";
 import AddProducts from "./components/AddProducts/AddProducts";
 import ShipmentDocUpload from "./Pages/ShipmentDocUpload/ShipmentDocUpload";
+import ByPo from "./components/ByPo/ByPo";
 
 const App = () => {
   const MainLayout = ({ children }) => {
@@ -43,6 +44,7 @@ const App = () => {
                             <Route path="/customer-list" element={<ListOfCustomer />} />
                             <Route path="/new-shipment-request" element={<ShipmentCard />} />
                             <Route path="/add-products" element={<AddProducts />} />
+                            <Route path="/by-po" element={<ByPo />} />
                             <Route path="/shipment-docs/:productId" element={<ShipmentDocUpload />} />
                             {/* <Route path="/popup-screen" element={<PopUpScreen />} /> */}
                             

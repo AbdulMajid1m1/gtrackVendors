@@ -203,7 +203,7 @@ const AddProducts = ({ title, handleOpen, handleClose, open, handleRefetch }) =>
         }}
       >
 
-        <Button style={{ backgroundColor: '#1E3B8B', color: 'white' }} onClick={handleOpen}>{title}</Button>
+        {/* <Button style={{ backgroundColor: '#1E3B8B', color: 'white' }} onClick={handleOpen}>{title}</Button> */}
       </div>
       <Modal
         open={open}

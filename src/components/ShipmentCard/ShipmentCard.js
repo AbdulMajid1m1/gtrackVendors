@@ -7,20 +7,52 @@ import gs1logo from "../../Images/gs1.png";
 import Swal from 'sweetalert2';
 import { phpImagesBaseUrl } from '../../utils/config';
 import AddProducts from '../AddProducts/AddProducts';
-import Button from '@mui/material/Button';
+import ByPo from '../ByPo/ByPo';
+
+
 const ShipmentCard = () => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
     const [cardData, setCardData] = useState([]);
 
-    // this is the popup code
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => {
-        setOpen(true);
+    // // this is the popup code
+    // const [open, setOpen] = useState(false);
+    // const handleOpen = () => {
+    //     setOpen(true);
+    // };
+
+    // const handleClose = () => {
+    //     setOpen(false);
+    // };
+    const [addProductsOpen, setAddProductsOpen] = useState(false);
+    const [byPoOpen, setByPoOpen] = useState(false);
+    const [selectedValue, setSelectedValue] = useState("");
+
+    const handleOpenAddProducts = () => {
+        setAddProductsOpen(true);
     };
 
-    const handleClose = () => {
-        setOpen(false);
+    const handleCloseAddProducts = () => {
+        setSelectedValue("");
+        setAddProductsOpen(false);
+    };
+
+    const handleOpenByPo = () => {
+        setByPoOpen(true);
+    };
+
+    const handleCloseByPo = () => {
+        setSelectedValue("");
+        setByPoOpen(false);
+    };
+
+    const handleDropdownChange = (selectedOption) => {
+        setSelectedValue(selectedOption);
+        if (selectedOption === 'By GTIN') {
+            handleOpenAddProducts();
+        } else if (selectedOption === 'By PO') {
+            handleOpenByPo();
+        }
     };
 
 
@@ -159,12 +191,41 @@ const ShipmentCard = () => {
                                 </div>
                             </div>
                             <div className='flex gap-3 justify-end'>
-
-                                <AddProducts title={"Add Product"}
+                                {/* <AddProducts title={"BY GTIN"}
                                     handleClose={handleClose}
                                     handleOpen={handleOpen}
                                     open={open}
                                     handleRefetch={handleRefetch}
+                                />
+
+                                <ByPo 
+                                    title={"BY PO"}
+                                    handleClose={handleClose}
+                                    handleOpen={handleOpen}
+                                    open={open}
+                                /> */}
+                                 <select 
+                                    className='h-10 w-40 bg-primary text-white border border-white text-center rounded-md px-2 text-sm'
+                                       onChange={(e) => handleDropdownChange(e.target.value)}
+                                       value={selectedValue}       
+                                >
+                                        <option value="" selected>ADD PRODUCTS</option>
+                                        <option value="By GTIN">BY GTIN</option>
+                                        <option value="By PO">BY PO</option>
+                                </select>
+                                <AddProducts
+                                    // title={"BY GTIN"}
+                                    handleClose={handleCloseAddProducts}
+                                    handleOpen={handleOpenAddProducts}
+                                    open={addProductsOpen}
+                                    handleRefetch={handleRefetch}
+                                />
+
+                                <ByPo
+                                    // title={"BY PO"}
+                                    handleClose={handleCloseByPo}
+                                    handleOpen={handleOpenByPo}
+                                    open={byPoOpen}
                                 />
                             </div>
                         </div>
