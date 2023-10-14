@@ -40,33 +40,38 @@ const ByPo = ({ title, handleOpen, handleClose, open, }) => {
     };
 
 
-    // useEffect(() => {
-    //     const getAllCustomers = async () => {
-    //         setIsLoading(true)
-    //         try {
+    useEffect(() => {
+        const getAllCustomers = async () => {
+            setIsLoading(true)
+            try {
 
-    //             const response = await newRequest.get(`/getApprovedVendorMembers?email=${parsedVendorData?.user?.email}`)
-    //             setAllData(response?.data ?? [])
+                // const response = await newRequest.get(`/getApprovedVendorMembers?email=${parsedVendorData?.user?.email}`)
+                const response = await newRequest.post('/getPurchaseOrderProducts', {
+                    "id": 1,
+                    "purchaseOrderId": 2
+                })
+                setAllData(response?.data ?? [])
+                console.log(response?.data ?? [])
 
-    //         }
-    //         catch (error) {
-    //             console.log(error);
-    //             Swal.fire({
-    //                 icon: 'error',
-    //                 title: 'Oops...',
-    //                 text: error?.response?.data?.message || 'Something went wrong'
-    //             })
+            }
+            catch (error) {
+                console.log(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: error?.response?.data?.message || 'Something went wrong'
+                })
 
-    //         }
-    //         finally {
-    //             setIsLoading(false)
-    //         }
+            }
+            finally {
+                setIsLoading(false)
+            }
 
 
-    //     };
-    //     getAllCustomers();
+        };
+        getAllCustomers();
 
-    // }, [])
+    }, [])
 
     const handleRowClickInParent = async (item) => {
 
