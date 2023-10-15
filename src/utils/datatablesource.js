@@ -667,3 +667,59 @@ export const salesInvoiceColumn = [
 
 
 
+
+export const usersColumn = [
+  {
+    field: "user_id",
+    headerName: "User ID",
+    width: 150,
+    editable: true,
+  },
+  {
+    field: "vendor_id",
+    headerName: "Vendor ID",
+    width: 150,
+    editable: true,
+  },
+  {
+    field: "user_name",
+    headerName: "User Name",
+    width: 150,
+    editable: true,
+  },
+  {
+    field: "user_email",
+    headerName: "User Email",
+    width: 150,
+    editable: true,
+  },
+  {
+    field: "user_password",
+    headerName: "User Password",
+    width: 150,
+    editable: true,
+  },
+  {
+    field: "user_role",
+    headerName: "User Role",
+    width: 150,
+    editable: true,
+  },
+  {
+    field: "date_created",
+    headerName: "Date Created",
+    width: 150,
+    editable: true,
+  },
+  {
+    field: "is_active",
+    headerName: "Is Active",
+    width: 150,
+    editable: true,
+  },
+
+
+  
+  
+];
+
