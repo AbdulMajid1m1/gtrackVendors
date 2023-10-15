@@ -1,0 +1,39 @@
+.custom-tabs li {
+    flex-grow: 1;
+    margin-right: 8px; /* Small gap between tabs */
+  }
+  
+  .custom-tabs li:last-child {
+    margin-right: 0; /* No right margin for the last tab */
+  }
+  
+  .custom-tabs button {
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    border-radius: 8px; /* Rounded corners for all tabs */
+    transition: box-shadow 0.3s ease; /* Transition effect */
+  }
+  
+  .custom-tabs li:first-child button {
+    border-radius: 15px 15px 0 0; /* Specific rounded corners for the first tab */
+  }
+  
+  .custom-tabs li:last-child button {
+    border-radius: 0 0 15px 15px; /* Specific rounded corners for the last tab */
+  }
+  
+  .custom-tabs button:hover {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15); /* Shadow effect on hover */
+  }
+  
+  @media (max-width: 640px) {
+    .custom-tabs li {
+      margin-right: 4px; /* Reduced gap between tabs on small screens */
+    }
+    .custom-tabs button {
+      box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05); /* Reduced shadow on small screens */
+    }
+    .custom-tabs button:hover {
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Reduced shadow on hover for small screens */
+    }
+  }
+  
