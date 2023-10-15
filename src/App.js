@@ -13,6 +13,8 @@ import AddProducts from "./components/AddProducts/AddProducts";
 import ShipmentDocUpload from "./Pages/ShipmentDocUpload/ShipmentDocUpload";
 import ByPo from "./components/ByPo/ByPo";
 import SupplierCpanel from "./Pages/SupplierCpanel/SupplierCpanel";
+import CpanelErpData from "./Pages/CpanelErpData/CpanelErpData";
+import CpanelApiConnection from "./Pages/CpanelApiConnection/CpanelApiConnection";
 
 const App = () => {
   const MainLayout = ({ children }) => {
@@ -48,6 +50,8 @@ const App = () => {
                             <Route path="/by-po" element={<ByPo />} />
                             <Route path="/shipment-docs/:productId" element={<ShipmentDocUpload />} />
                             <Route path="/supplier-cpanel" element={<SupplierCpanel />} />
+                            <Route path="/cpanel-erp-data" element={<CpanelErpData />} />
+                            <Route path="/cpanel-api-connection" element={<CpanelApiConnection />} />
                             {/* <Route path="/popup-screen" element={<PopUpScreen />} /> */}
                             
                         </Routes>
