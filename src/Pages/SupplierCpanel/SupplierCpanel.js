@@ -78,33 +78,33 @@ const CpanelErpData = () => {
   }, []); // Empty array dependency ensures this useEffect runs once on component mount
 
 
-//   const [ManufacturingFetched, setManufacturingFetched] = useState(false)
-//   const hanldeManufacturingData = async () => {
-//     setIsLoading(true)
-//     try {
-//       // /member/gln/list
-//       const response = await newRequest.post("/getProductionData", {
-//         // id: currentUser?.user?.id
-//         id: credentials?.id,
-//       });
-//       console.log(response.data);
-//       setManufacturing(response?.data || []);
-//       setIsLoading(false)
-//       setManufacturingFetched(true)
-//     }
-//     catch (err) {
-//       setIsLoading(false)
-//       Swal.fire({
-//         icon: 'error',
-//         title: 'Oops...',
-//         text: err?.response?.data?.message || 'Something went wrong!',
-//       })
+  const [ManufacturingFetched, setManufacturingFetched] = useState(false)
+  const hanldeManufacturingData = async () => {
+    setIsLoading(true)
+    try {
+      // /member/gln/list
+      const response = await newRequest.post("/getProductionData", {
+        // id: currentUser?.user?.id
+        id: credentials?.id,
+      });
+      console.log(response.data);
+      setManufacturing(response?.data || []);
+      setIsLoading(false)
+      setManufacturingFetched(true)
+    }
+    catch (err) {
+      setIsLoading(false)
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: err?.response?.data?.message || 'Something went wrong!',
+      })
 
 
-//       console.log(err);
-//       setIsLoading(false)
-//     }
-//   };
+      console.log(err);
+      setIsLoading(false)
+    }
+  };
   const hanldeManufacturingDataTabClick = () => {
     if (!ManufacturingFetched) {
       hanldeManufacturingData();
