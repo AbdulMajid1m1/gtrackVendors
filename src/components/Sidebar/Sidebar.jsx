@@ -8,7 +8,8 @@ import isoicon from '../../Images/isoicon.png'
 import gs1logowhite from '../../Images/gs1logowhite.png'
 import profile from '../../Images/profile.png'
 import customers from '../../Images/customer.png'
-import suppliercpanelicon from "../../Images/suppliercpanel.png"
+// import suppliercpanelicon from "../../Images/suppliercpanel.png"
+import cpanel from "../../Images/cpanel.png"
 import backarrow from '../../Images/backarrow.png';
 
 const SideBar = () => {
@@ -189,7 +190,7 @@ const SideBar = () => {
 
           >
             <img
-              src={suppliercpanelicon}
+              src={cpanel}
               className="main-inside-image bg-white rounded-full"
               alt=""
             />
