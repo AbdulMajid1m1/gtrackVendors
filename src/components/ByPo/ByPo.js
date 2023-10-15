@@ -140,15 +140,15 @@ const ByPo = ({ title, handleOpen, handleClose, open, }) => {
                 <div className='flex w-full mb-3 mt-2'>
                     <input
                         type='text'
-                        className='h-10 w-[80%] rounded-md border border-gray-500 px-4'
+                        className='h-10 w-full rounded-md border border-gray-500 px-4'
                         placeholder='Enter PO'
                         name='po'
                         // onChange={(e) => setGtinData(e.target.value)}
                     />
 
-                    <div className='w-[20%] flex justify-end px-5'>
+                    <div className='flex justify-end px-5'>
                         <button
-                        className="bg-primary text-white px-4 py-2 rounded-md shadow-md"
+                        className="w-full bg-primary text-white px-4 py-2 rounded-md shadow-md"
                         // onClick={handleSubmit}
                         >
                         Search
