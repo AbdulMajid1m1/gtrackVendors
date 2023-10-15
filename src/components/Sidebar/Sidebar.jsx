@@ -8,6 +8,7 @@ import isoicon from '../../Images/isoicon.png'
 import gs1logowhite from '../../Images/gs1logowhite.png'
 import profile from '../../Images/profile.png'
 import customers from '../../Images/customer.png'
+import suppliercpanelicon from "../../Images/suppliercpanel.png"
 import backarrow from '../../Images/backarrow.png';
 
 const SideBar = () => {
@@ -177,6 +178,22 @@ const SideBar = () => {
               alt=""
             />
             <p className="sidebar-text">List of Customers</p>
+          </div>
+
+          <div
+            className={`main-images-container ${selectedItem === '/supplier-cpanel' ? 'selected-item' : ''}`}
+            onClick={() => handleItemClick('/supplier-cpanel')}
+            onContextMenu={(event) =>
+              handleContextMenu(event, '/supplier-cpanel')
+            }
+
+          >
+            <img
+              src={suppliercpanelicon}
+              className="main-inside-image bg-white rounded-full"
+              alt=""
+            />
+            <p className="sidebar-text">CPanel</p>
           </div>
 
           <div className="main-images-container" onClick={() => navigate("/")}>

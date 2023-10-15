@@ -12,6 +12,7 @@ import ShipmentCard from "./components/ShipmentCard/ShipmentCard";
 import AddProducts from "./components/AddProducts/AddProducts";
 import ShipmentDocUpload from "./Pages/ShipmentDocUpload/ShipmentDocUpload";
 import ByPo from "./components/ByPo/ByPo";
+import SupplierCpanel from "./Pages/SupplierCpanel/SupplierCpanel";
 
 const App = () => {
   const MainLayout = ({ children }) => {
@@ -46,6 +47,7 @@ const App = () => {
                             <Route path="/add-products" element={<AddProducts />} />
                             <Route path="/by-po" element={<ByPo />} />
                             <Route path="/shipment-docs/:productId" element={<ShipmentDocUpload />} />
+                            <Route path="/supplier-cpanel" element={<SupplierCpanel />} />
                             {/* <Route path="/popup-screen" element={<PopUpScreen />} /> */}
                             
                         </Routes>

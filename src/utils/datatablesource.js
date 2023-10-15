@@ -383,44 +383,287 @@ export const ShipmentDocColumns = [
 
 export const orderLineColumns = [
   {
-    field: "name",
-    headerName: "PRODUCT NAME",
+    field: "po_detail_id",
+    headerName: "PO DETAIL ID",
     width: 200, // Adjusted for the product name
+  },
+  {
+    field: "po_header_id",
+    headerName: "PO HEADER ID",
+    width: 150, // Adjusted for quantity
+  },
+  {
+    field: "product_name",
+    headerName: "PRODUCT NAME",
+    width: 150, // Adjusted for unit price
   },
   {
     field: "quantity",
     headerName: "QUANTITY",
-    width: 120, // Adjusted for quantity
-  },
-  {
-    field: "price",
-    headerName: "UNIT PRICE",
-    width: 150, // Adjusted for unit price
-  },
-  {
-    field: "price_subtotal",
-    headerName: "SUBTOTAL",
     width: 180, // Adjusted for subtotal
   },
   {
-    field: "price_total",
-    headerName: "TOTAL PRICE",
+    field: "price",
+    headerName: "PRICE",
     width: 180, // Adjusted for total price
+  },
+  {
+    field: "price_subtotal",
+    headerName: "PRICE SUBTOTAL",
+    width: 220, // Adjusted for date
+  },
+  {
+    field: "price_total",
+    headerName: "PRICE TOTAL",
+    width: 140, // Adjusted for state
   },
   {
     field: "date_order",
     headerName: "DATE ORDER",
-    width: 220, // Adjusted for date
+    width: 250, // Adjusted for partner name
   },
   {
     field: "state",
     headerName: "STATE",
-    width: 140, // Adjusted for state
+    width: 250, // Adjusted for partner name
   },
   {
-    field: "partner",
-    headerName: "PARTNER",
+    field: "partner_name",
+    headerName: "PARTNER NAME",
     width: 250, // Adjusted for partner name
+  },
+
+];
+
+
+
+
+export const purchaseOrderColumns = [
+  {
+    field: "po_header_id",
+    headerName: "PO HEADER ID",
+    width: 150,
+    editable: true,
+  },
+  {
+    field: "member_id",
+    headerName: "MEMEBER ID",
+    width: 150,
+    editable: true,
+  },
+  {
+    field: "create_date",
+    headerName: "CREATE DATE",
+    width: 150,
+    editable: true,
+  },
+  {
+    field: "supplier_id",
+    headerName: "SUPPLIER ID",
+    width: 150,
+    editable: true,
+  },
+  
+];
+
+
+
+export const productionColumns = [
+  {
+    field: "name",
+    headerName: "NAME",
+    width: 180,
+    editable: true,
+  },
+  {
+    field: "date_start",
+    headerName: "START DATE",
+    width: 180,
+    editable: true,
+  },
+  {
+    field: "date_finished",
+    headerName: "FINISH DATE",
+    width: 180,
+    editable: true,
+  },
+  {
+    field: "state",
+    headerName: "STATE",
+    width: 180,
+    editable: true,
+  },
+  {
+    field: "product_uom_qty",
+    headerName: "PLANNED QUANTITY",
+    width: 180,
+    editable: true,
+  },
+  {
+    field: "product_qty",
+    headerName: "PRODUCED QUANTITY",
+    width: 180,
+    editable: true,
+  },
+  {
+    field: "bom_id",
+    headerName: "BOM",
+    width: 180,
+    editable: true,
+  },
+  {
+    field: "user_id",
+    headerName: "USER",
+    width: 180,
+    editable: false,
+    valueGetter: (params) => {
+      return params.row.user_id[1];
+    }
+  },
+  {
+    field: "company_id",
+    headerName: "COMPANY",
+    width: 180,
+    editable: false,
+    valueGetter: (params) => {
+      return params.row.company_id[1];
+    }
   }
 ];
+
+
+export const salesOrderColumn = [
+  {
+    field: "id",
+    headerName: "ID",
+    width: 180,
+    editable: true,
+  },
+  {
+    field: "name",
+    headerName: "NAME",
+    width: 180,
+    editable: true,
+  },
+  {
+    field: "date",
+    headerName: "DATE",
+    width: 180,
+    editable: true,
+  },
+  {
+    field: "state",
+    headerName: "STATE",
+    width: 180,
+    editable: true,
+  },
+  {
+    field: "campaign_id",
+    headerName: "COMPAIGN ID",
+    width: 180,
+    editable: true,
+  },
+
+
+
+];
+
+
+export const salesInvoiceColumn = [
+  {
+    field: "id",
+    headerName: "ID",
+    width: 100,
+    editable: true,
+  },
+  {
+    field: "campaign_id",
+    headerName: "Campaign ID",
+    width: 150,
+    editable: true,
+  },
+  {
+    field: "source_id",
+    headerName: "Source ID",
+    width: 150,
+    editable: true,
+  },
+  {
+    field: "medium_id",
+    headerName: "Medium ID",
+    width: 150,
+    editable: true,
+  },
+  {
+    field: "activity_ids",
+    headerName: "Activity IDs",
+    width: 150,
+    editable: true,
+  },
+  {
+    field: "activity_state",
+    headerName: "Activity State",
+    width: 150,
+    editable: true,
+  },
+  {
+    field: "activity_user_id",
+    headerName: "Activity User ID",
+    width: 150,
+    editable: true,
+  },
+  {
+    field: "activity_type_id",
+    headerName: "Activity Type ID",
+    width: 150,
+    editable: true,
+  },
+  {
+    field: "activity_type_icon",
+    headerName: "Activity Type Icon",
+    width: 150,
+    editable: true,
+  },
+  {
+    field: "activity_date_deadline",
+    headerName: "Activity Date Deadline",
+    width: 200,
+    editable: true,
+  },
+  {
+    field: "my_activity_date_deadline",
+    headerName: "My Activity Date Deadline",
+    width: 200,
+    editable: true,
+  },
+  {
+    field: "activity_summary",
+    headerName: "Activity Summary",
+    width: 200,
+    editable: true,
+  },
+  {
+    field: "activity_exception_decoration",
+    headerName: "Activity Exception Decoration",
+    width: 200,
+    editable: true,
+  },
+  {
+    field: "activity_exception_icon",
+    headerName: "Activity Exception Icon",
+    width: 200,
+    editable: true,
+  },
+  {
+    field: "message_is_follower",
+    headerName: "Message Is Follower",
+    width: 150,
+    editable: true,
+  },
+
+
+
+]
+
+
 

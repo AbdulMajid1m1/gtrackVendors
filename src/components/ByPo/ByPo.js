@@ -46,7 +46,6 @@ const ByPo = ({ title, handleOpen, handleClose, open, }) => {
             setIsLoading(true)
             try {
 
-                // const response = await newRequest.get(`/getApprovedVendorMembers?email=${parsedVendorData?.user?.email}`)
                 const response = await newRequest.post('/getPurchaseOrderProducts', {
                     "id": 1,
                     "purchaseOrderId": 2
@@ -137,9 +136,29 @@ const ByPo = ({ title, handleOpen, handleClose, open, }) => {
                     >
                         <ClearIcon />
                     </IconButton>
+
+                {/* Search and button */}
+                <div className='flex w-full mb-3 mt-2'>
+                    <input
+                        type='text'
+                        className='h-10 w-full rounded-md border border-gray-500 px-4'
+                        placeholder='Enter PO'
+                        name='po'
+                        // onChange={(e) => setGtinData(e.target.value)}
+                    />
+
+                    <div className='flex justify-end px-5'>
+                        <button
+                        className="w-full bg-primary text-white px-4 py-2 rounded-md shadow-md"
+                        // onClick={handleSubmit}
+                        >
+                        Search
+                        </button>
+                    </div>
+                </div>
                     
 
-                <div style={{ marginLeft: '-11px', marginRight: '-11px' }}>
+                <div style={{ marginLeft: '-11px', marginRight: '-11px', marginTop: '-10px' }}>
                     <DataTable
                         data={alldata}
                         title="BY PO"
@@ -163,6 +182,15 @@ const ByPo = ({ title, handleOpen, handleClose, open, }) => {
 
                     />
                 </div>
+
+                    <div className='flex justify-end px-5 mt-2'>
+                        <button
+                        className="bg-primary text-white px-4 py-2 rounded-md shadow-md"
+                        // onClick={handleSubmit}
+                        >
+                        Validate
+                        </button>
+                    </div>
                 </Box>
             </Modal>
             </div>
