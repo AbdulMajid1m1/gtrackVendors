@@ -127,7 +127,7 @@ const Users = () => {
 
         <div className='h-auto w-full shadow-xl'>
           <div className='flex justify-center sm:justify-start items-center flex-wrap gap-2 py-10 px-3'>
-            <button className="rounded-full bg-[#1E3B8B] font-body px-8 py-1 text-sm mb-3 text-white transition duration-200 hover:bg-[#4b6fd2] active:bg-blue-700">
+            <button onClick={() => navigate(-1)} className="rounded-full bg-[#1E3B8B] font-body px-8 py-1 text-sm mb-3 text-white transition duration-200 hover:bg-[#4b6fd2] active:bg-blue-700">
               <i className="fas fa-arrow-left mr-1"></i> Back
             </button>
 
