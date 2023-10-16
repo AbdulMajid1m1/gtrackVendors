@@ -381,58 +381,73 @@ export const ShipmentDocColumns = [
 
 
 
+
 export const orderLineColumns = [
-  {
-    field: "po_detail_id",
-    headerName: "PO DETAIL ID",
-    width: 200, // Adjusted for the product name
-  },
   {
     field: "po_header_id",
     headerName: "PO HEADER ID",
-    width: 150, // Adjusted for quantity
+    width: 150,
+  },
+  {
+    field: "member_id",
+    headerName: "MEMBER ID",
+    width: 120,
+  },
+  {
+    field: "create_date",
+    headerName: "CREATE DATE",
+    width: 200,
+  },
+  {
+    field: "supplier_id",
+    headerName: "SUPPLIER ID",
+    width: 150,
+  },
+  {
+    field: "po_detail_id",
+    headerName: "PO DETAIL ID",
+    width: 150,
   },
   {
     field: "product_name",
     headerName: "PRODUCT NAME",
-    width: 150, // Adjusted for unit price
+    width: 200,
   },
   {
     field: "quantity",
     headerName: "QUANTITY",
-    width: 180, // Adjusted for subtotal
+    width: 120,
   },
   {
     field: "price",
     headerName: "PRICE",
-    width: 180, // Adjusted for total price
+    width: 120,
   },
   {
     field: "price_subtotal",
     headerName: "PRICE SUBTOTAL",
-    width: 220, // Adjusted for date
+    width: 160,
   },
   {
     field: "price_total",
     headerName: "PRICE TOTAL",
-    width: 140, // Adjusted for state
+    width: 140,
   },
   {
     field: "date_order",
     headerName: "DATE ORDER",
-    width: 250, // Adjusted for partner name
+    width: 200,
   },
   {
     field: "state",
     headerName: "STATE",
-    width: 250, // Adjusted for partner name
+    width: 150,
   },
   {
     field: "partner_name",
     headerName: "PARTNER NAME",
-    width: 250, // Adjusted for partner name
+    width: 200,
   },
-
 ];
 
 
@@ -463,7 +478,7 @@ export const purchaseOrderColumns = [
     width: 150,
     editable: true,
   },
-  
+
 ];
 
 

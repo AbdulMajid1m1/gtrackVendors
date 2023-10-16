@@ -14,8 +14,8 @@ import { SnackbarContext } from '../../Contexts/SnackbarContext';
 
 const CpanelErpData = () => {
   const [activeTab, setActiveTab] = useState('Purchase-Order');
-//   const { currentUser } = useContext(CurrentUserContext);
-//   console.log(currentUser)
+  //   const { currentUser } = useContext(CurrentUserContext);
+  //   console.log(currentUser)
   const [isLoading, setIsLoading] = useState(true);
   const [poProductLoading, setPoProductLoading] = useState(true);
 
@@ -32,18 +32,18 @@ const CpanelErpData = () => {
   const [salesInvoice, setsalesInvoice] = useState([])
   const [poProduct, setPoProduct] = useState([])
   const credentials = JSON.parse(localStorage.getItem("credentials"))
-//   console.log(credentials)
+  console.log(credentials)
   const vendorData = JSON.parse(sessionStorage.getItem("vendorData"))
-//   console.log(vendorData?.user)
+  //   console.log(vendorData?.user)
   const [poName, setPoName] = useState('')
-  
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
 
         // /member/gln/list
-        const response = await newRequest.get(`/getPOHeaderBySupplierId?supplier_id=${vendorData?.user?.id}`);
+        const response = await newRequest.get(`/getPOHeaderBySupplierId?supplier_id=${vendorData.user.id}`);
         console.log(response.data);
         setIsLoading(false)
         setPurshase(response?.data || []);
@@ -113,39 +113,39 @@ const CpanelErpData = () => {
   };
 
 
-//   const [salesOrderFetched, setsalesOrderFetched] = useState(false);
-//   const handleSalesOrder = async () => {
-//     setIsLoading(true);
-//     try {
-//       // /member/gln/list
-//       const response = await newRequest.post("/getSalesOrders", {
-//         // id: currentUser?.user?.id
-//         id: credentials?.id,
-//       });
-//       console.log(response.data);
-//       setsalesInvoice(response?.data || []);
-//       setIsLoading(false)
-//       setsalesOrderFetched(true);
-//     }
-//     catch (err) {
-//       setIsLoading(false)
-//       Swal.fire({
-//         icon: 'error',
-//         title: 'Oops...',
-//         text: err?.response?.data?.message || 'Something went wrong!',
-//       })
+  //   const [salesOrderFetched, setsalesOrderFetched] = useState(false);
+  //   const handleSalesOrder = async () => {
+  //     setIsLoading(true);
+  //     try {
+  //       // /member/gln/list
+  //       const response = await newRequest.post("/getSalesOrders", {
+  //         // id: currentUser?.user?.id
+  //         id: credentials?.id,
+  //       });
+  //       console.log(response.data);
+  //       setsalesInvoice(response?.data || []);
+  //       setIsLoading(false)
+  //       setsalesOrderFetched(true);
+  //     }
+  //     catch (err) {
+  //       setIsLoading(false)
+  //       Swal.fire({
+  //         icon: 'error',
+  //         title: 'Oops...',
+  //         text: err?.response?.data?.message || 'Something went wrong!',
+  //       })
 
 
-//       console.log(err);
-//       setIsLoading(false)
-//     }
-//   };
-//   const handleSalesOrderTabClick = () => {
-//     if (!salesOrderFetched) {
-//       handleSalesOrder();
-//     }
-//     setActiveTab('Sales-Order');
-//   };
+  //       console.log(err);
+  //       setIsLoading(false)
+  //     }
+  //   };
+  //   const handleSalesOrderTabClick = () => {
+  //     if (!salesOrderFetched) {
+  //       handleSalesOrder();
+  //     }
+  //     setActiveTab('Sales-Order');
+  //   };
 
 
   const handleRowClickInParent = async (row) => {
@@ -213,20 +213,20 @@ const CpanelErpData = () => {
       case ActiveTabs.MANUFACTURING:
         return UpdateOdooErpRowData(newRow, oldRow, openSnackbar, "/updateProductionData", credentials?.id);
 
-    //   case ActiveTabs.SALES_ORDER:
-    //     return UpdateOdooErpRowData(newRow, oldRow, openSnackbar, "/updateSalesOrderData", credentials?.id);
+      //   case ActiveTabs.SALES_ORDER:
+      //     return UpdateOdooErpRowData(newRow, oldRow, openSnackbar, "/updateSalesOrderData", credentials?.id);
 
-    //   case ActiveTabs.SALES_INVOICE:
-    //     return UpdateOdooErpRowData(newRow, oldRow, openSnackbar, "/updateSalesInvoicesData", credentials?.id);
+      //   case ActiveTabs.SALES_INVOICE:
+      //     return UpdateOdooErpRowData(newRow, oldRow, openSnackbar, "/updateSalesInvoicesData", credentials?.id);
 
-    //   case ActiveTabs.INVENTORY_STOCK_MASTER:
-    //     return UpdateOdooErpRowData(newRow, oldRow, openSnackbar, "/updateInventoryData", credentials?.id);
+      //   case ActiveTabs.INVENTORY_STOCK_MASTER:
+      //     return UpdateOdooErpRowData(newRow, oldRow, openSnackbar, "/updateInventoryData", credentials?.id);
 
-    //   case ActiveTabs.VENDORS_SUPPLIERS_DATA:
-    //     return UpdateOdooErpRowData(newRow, oldRow, openSnackbar, "/updateVendorsSuppliersData", credentials?.id);
+      //   case ActiveTabs.VENDORS_SUPPLIERS_DATA:
+      //     return UpdateOdooErpRowData(newRow, oldRow, openSnackbar, "/updateVendorsSuppliersData", credentials?.id);
 
-    //   case ActiveTabs.FIXED_ASSETS_DATA:
-    //     return UpdateOdooErpRowData(newRow, oldRow, openSnackbar, "/updateFixedAssetsData", credentials?.id);
+      //   case ActiveTabs.FIXED_ASSETS_DATA:
+      //     return UpdateOdooErpRowData(newRow, oldRow, openSnackbar, "/updateFixedAssetsData", credentials?.id);
 
       default:
         console.log("default");
@@ -239,146 +239,146 @@ const CpanelErpData = () => {
 
 
   // popup code
-//   const [showPopup, setShowPopup] = useState(false);
-//   const [vendorsList, setVendorsList] = useState([]);
-//   const [selectedVendorId, setSelectedVendorId] = useState('');
+  //   const [showPopup, setShowPopup] = useState(false);
+  //   const [vendorsList, setVendorsList] = useState([]);
+  //   const [selectedVendorId, setSelectedVendorId] = useState('');
 
-//   const handleAddUserPopup = async () => {
-//     setShowPopup(true);
-//     try {
-//       const res = await newRequest.get("/getVendorsByMemberId?memberId=" + currentUser?.user?.id);
-//       // filter it for status ""approve""
-//       console.log(res.data);
-//       const vendorsData = res?.data?.filter(item => item?.status === "approve")
-//       setVendorsList(vendorsData);
-//     } catch (error) {
-//       console.log(error);
-//       setError(error?.response?.data?.message || 'Something went wrong');
-//     }
-//   };
+  //   const handleAddUserPopup = async () => {
+  //     setShowPopup(true);
+  //     try {
+  //       const res = await newRequest.get("/getVendorsByMemberId?memberId=" + currentUser?.user?.id);
+  //       // filter it for status ""approve""
+  //       console.log(res.data);
+  //       const vendorsData = res?.data?.filter(item => item?.status === "approve")
+  //       setVendorsList(vendorsData);
+  //     } catch (error) {
+  //       console.log(error);
+  //       setError(error?.response?.data?.message || 'Something went wrong');
+  //     }
+  //   };
 
-//   const handleSendPOClick = () => {
-//     setShowPopup(true);
-//   };
+  //   const handleSendPOClick = () => {
+  //     setShowPopup(true);
+  //   };
 
-//   const handleAddUserClose = () => {
-//     setShowPopup(false);
-//   };
-
-  
-//   const handleGeneratePdf = () => {
-    
-//   }
-   
-
-//   const handlePOFormSubmit = async (e) => {
-//     e.preventDefault();
-
-//     const vendor = vendorsList.find(v => v.id === parseInt(selectedVendorId));
-
-//     const childQuantities = poProduct?.map(line => ({
-//       epcClass: line.name,
-//       quantity: line.quantity
-//     }));
+  //   const handleAddUserClose = () => {
+  //     setShowPopup(false);
+  //   };
 
 
-//     const mappedData = {
-//       EventType: "TransactionEvent",
-//       EventAction: "OBSERVE",
-//       EventTime: new Date().toISOString(),
-//       EventTimeZoneOffSet: "2023-10-14T00:00:00Z",
-//       epcList: `${vendor.company_name_English}-${vendor.email}`,
-//       bizStep: "ordering",
-//       disposition: "in_transit",
-//       bizTransactionList: JSON.stringify([{ type: "po", bizTransaction: vendor.company_name_English }]),
-//       readPoint: `{"id":"${vendor.website}"}`,
-//       sourceList: `{"type":"location","source":"${currentUser?.user?.company_name_English}"}`,
-//       destinationList: `{"type":"location","destination":"${vendor.company_name_English}"}`,
-//       sensorElementList: "",
-//       childQuantityList: JSON.stringify(childQuantities),
-//       childEPCs: "",
-//       parentID: "",
-//       inputEPCList: "",
-//       inputQuantityList: "",
-//       outputEPCList: "",
-//       ilmd: "",
-//       eventID: `${vendor.id}`,
-//       errorDeclaration: "",
-//       quantityList: "1", // Assuming 1 order per purchase, adjust if necessary
-//       persistentDisposition: "ordering",
-//       creationDate: new Date().toISOString(),
-//       sender: currentUser?.user?.company_name_English,
-//       receiver: vendor.company_name_English,
-//       instanceIdentifer: `${vendor.id}`
-//     };
+  //   const handleGeneratePdf = () => {
 
-//     console.log(mappedData);
-
-//     try {
-//       // First, insert the PO header
-//       const poHeaderResponse = await newRequest.post("/insertPOHeader", {
-//         member_id: currentUser?.user?.id,
-//         create_date: new Date(),
-//         supplier_id: vendor.id,
-//       });
-//       console.log(poHeaderResponse);
-
-//       if (!poHeaderResponse.data?.insertId) {
-//         Swal.fire({
-//           title: 'Error!',
-//           text: 'Failed to insert PO Header',
-//           icon: 'error',
-//           confirmButtonText: 'Close'
-//         });
-//       }
-
-//       // Use the returned insertId in insertMultiplePODetails API
-//       console.log(poProduct);
-//       const poDetailsResponse = await newRequest.post("/insertMultiplePODetails", poProduct.map(line => ({
-//         po_header_id: poHeaderResponse.data.insertId,
-//         product_name: line.name,
-//         quantity: line.quantity,
-//         price: line.price,
-//         price_subtotal: line.price_subtotal,
-//         price_total: line.price_total,
-//         date_order: line.date_order,
-//         state: line.state,
-//         partner_name: line.partner
-//       })));
-
-//       console.log(poDetailsResponse);
-
-//       if (!poDetailsResponse.data?.insertIds || poDetailsResponse.data.insertIds.length !== poProduct.length) {
-//         Swal.fire({
-//           title: 'Error!',
-//           text: 'Failed to insert PO Details',
-//           icon: 'error',
-//           confirmButtonText: 'Close'
-//         });
-//       }
+  //   }
 
 
+  //   const handlePOFormSubmit = async (e) => {
+  //     e.preventDefault();
 
-//       // Finally, insert the EPCIS event
-//       const epcisResponse = await newRequest.post("/insertEPCISEvent", mappedData);
-//       console.log(epcisResponse);
-//       Swal.fire({
-//         title: 'Success!',
-//         text: 'All data inserted successfully.',
-//         icon: 'success',
-//         confirmButtonText: 'OK'
-//       });
-//       setShowPopup(false);
-//     } catch (err) {
-//       console.log(err);
-//       Swal.fire({
-//         title: 'Error!',
-//         text: err?.response?.data?.message || 'Something went wrong',
-//         icon: 'error',
-//         confirmButtonText: 'Close'
-//       });
-//     };
-//   };
+  //     const vendor = vendorsList.find(v => v.id === parseInt(selectedVendorId));
+
+  //     const childQuantities = poProduct?.map(line => ({
+  //       epcClass: line.name,
+  //       quantity: line.quantity
+  //     }));
+
+
+  //     const mappedData = {
+  //       EventType: "TransactionEvent",
+  //       EventAction: "OBSERVE",
+  //       EventTime: new Date().toISOString(),
+  //       EventTimeZoneOffSet: "2023-10-14T00:00:00Z",
+  //       epcList: `${vendor.company_name_English}-${vendor.email}`,
+  //       bizStep: "ordering",
+  //       disposition: "in_transit",
+  //       bizTransactionList: JSON.stringify([{ type: "po", bizTransaction: vendor.company_name_English }]),
+  //       readPoint: `{"id":"${vendor.website}"}`,
+  //       sourceList: `{"type":"location","source":"${currentUser?.user?.company_name_English}"}`,
+  //       destinationList: `{"type":"location","destination":"${vendor.company_name_English}"}`,
+  //       sensorElementList: "",
+  //       childQuantityList: JSON.stringify(childQuantities),
+  //       childEPCs: "",
+  //       parentID: "",
+  //       inputEPCList: "",
+  //       inputQuantityList: "",
+  //       outputEPCList: "",
+  //       ilmd: "",
+  //       eventID: `${vendor.id}`,
+  //       errorDeclaration: "",
+  //       quantityList: "1", // Assuming 1 order per purchase, adjust if necessary
+  //       persistentDisposition: "ordering",
+  //       creationDate: new Date().toISOString(),
+  //       sender: currentUser?.user?.company_name_English,
+  //       receiver: vendor.company_name_English,
+  //       instanceIdentifer: `${vendor.id}`
+  //     };
+
+  //     console.log(mappedData);
+
+  //     try {
+  //       // First, insert the PO header
+  //       const poHeaderResponse = await newRequest.post("/insertPOHeader", {
+  //         member_id: currentUser?.user?.id,
+  //         create_date: new Date(),
+  //         supplier_id: vendor.id,
+  //       });
+  //       console.log(poHeaderResponse);
+
+  //       if (!poHeaderResponse.data?.insertId) {
+  //         Swal.fire({
+  //           title: 'Error!',
+  //           text: 'Failed to insert PO Header',
+  //           icon: 'error',
+  //           confirmButtonText: 'Close'
+  //         });
+  //       }
+
+  //       // Use the returned insertId in insertMultiplePODetails API
+  //       console.log(poProduct);
+  //       const poDetailsResponse = await newRequest.post("/insertMultiplePODetails", poProduct.map(line => ({
+  //         po_header_id: poHeaderResponse.data.insertId,
+  //         product_name: line.name,
+  //         quantity: line.quantity,
+  //         price: line.price,
+  //         price_subtotal: line.price_subtotal,
+  //         price_total: line.price_total,
+  //         date_order: line.date_order,
+  //         state: line.state,
+  //         partner_name: line.partner
+  //       })));
+
+  //       console.log(poDetailsResponse);
+
+  //       if (!poDetailsResponse.data?.insertIds || poDetailsResponse.data.insertIds.length !== poProduct.length) {
+  //         Swal.fire({
+  //           title: 'Error!',
+  //           text: 'Failed to insert PO Details',
+  //           icon: 'error',
+  //           confirmButtonText: 'Close'
+  //         });
+  //       }
+
+
+
+  //       // Finally, insert the EPCIS event
+  //       const epcisResponse = await newRequest.post("/insertEPCISEvent", mappedData);
+  //       console.log(epcisResponse);
+  //       Swal.fire({
+  //         title: 'Success!',
+  //         text: 'All data inserted successfully.',
+  //         icon: 'success',
+  //         confirmButtonText: 'OK'
+  //       });
+  //       setShowPopup(false);
+  //     } catch (err) {
+  //       console.log(err);
+  //       Swal.fire({
+  //         title: 'Error!',
+  //         text: err?.response?.data?.message || 'Something went wrong',
+  //         icon: 'error',
+  //         confirmButtonText: 'Close'
+  //       });
+  //     };
+  //   };
 
 
 
