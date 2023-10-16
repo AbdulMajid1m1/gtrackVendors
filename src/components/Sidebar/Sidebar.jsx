@@ -8,6 +8,7 @@ import isoicon from '../../Images/isoicon.png'
 import gs1logowhite from '../../Images/gs1logowhite.png'
 import profile from '../../Images/profile.png'
 import customers from '../../Images/customer.png'
+import users from '../../Images/users.png'
 // import suppliercpanelicon from "../../Images/suppliercpanel.png"
 import cpanel from "../../Images/cpanel.png"
 import backarrow from '../../Images/backarrow.png';
@@ -195,6 +196,22 @@ const SideBar = () => {
               alt=""
             />
             <p className="sidebar-text">CPanel</p>
+          </div>
+
+          <div
+            className={`main-images-container ${selectedItem === '/users' ? 'selected-item' : ''}`}
+            onClick={() => handleItemClick('/users')}
+            onContextMenu={(event) =>
+              handleContextMenu(event, '/users')
+            }
+
+          >
+            <img
+              src={users}
+              className="main-inside-image bg-white rounded-full"
+              alt=""
+            />
+            <p className="sidebar-text">Users</p>
           </div>
 
           <div className="main-images-container" onClick={() => navigate("/")}>

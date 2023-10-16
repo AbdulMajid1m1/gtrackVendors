@@ -15,6 +15,9 @@ import ByPo from "./components/ByPo/ByPo";
 import SupplierCpanel from "./Pages/SupplierCpanel/SupplierCpanel";
 import CpanelErpData from "./Pages/CpanelErpData/CpanelErpData";
 import CpanelApiConnection from "./Pages/CpanelApiConnection/CpanelApiConnection";
+import Users from "./Pages/Users/Users";
+import AddUser from "./Pages/Users/AddUser";
+import UpdateUser from "./Pages/Users/UpdateUser";
 
 const App = () => {
   const MainLayout = ({ children }) => {
@@ -52,6 +55,12 @@ const App = () => {
                             <Route path="/supplier-cpanel" element={<SupplierCpanel />} />
                             <Route path="/cpanel-erp-data" element={<CpanelErpData />} />
                             <Route path="/cpanel-api-connection" element={<CpanelApiConnection />} />
+                            <Route path="/users" element={<Users />} />
+                            <Route path="/add-user" element={<AddUser />} />
+                            <Route
+                                path="update-user/:vendor_id"
+                                element={<UpdateUser />}
+                            />
                             {/* <Route path="/popup-screen" element={<PopUpScreen />} /> */}
                             
                         </Routes>
