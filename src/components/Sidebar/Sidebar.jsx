@@ -9,8 +9,9 @@ import gs1logowhite from '../../Images/gs1logowhite.png'
 import profile from '../../Images/profile.png'
 import customers from '../../Images/customer.png'
 import users from '../../Images/users.png'
-// import suppliercpanelicon from "../../Images/suppliercpanel.png"
 import cpanel from "../../Images/cpanel.png"
+import identify from "../../Images/identify.png"
+import salesorder from "../../Images/salesorder.png"
 import backarrow from '../../Images/backarrow.png';
 
 const SideBar = () => {
@@ -18,6 +19,7 @@ const SideBar = () => {
   const sidebarRef = useRef(null);
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
   const navigate = useNavigate();
+
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -38,6 +40,8 @@ const SideBar = () => {
   const [showContextMenu, setShowContextMenu] = useState(false);
   const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
   const [selectedPath, setSelectedPath] = useState('');
+  const [showFirstData, setShowFirstData] = useState(false);
+
 
   const handleItemClick = (path) => {
     setSelectedItem(path);
@@ -198,6 +202,49 @@ const SideBar = () => {
             <p className="sidebar-text">CPanel</p>
           </div>
 
+
+          {/* Warehouse operation */}
+          <div
+            className="main-images-container"
+            onClick={() => setShowFirstData(!showFirstData)}
+          >
+            <img
+              src={identify}
+              className="main-inside-image bg-white rounded-full"
+              alt=""
+            />
+            <p className="sidebar-text">Warehouse Operation</p>
+            {showFirstData ? (
+              <i className='fas fa-solid fa-chevron-up text-white'></i>
+            ) : (
+              <i className='fas fa-solid fa-chevron-down text-white'></i>
+            )}
+          </div>
+
+          {showFirstData && (
+              <div
+                className="ml-3 md:ml-3 lg:ml-6 xl:ml-6 2xl:ml-6 3xl:ml-6"
+                onClick={toggleSidebar}
+              >
+                <div
+                  // className="main-images-container"
+                  // onClick={() => navigate("/capture-association")}
+                  className={`main-images-container ${selectedItem === '/sales-order' ? 'selected-item-capture' : ''}`}
+                  onClick={() => handleItemClick('/sales-order')}
+                  onContextMenu={(event) =>
+                    handleContextMenu(event, '/sales-order')
+                  }
+                >
+                  <img
+                    src={salesorder}
+                    className="main-inside-image bg-white rounded-full"
+                    alt=""
+                  />
+                  <p className="sidebar-text">Sales Order</p>
+                </div>
+              </div>
+              )}
+
           <div
             className={`main-images-container ${selectedItem === '/users' ? 'selected-item' : ''}`}
             onClick={() => handleItemClick('/users')}
@@ -219,6 +266,12 @@ const SideBar = () => {
             <p className="sidebar-text">Log-out</p>
           </div>
 
+
+          {/* Implement Any Icon above the Hide Icons */}
+          <div className="main-images-container-hide">
+            <img src={internal} className="main-inside-image" alt="" />
+            <p className="sidebar-text">Hide</p>
+          </div>
         </div>
 
           {/* This two icons  */}

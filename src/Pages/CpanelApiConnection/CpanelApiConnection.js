@@ -25,7 +25,6 @@ const CpanelApiConnection = () => {
   const [clickedIconName, setClickedIconName] = useState("");
   const vendorData = JSON.parse(sessionStorage.getItem("vendorData"))
   console.log(vendorData?.user)
-  
 
   const handleIconClick = (erptype, iconName) => {
     // setClickedIconName(erptype);
@@ -70,7 +69,7 @@ const CpanelApiConnection = () => {
 
         // Create the API request body
         const apiRequestBody = {
-          member_id: currentUser?.user?.id,
+          member_id: vendorData?.user?.id,
           erp_type: erptype,
           credential_data: {
             url: url,

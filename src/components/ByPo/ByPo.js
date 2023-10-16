@@ -11,6 +11,8 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import ClearIcon from '@mui/icons-material/Clear';
+import Swal from 'sweetalert2';
+import { DataTableContext } from '../../Contexts/DataTableContext';
 
 
 // MUI Style 
@@ -23,7 +25,7 @@ const style = {
     bgcolor: 'background.paper',
     boxShadow: 24,
     p: 4,
-  };
+};
 
 const ByPo = ({ title, handleOpen, handleClose, open, }) => {
     const [alldata, setAllData] = useState([]);
@@ -32,12 +34,16 @@ const ByPo = ({ title, handleOpen, handleClose, open, }) => {
     const [error, setError] = useState(null);
     const [message, setMessage] = useState(null);
     const { openSnackbar } = useContext(SnackbarContext);
-
+    const vendorData = JSON.parse(sessionStorage.getItem('vendorData'));
+    console.log(vendorData)
     const resetSnakeBarMessages = () => {
         setError(null);
         setMessage(null);
 
     };
+
+    const { rowSelectionModel, setRowSelectionModel, tableSelectedRows, setTableSelectedRows } = useContext(DataTableContext);
+
 
 
     useEffect(() => {
@@ -45,9 +51,8 @@ const ByPo = ({ title, handleOpen, handleClose, open, }) => {
             setIsLoading(true)
             try {
 
-                const response = await newRequest.post('/getPurchaseOrderProducts', {
-                    "id": 1,
-                    "purchaseOrderId": 2
+                const response = await newRequest.get('/getPOHeaderBySupplierId?supplier_id=' + vendorData?.user?.id, {
+
                 })
                 setAllData(response?.data ?? [])
                 console.log(response?.data ?? [])
@@ -74,12 +79,41 @@ const ByPo = ({ title, handleOpen, handleClose, open, }) => {
 
     const handleRowClickInParent = async (item) => {
 
+    }
+//  TODO: validate PO products
+    const handleProductValidation = async () => {
+        if (tableSelectedRows.length === 0) {
+            openSnackbar('Please select atleast one row', 'error');
+            return;
+        }
+        setShipmentRequestLoader(true)
+        try {
+            const response = await newRequest.post('/validatePO', {
+                po_header_id: tableSelectedRows[0]?.po_header_id,
+                supplier_id: vendorData?.user?.id
+            })
+            console.log(response)
+            openSnackbar(response?.data?.message, 'success');
+            setAllData(response?.data?.data ?? [])
+            setTableSelectedRows([])
+            setRowSelectionModel([])
+        }
+        catch (error) {
+            console.log(error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: error?.response?.data?.message || 'Something went wrong'
+            })
 
+        }
+        finally {
+            setShipmentRequestLoader(false)
+        }
     }
 
+
     return (
-
-
 
         <div>
 
@@ -107,91 +141,90 @@ const ByPo = ({ title, handleOpen, handleClose, open, }) => {
             {error && <CustomSnakebar message={error} severity="error" onClose={resetSnakeBarMessages} />}
 
             <div>
-            <div
-                style={{
-                display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px'
-                }}
-            >
-
-                {/* <Button style={{ backgroundColor: '#1E3B8B', color: 'white' }} onClick={handleOpen}>{title}</Button> */}
-            </div>
-              <Modal
-                open={open}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
+                <div
+                    style={{
+                        display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px'
+                    }}
                 >
-                <Box sx={style}>
-                    {/* Close button */}
-                    <IconButton
-                        edge="end"
-                        color="inherit"
-                        onClick={handleClose} // Close the Modal when the button is clicked
-                        aria-label="close"
-                        sx={{
-                        position: 'absolute',
-                        top: '6px',
-                        right: '18px',
-                        }}
-                    >
-                        <ClearIcon />
-                    </IconButton>
 
-                {/* Search and button */}
-                <div className='flex w-full mb-3 mt-2'>
-                    <input
-                        type='text'
-                        className='h-10 w-full rounded-md border border-gray-500 px-4'
-                        placeholder='Enter PO'
-                        name='po'
-                        // onChange={(e) => setGtinData(e.target.value)}
-                    />
-
-                    <div className='flex justify-end px-5'>
-                        <button
-                        className="w-full bg-primary text-white px-4 py-2 rounded-md shadow-md"
-                        // onClick={handleSubmit}
-                        >
-                        Search
-                        </button>
-                    </div>
+                    {/* <Button style={{ backgroundColor: '#1E3B8B', color: 'white' }} onClick={handleOpen}>{title}</Button> */}
                 </div>
-                    
-
-                <div style={{ marginLeft: '-11px', marginRight: '-11px', marginTop: '-10px' }}>
-                    <DataTable
-                        data={alldata}
-                        title="BY PO"
-                        secondaryColor="secondary"
-                        columnsName={orderLineColumns}
-                        uniqueId="byPoId"
-                        handleRowClickInParent={handleRowClickInParent}
-                        loading={isLoading}
-                        checkboxSelection='disabled'
-                        actionColumnVisibility={false}
-
-                        dropDownOptions={[
-                            {
-                                label: "Approve",
-                                icon: <LocalShippingIcon fontSize="small" color="action" style={{ color: "rgb(37 99 235)" }} />
-                                ,
-                                // action: handleShipmentRequest,
-                            },
-
-                        ]}
-
-                    />
-                </div>
-
-                    <div className='flex justify-end px-5 mt-2'>
-                        <button
-                        className="bg-primary text-white px-4 py-2 rounded-md shadow-md"
-                        // onClick={handleSubmit}
+                <Modal
+                    open={open}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={style}>
+                        {/* Close button */}
+                        <IconButton
+                            edge="end"
+                            color="inherit"
+                            onClick={handleClose} // Close the Modal when the button is clicked
+                            aria-label="close"
+                            sx={{
+                                position: 'absolute',
+                                top: '6px',
+                                right: '18px',
+                            }}
                         >
-                        Validate
-                        </button>
-                    </div>
-                </Box>
-            </Modal>
+                            <ClearIcon />
+                        </IconButton>
+
+                        {/* Search and button */}
+                        <div className='flex w-full mb-3 mt-2'>
+                            <input
+                                type='text'
+                                className='h-10 w-full rounded-md border border-gray-500 px-4'
+                                placeholder='Enter PO'
+                                name='po'
+                            // onChange={(e) => setGtinData(e.target.value)}
+                            />
+
+                            <div className='flex justify-end px-5'>
+                                <button
+                                    className="w-full bg-primary text-white px-4 py-2 rounded-md shadow-md"
+                                // onClick={handleSubmit}
+                                >
+                                    Search
+                                </button>
+                            </div>
+                        </div>
+
+
+                        <div style={{ marginLeft: '-11px', marginRight: '-11px', marginTop: '-10px' }}>
+                            <DataTable
+                                data={alldata}
+                                title="BY PO"
+                                secondaryColor="secondary"
+                                columnsName={orderLineColumns}
+                                uniqueId="byPoId"
+                                handleRowClickInParent={handleRowClickInParent}
+                                loading={isLoading}
+                                actionColumnVisibility={false}
+
+                                dropDownOptions={[
+                                    {
+                                        label: "Approve",
+                                        icon: <LocalShippingIcon fontSize="small" color="action" style={{ color: "rgb(37 99 235)" }} />
+                                        ,
+                                        // action: handleShipmentRequest,
+                                    },
+
+                                ]}
+
+                            />
+                        </div>
+
+                        <div className='flex justify-end px-5 mt-2'>
+                            <button
+                                className="bg-primary text-white px-4 py-2 rounded-md shadow-md"
+                                onClick={handleProductValidation}
+                            >
+                                Validate
+                            </button>
+                        </div>
+                    </Box>
+                </Modal>
             </div>
         </div >
     )

@@ -18,6 +18,7 @@ import CpanelApiConnection from "./Pages/CpanelApiConnection/CpanelApiConnection
 import Users from "./Pages/Users/Users";
 import AddUser from "./Pages/Users/AddUser";
 import UpdateUser from "./Pages/Users/UpdateUser";
+import SalesOrder from "./Pages/SalesOrder/SalesOrder";
 
 const App = () => {
   const MainLayout = ({ children }) => {
@@ -61,6 +62,7 @@ const App = () => {
                                 path="update-user/:vendor_id"
                                 element={<UpdateUser />}
                             />
+                            <Route path="/sales-order" element={<SalesOrder />} />
                             {/* <Route path="/popup-screen" element={<PopUpScreen />} /> */}
                             
                         </Routes>

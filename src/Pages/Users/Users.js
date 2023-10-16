@@ -107,7 +107,7 @@ const Users = () => {
     
     const handleRowClickInParent = (item) => {
         if (!item || item?.length === 0) {
-          setFilteredData(data)
+          setFilteredData(alldata)
           return
         }
         setFilteredData(item)
