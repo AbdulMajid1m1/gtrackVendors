@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { RiseLoader } from 'react-spinners';
 import { SnackbarContext } from '../../Contexts/SnackbarContext';
 import newRequest from '../../utils/userRequest';
+import Swal from 'sweetalert2';
 
 const AddUser = () => {
     const navigate = useNavigate()
