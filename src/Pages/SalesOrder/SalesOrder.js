@@ -116,10 +116,16 @@ const SalesOrder = () => {
   };
 
 
+
+
   // popup code
   const [showPopup, setShowPopup] = useState(false);
   const [vendorsList, setVendorsList] = useState([]);
-  const [selectedVendorId, setSelectedVendorId] = useState('');
+  const [selectedVendorId, setSelectedVendorId] = useState({
+    user_id: '',
+    user_email: '',
+  });
+  console.log(selectedVendorId?.user_id);
 
   const handleAddUserPopup = async () => {
     if (tableSelectedRows.length === 0) {
@@ -133,14 +139,14 @@ const SalesOrder = () => {
           })
       return;
     }
-    
+  
     setShowPopup(true);
     try {
       const res = await newRequest.get(`/getSupplierInternalUserByVendorId?vendor_id=${vendorData?.user?.id}`);
      
       console.log(res.data);
-      // const vendorsData = res?.data?.filter(item => item?.status === "approve")
       setVendorsList(res?.data || []);
+    
     } catch (error) {
       console.log(error);
       setError(error?.response?.data?.message || 'Something went wrong');
@@ -157,6 +163,34 @@ const SalesOrder = () => {
     setShowPopup(false);
   };
 
+
+  const handleSalesPickingList = async (e) => {
+    e.preventDefault();
+    try {
+       // Create an array with the body data for multiple rows
+      const requestBody = tableSelectedRows.map((selectedRow) => ({
+        po_detail_id: selectedRow.po_detail_id,
+        po_header_id: selectedRow.po_header_id,
+        assign_to_user_id: selectedVendorId?.user_id,
+      }));
+     
+      const res = await newRequest.post(`/insertSalesPickingList`, requestBody);
+      console.log(res.data);
+      Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: res?.data?.message || 'Picklist send successfully',
+        timer: 2000,
+        timerProgressBar: true,
+      });
+
+      handleAddUserClose();
+    } catch (error) {
+      console.log(error);
+      setError(error?.response?.data?.message || 'Something went wrong');
+    }
+  }
+  
 
   return (
     <div>
@@ -233,9 +267,9 @@ const SalesOrder = () => {
               <div className="header bg-primary text-white font-bold py-4 px-6">
                 <h2 style={{ color: "white" }}>SEND Vendors</h2>
               </div>
-              {/* <form onSubmit={handlePOFormSubmit} className="p-6"> */}
+              <form onSubmit={handleSalesPickingList} className="p-6">
                 <label htmlFor="UserName" className="block mb-2 text-gray-700 text-sm">Name:</label>
-                <select
+                {/* <select
                   id="UserName"
                   value={selectedVendorId}
                   onChange={(e) => setSelectedVendorId(e.target.value)}
@@ -245,16 +279,34 @@ const SalesOrder = () => {
                   <option value="">--Select Vendor--</option>
                   {vendorsList?.map((user) => (
                     <option key={user?.id} value={user?.id}>
+                      {user?.user_id} - {user?.user_email}
+                    </option>
+                  ))}
+                </select> */}
+                <select
+                  id="UserName"
+                  value={selectedVendorId.user_id} // Use user_id as the value
+                  onChange={(e) => setSelectedVendorId({
+                    user_id: e.target.value,
+                    user_email: e.target.options[e.target.selectedIndex].getAttribute('data-email')
+                  })}
+                  required
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
+                >
+                  <option value="">--Select Vendor--</option>
+                  {vendorsList?.map((user) => (
+                    <option key={user?.id} value={user?.user_id} data-email={user?.user_email}>
                       {user?.vendor_id} - {user?.user_email}
                     </option>
                   ))}
                 </select>
 
+
                 <div className="flex justify-end gap-3 mt-6">
                   <button className="close-btn text-white bg-secondary hover:bg-red-600 rounded-lg px-6 py-2" type="button" onClick={handleAddUserClose}>CANCEL</button>
                   <button className="text-white bg-primary hover:bg-blue-600 rounded-lg px-6 py-2" type="submit">SEND</button>
                 </div>
-              {/* </form> */}
+              </form>
             </div>
           </div>
         )}
