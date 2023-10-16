@@ -12,7 +12,7 @@ const Users = () => {
     const [alldata, setAlldata] = useState([])
     const [filteredData, setFilteredData] = useState([]); // for the map markers
     const vendorData = JSON.parse(sessionStorage.getItem("vendorData"))
-    //   console.log(vendorData?.user)
+      console.log(vendorData?.user)
     const navigate = useNavigate()
     
 
@@ -49,7 +49,7 @@ const Users = () => {
         console.log(row);
         // store the row data in session storage
         sessionStorage.setItem("userRowData", JSON.stringify(row))
-        navigate("/update-user/" + row?.vendor_id)
+        navigate("/update-user/" + row?.user_id)
       }
     
 

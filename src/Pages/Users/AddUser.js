@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { RiseLoader } from 'react-spinners';
 import { SnackbarContext } from '../../Contexts/SnackbarContext';
+import newRequest from '../../utils/userRequest';
 
 const AddUser = () => {
     const navigate = useNavigate()
@@ -16,10 +17,46 @@ const AddUser = () => {
     const { openSnackbar } = useContext(SnackbarContext);
 
   
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
   
+    // integrate this post api /insertSupplierInternalUser
+    try {
+        const response = await newRequest.post(`/insertSupplierInternalUser`, {
+            vendor_id: vendorId,
+            user_name: userName,
+            user_email: userEmail,
+            user_password: userPassword,
+            user_role: userRole
+        })
+        console.log(response?.data)
+        Swal.fire({
+          icon: 'success',
+          title: 'User Added Successfully',
+          text: response?.data?.message || 'Something went wrong',
+          timer: 2000,
+          timerProgressBar: true,
+          
+        })
+        // openSnackbar(response?.data?.message || 'Something went wrong', 'success')
+        navigate(-1)
+    }
+    catch (error) {
+        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: error?.response?.data?.message || 'Something went wrong',
+          timer: 2000,
+          timerProgressBar: true,
+          
+        })
+        // openSnackbar(error?.response?.data?.message || 'Something went wrong', 'error')
+    }
+    finally {
+        setIsLoading(false);
+    }
   
   };
   

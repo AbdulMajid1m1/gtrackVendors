@@ -2,6 +2,9 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { RiseLoader } from 'react-spinners';
 import { SnackbarContext } from '../../Contexts/SnackbarContext';
+import { useEffect } from 'react';
+import newRequest from '../../utils/userRequest';
+import Swal from 'sweetalert2';
 
 const UpdateUser = () => {
     const navigate = useNavigate()
@@ -14,16 +17,62 @@ const UpdateUser = () => {
 
     // get the row data from session storage
     const rowData = JSON.parse(sessionStorage.getItem("userRowData"))
-    console.log(rowData)
+    // console.log(rowData)
 
+    // Set the state with the pre-filled data when rowData changes
+    useEffect(() => {
+      if (rowData) {
+        setVendorId(rowData.user_id);
+        setUserName(rowData.user_name);
+        setUserEmail(rowData.user_email);
+        setUserPassword(rowData.user_password);
+        setUserRole(rowData.user_role);
+      }
+    }, []);
 
     const { openSnackbar } = useContext(SnackbarContext);
 
   
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
   
+    // integrate the put api here /updateSupplierInternalUser
+    try {
+        const response = await newRequest.put(`/updateSupplierInternalUser`, {
+            user_id: vendorId,
+            user_name: userName,
+            user_email: userEmail,
+            user_password: userPassword,
+            user_role: userRole
+        })
+        console.log(response?.data)
+        Swal.fire({
+          icon: 'success',
+          title: 'Data Updated Successfully',
+          text: response?.data?.message || 'Something went wrong',
+          timer: 2000,
+          timerProgressBar: true,
+          
+        })
+        navigate(-1)
+        // openSnackbar('User Updated Successfully', 'success')
+    }
+    catch (error) {
+        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: error?.response?.data?.message || 'Something went wrong',
+          timer: 2000,
+          timerProgressBar: true,
+          
+        })
+        // openSnackbar(error?.response?.data?.message || 'Something went wrong', 'error')
+    }
+    finally {
+        setIsLoading(false)
+    }
   
   };
   
@@ -75,9 +124,12 @@ const UpdateUser = () => {
                             <label htmlFor='vendor'>Vendor ID<span className='text-red-600'>*</span></label>
                             <input 
                             id='vendor' 
-                            value={rowData?.vendor_id}
+                            value={vendorId}
                             onChange={(e) => setVendorId(e.target.value)}
-                            type='text' className='border-2 border-[#e4e4e4] w-full rounded-lg p-2 mb-3' />                      
+                            type='text' 
+                            className='border-2 border-[#e4e4e4] bg-gray-200 w-full rounded-lg p-2 mb-3'
+                            readOnly
+                            />                      
                         </div>
 
 
@@ -85,7 +137,7 @@ const UpdateUser = () => {
                             <label htmlFor='name'>User Name<span className='text-red-600'>*</span></label>
                             <input
                             id='name' 
-                            value={rowData?.user_name}
+                            value={userName}
                             onChange={(e) => setUserName(e.target.value)}
                             type='text' className='border-2 border-[#e4e4e4] w-full rounded-lg p-2 mb-3' />                      
                         </div>
@@ -97,7 +149,7 @@ const UpdateUser = () => {
                             <label htmlFor='email'>User Email<span className='text-red-600'>*</span></label>
                             <input
                             id='email' 
-                            value={rowData?.user_email}
+                            value={userEmail}
                             onChange={(e) => setUserEmail(e.target.value)}
                             type='email' className='border-2 border-[#e4e4e4] w-full rounded-lg p-2 mb-3' />                      
                         </div>
@@ -106,7 +158,7 @@ const UpdateUser = () => {
                             <label htmlFor='password'>User Password<span className='text-red-600'>*</span></label>
                             <input
                             id='password' 
-                            value={rowData?.user_password}
+                            value={userPassword}
                             onChange={(e) => setUserPassword(e.target.value)}
                             type='text' className='border-2 border-[#e4e4e4] w-full rounded-lg p-2 mb-3' />                      
                         </div>
@@ -117,7 +169,7 @@ const UpdateUser = () => {
                             <label htmlFor='role'>User Role<span className='text-red-600'>*</span></label>
                             <input
                             id='role' 
-                            value={rowData?.user_role}
+                            value={userRole}
                             onChange={(e) => setUserRole(e.target.value)}
                             type='text' className='border-2 border-[#e4e4e4] w-full rounded-lg p-2 mb-3' />                      
                         </div>
