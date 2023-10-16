@@ -13,7 +13,10 @@ const AddUser = () => {
     const [userEmail, setUserEmail] = useState('');
     const [userPassword, setUserPassword] = useState('');
     const [userRole, setUserRole] = useState('');
-
+     // get the row data from session storage
+     const rowData = JSON.parse(sessionStorage.getItem("userRowData"))
+     console.log(rowData)
+ 
 
     const { openSnackbar } = useContext(SnackbarContext);
 
@@ -25,7 +28,7 @@ const AddUser = () => {
     // integrate this post api /insertSupplierInternalUser
     try {
         const response = await newRequest.post(`/insertSupplierInternalUser`, {
-            vendor_id: vendorId,
+            vendor_id: rowData?.vendor_id,
             user_name: userName,
             user_email: userEmail,
             user_password: userPassword,
@@ -105,13 +108,13 @@ const AddUser = () => {
 
                 <form onSubmit={handleSubmit}>
                     <div className='flex flex-col gap-3 sm:flex-row sm:justify-between'>
-                        <div className='w-full font-body sm:text-base text-sm flex flex-col gap-2'>
+                        {/* <div className='w-full font-body sm:text-base text-sm flex flex-col gap-2'>
                             <label htmlFor='vendor'>Vendor ID<span className='text-red-600'>*</span></label>
                             <input 
                             id='vendor' 
                             onChange={(e) => setVendorId(e.target.value)}
                             type='text' className='border-2 border-[#e4e4e4] w-full rounded-lg p-2 mb-3' />                      
-                        </div>
+                        </div> */}
 
 
                         <div className='w-full font-body sm:text-base text-sm flex flex-col gap-2'>
