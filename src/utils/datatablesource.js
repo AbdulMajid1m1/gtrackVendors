@@ -388,21 +388,21 @@ export const orderLineColumns = [
     headerName: "PO HEADER ID",
     width: 150,
   },
-  {
-    field: "member_id",
-    headerName: "MEMBER ID",
-    width: 120,
-  },
-  {
-    field: "create_date",
-    headerName: "CREATE DATE",
-    width: 200,
-  },
-  {
-    field: "supplier_id",
-    headerName: "SUPPLIER ID",
-    width: 150,
-  },
+  // {
+  //   field: "member_id",
+  //   headerName: "MEMBER ID",
+  //   width: 120,
+  // },
+  // {
+  //   field: "create_date",
+  //   headerName: "CREATE DATE",
+  //   width: 200,
+  // },
+  // {
+  //   field: "supplier_id",
+  //   headerName: "SUPPLIER ID",
+  //   width: 150,
+  // },
   {
     field: "po_detail_id",
     headerName: "PO DETAIL ID",
@@ -457,25 +457,31 @@ export const purchaseOrderColumns = [
   {
     field: "po_header_id",
     headerName: "PO HEADER ID",
+    width: 100,
+    editable: true,
+  },
+  {
+    field: "purchase_order",
+    headerName: "PURCHASE ORDER",
     width: 150,
     editable: true,
   },
   {
     field: "member_id",
     headerName: "MEMEBER ID",
-    width: 150,
+    width: 100,
     editable: true,
   },
   {
     field: "create_date",
     headerName: "CREATE DATE",
-    width: 150,
+    width: 120,
     editable: true,
   },
   {
     field: "supplier_id",
     headerName: "SUPPLIER ID",
-    width: 150,
+    width: 100,
     editable: true,
   },
 
@@ -493,19 +499,19 @@ export const productionColumns = [
   {
     field: "date_start",
     headerName: "START DATE",
-    width: 180,
+    width: 120,
     editable: true,
   },
   {
     field: "date_finished",
     headerName: "FINISH DATE",
-    width: 180,
+    width: 120,
     editable: true,
   },
   {
     field: "state",
     headerName: "STATE",
-    width: 180,
+    width: 120,
     editable: true,
   },
   {
@@ -517,19 +523,19 @@ export const productionColumns = [
   {
     field: "product_qty",
     headerName: "PRODUCED QUANTITY",
-    width: 180,
+    width: 100,
     editable: true,
   },
   {
     field: "bom_id",
     headerName: "BOM",
-    width: 180,
+    width: 100,
     editable: true,
   },
   {
     field: "user_id",
     headerName: "USER",
-    width: 180,
+    width: 100,
     editable: false,
     valueGetter: (params) => {
       return params.row.user_id[1];
@@ -538,7 +544,7 @@ export const productionColumns = [
   {
     field: "company_id",
     headerName: "COMPANY",
-    width: 180,
+    width: 100,
     editable: false,
     valueGetter: (params) => {
       return params.row.company_id[1];

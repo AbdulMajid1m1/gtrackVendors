@@ -34,7 +34,7 @@ const CpanelErpData = () => {
   const credentials = JSON.parse(localStorage.getItem("credentials"))
   console.log(credentials)
   const vendorData = JSON.parse(sessionStorage.getItem("vendorData"))
-  //   console.log(vendorData?.user)
+  console.log(vendorData?.user)
   const [poName, setPoName] = useState('')
 
 
@@ -46,6 +46,7 @@ const CpanelErpData = () => {
         const response = await newRequest.get(`/getPOHeaderBySupplierId?supplier_id=${vendorData.user.id}`);
         console.log(response.data);
         setIsLoading(false)
+
         setPurshase(response?.data || []);
         const poHeaderId = response?.data[0]?.po_header_id; // Extract the po_header_id
 
@@ -150,6 +151,7 @@ const CpanelErpData = () => {
 
   const handleRowClickInParent = async (row) => {
     console.log(row)
+    setPoName(row[0]?.po_header_id)
     try {
       // if  click on same row again then dont call api again
       if (row[0]?.po_header_id === poName) {
@@ -157,7 +159,7 @@ const CpanelErpData = () => {
       }
       setPoProductLoading(true)
       const ProductResponse = await newRequest.get(`/getPODetailsByPoHeaderId?po_header_id=${row[0]?.po_header_id}`);
-      setPoName(row[0]?.po_header_id)
+
       console.log(ProductResponse.data);
       setPoProduct(ProductResponse?.data || []);
       setIsLoading(false)
@@ -451,7 +453,9 @@ const CpanelErpData = () => {
 
                 <div className='w-full md:w-[50%]'>
                   <DataTable data={poProduct}
-                    title={'Purchase Order Products'}
+                  
+                    title={'Purchase Order Products' + (poName ? ` (PO# ${poName})` : '')}
+
                     columnsName={orderLineColumns}
                     loading={poProductLoading}
                     processRowUpdate={processRowUpdate}
