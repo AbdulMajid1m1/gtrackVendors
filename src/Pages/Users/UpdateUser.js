@@ -17,12 +17,12 @@ const UpdateUser = () => {
 
     // get the row data from session storage
     const rowData = JSON.parse(sessionStorage.getItem("userRowData"))
-    // console.log(rowData)
+    console.log(rowData)
 
     // Set the state with the pre-filled data when rowData changes
     useEffect(() => {
       if (rowData) {
-        setVendorId(rowData.user_id);
+        setVendorId(rowData.vendor_id);
         setUserName(rowData.user_name);
         setUserEmail(rowData.user_email);
         setUserPassword(rowData.user_password);

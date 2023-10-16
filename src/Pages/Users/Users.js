@@ -142,7 +142,7 @@ const Users = () => {
 
         <div style={{ marginLeft: '-11px', marginRight: '-11px', marginTop: '-10px' }}>
             <DataTable
-                data={[alldata]}
+                data={alldata}
                 title="USERS"
                 secondaryColor="secondary"
                 columnsName={usersColumn}
