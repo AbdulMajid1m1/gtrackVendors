@@ -264,8 +264,8 @@ const SalesOrder = () => {
         {showPopup && (
           <div className="popup-container fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-40">
             <div className="popup bg-white rounded-lg shadow-xl overflow-hidden max-w-md m-4">
-              <div className="header bg-primary text-white font-bold py-4 px-6">
-                <h2 style={{ color: "white" }}>SEND Vendors</h2>
+              <div className="header bg-primary text-white font-semibold py-4 px-6">
+                <h2 style={{ color: "white" }}>Assigned PickList To User</h2>
               </div>
               <form onSubmit={handleSalesPickingList} className="p-6">
                 <label htmlFor="UserName" className="block mb-2 text-gray-700 text-sm">Name:</label>
