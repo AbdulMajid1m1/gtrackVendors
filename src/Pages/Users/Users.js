@@ -47,6 +47,8 @@ const Users = () => {
 
     const handleEdit = (row) => {
         console.log(row);
+        // store the row data in session storage
+        sessionStorage.setItem("userRowData", JSON.stringify(row))
         navigate("/update-user/" + row?.vendor_id)
       }
     
