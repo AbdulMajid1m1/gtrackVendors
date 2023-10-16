@@ -9,7 +9,6 @@ import { DataTableContext } from '../../Contexts/DataTableContext';
 
 
 const SalesOrder = () => {
-//   const [activeTab, setActiveTab] = useState('Purchase-Order');
   const [isLoading, setIsLoading] = useState(true);
   const [poProductLoading, setPoProductLoading] = useState(true);
 
@@ -117,18 +116,24 @@ const SalesOrder = () => {
   };
 
 
-
   // popup code
   const [showPopup, setShowPopup] = useState(false);
   const [vendorsList, setVendorsList] = useState([]);
   const [selectedVendorId, setSelectedVendorId] = useState('');
 
   const handleAddUserPopup = async () => {
-    // add the condition to select the row on the tableSelectedRows 
     if (tableSelectedRows.length === 0) {
-      openSnackbar('Please select atleast one row', 'error');
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Please select atleast one row',
+            timer: 2000,
+            timerProgressBar: true,
+            
+          })
       return;
     }
+    
     setShowPopup(true);
     try {
       const res = await newRequest.get(`/getSupplierInternalUserByVendorId?vendor_id=${vendorData?.user?.id}`);
@@ -141,6 +146,8 @@ const SalesOrder = () => {
       setError(error?.response?.data?.message || 'Something went wrong');
     }
   };
+
+
 
   const handleSendPOClick = () => {
     setShowPopup(true);
@@ -166,7 +173,7 @@ const SalesOrder = () => {
 
 
         <div>
-          <div style={{ marginLeft: '-11px', marginRight: '-11px', }}>
+          <div style={{ marginLeft: '-11px', marginRight: '-11px', marginTop: '-10px'}}>
             {/* {activeTab === 'Purchase-Order' && ( */}
 
               <div style={{ display: 'flex', flexWrap: 'wrap' }}>
