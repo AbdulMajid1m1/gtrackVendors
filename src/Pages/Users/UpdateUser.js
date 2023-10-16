@@ -22,7 +22,7 @@ const UpdateUser = () => {
     // Set the state with the pre-filled data when rowData changes
     useEffect(() => {
       if (rowData) {
-        setVendorId(rowData.vendor_id);
+        // setVendorId(rowData.vendor_id);
         setUserName(rowData.user_name);
         setUserEmail(rowData.user_email);
         setUserPassword(rowData.user_password);
@@ -37,10 +37,10 @@ const UpdateUser = () => {
     e.preventDefault();
     setIsLoading(true);
   
-    // integrate the put api here /updateSupplierInternalUser
+  
     try {
         const response = await newRequest.put(`/updateSupplierInternalUser`, {
-            user_id: vendorId,
+            user_id: rowData?.user_id,
             user_name: userName,
             user_email: userEmail,
             user_password: userPassword,
@@ -56,7 +56,9 @@ const UpdateUser = () => {
           
         })
         navigate(-1)
-        // openSnackbar('User Updated Successfully', 'success')
+    
+    
+    
     }
     catch (error) {
         console.log(error);
@@ -68,7 +70,8 @@ const UpdateUser = () => {
           timerProgressBar: true,
           
         })
-        // openSnackbar(error?.response?.data?.message || 'Something went wrong', 'error')
+  
+  
     }
     finally {
         setIsLoading(false)
@@ -120,7 +123,7 @@ const UpdateUser = () => {
 
                 <form onSubmit={handleSubmit}>
                     <div className='flex flex-col gap-3 sm:flex-row sm:justify-between'>
-                        <div className='w-full font-body sm:text-base text-sm flex flex-col gap-2'>
+                        {/* <div className='w-full font-body sm:text-base text-sm flex flex-col gap-2'>
                             <label htmlFor='vendor'>Vendor ID<span className='text-red-600'>*</span></label>
                             <input 
                             id='vendor' 
@@ -130,7 +133,7 @@ const UpdateUser = () => {
                             className='border-2 border-[#e4e4e4] bg-gray-200 w-full rounded-lg p-2 mb-3'
                             readOnly
                             />                      
-                        </div>
+                        </div> */}
 
 
                         <div className='w-full font-body sm:text-base text-sm flex flex-col gap-2'>
