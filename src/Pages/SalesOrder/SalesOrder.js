@@ -20,12 +20,12 @@ const SalesOrder = () => {
   const [purshase, setPurshase] = useState([])
   const [poProduct, setPoProduct] = useState([])
   const [error, setError] = useState(null);
-  
+
   const credentials = JSON.parse(localStorage.getItem("credentials"))
   const vendorData = JSON.parse(sessionStorage.getItem("vendorData"))
-    // console.log(vendorData?.user)
-  
-    const [poName, setPoName] = useState('')
+  // console.log(vendorData?.user)
+
+  const [poName, setPoName] = useState('')
 
 
   useEffect(() => {
@@ -68,7 +68,7 @@ const SalesOrder = () => {
   }, []); // Empty array dependency ensures this useEffect runs once on component mount
 
 
-  
+
   const handleRowClickInParent = async (row) => {
     console.log(row)
     try {
@@ -97,22 +97,15 @@ const SalesOrder = () => {
     }
   }
 
+  const ActiveTabs = Object.freeze({
+    PURCHASE_ORDER: 'Purchase-Order',
+
+  });
+
 
   const processRowUpdate = (newRow, oldRow) => {
-    console.log(newRow, oldRow);
-    switch (activeTab) {
-      case ActiveTabs.PURCHASE_ORDER:
-        return UpdateOdooErpRowData(newRow, oldRow, openSnackbar, "/updatePurchaseOrderData", credentials?.id);
-
-      case ActiveTabs.MANUFACTURING:
-        return UpdateOdooErpRowData(newRow, oldRow, openSnackbar, "/updateProductionData", credentials?.id);
-
-      default:
-        console.log("default");
-        return;
-    }
-
-
+    UpdateOdooErpRowData(newRow, oldRow, openSnackbar, "/updatePurchaseOrderData", credentials?.id);
+    return;
   };
 
 
@@ -123,21 +116,21 @@ const SalesOrder = () => {
 
   const handleAddUserPopup = async () => {
     if (tableSelectedRows.length === 0) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Please select atleast one row',
-            timer: 2000,
-            timerProgressBar: true,
-            
-          })
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please select atleast one row',
+        timer: 2000,
+        timerProgressBar: true,
+
+      })
       return;
     }
-    
+
     setShowPopup(true);
     try {
       const res = await newRequest.get(`/getSupplierInternalUserByVendorId?vendor_id=${vendorData?.user?.id}`);
-     
+
       console.log(res.data);
       // const vendorsData = res?.data?.filter(item => item?.status === "approve")
       setVendorsList(res?.data || []);
@@ -164,8 +157,8 @@ const SalesOrder = () => {
 
         {/* Popup Button Assign PickList */}
         <div className="flex justify-end gap-3 -mt-4">
-          <button className="text-white bg-primary hover:bg-blue-600 rounded-lg px-6 py-2" 
-          onClick={handleAddUserPopup}
+          <button className="text-white bg-primary hover:bg-blue-600 rounded-lg px-6 py-2"
+            onClick={handleAddUserPopup}
           >
             Assign PickList
           </button>
@@ -173,53 +166,53 @@ const SalesOrder = () => {
 
 
         <div>
-          <div style={{ marginLeft: '-11px', marginRight: '-11px', marginTop: '-10px'}}>
+          <div style={{ marginLeft: '-11px', marginRight: '-11px', marginTop: '-10px' }}>
             {/* {activeTab === 'Purchase-Order' && ( */}
 
-              <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
 
-                <div className='w-full md:w-[50%]'>
-                  <DataTable
-                    data={purshase}
-                    title={'Sales order'}
-                    columnsName={purchaseOrderColumns}
-                    processRowUpdate={processRowUpdate}
-                    // loading={isLoading}
-                    secondaryColor="secondary"
-                    checkboxSelection="disabled"
-                    uniqueId={"purchaseOrderId"}
-                    handleRowClickInParent={handleRowClickInParent}
-                    actionColumnVisibility={false}
-                    dropDownOptions={[
-                      {
-                        label: "Send PO",
-                        icon: <SendIcon fontSize="small" color="action" style={{ color: "rgb(37 99 235)" }} />
-                        ,
-                        // action: handleAddUserPopup, // Open the popup when this button is clicked
+              <div className='w-full md:w-[50%]'>
+                <DataTable
+                  data={purshase}
+                  title={'Sales order'}
+                  columnsName={purchaseOrderColumns}
+                  processRowUpdate={processRowUpdate}
+                  // loading={isLoading}
+                  secondaryColor="secondary"
+                  checkboxSelection="disabled"
+                  uniqueId={"purchaseOrderId"}
+                  handleRowClickInParent={handleRowClickInParent}
+                  actionColumnVisibility={false}
+                  dropDownOptions={[
+                    {
+                      label: "Send PO",
+                      icon: <SendIcon fontSize="small" color="action" style={{ color: "rgb(37 99 235)" }} />
+                      ,
+                      // action: handleAddUserPopup, // Open the popup when this button is clicked
 
-                      },
+                    },
 
-                    ]}
+                  ]}
 
-                  />
-                </div>
-
-                <div className='w-full md:w-[50%]'>
-                  <DataTable data={poProduct}
-                    title={'Purchase Order Products'}
-                    columnsName={orderLineColumns}
-                    loading={poProductLoading}
-                    processRowUpdate={processRowUpdate}
-                    // checkboxSelection="disabled"
-                    secondaryColor="secondary"
-                    actionColumnVisibility={false}
-                    uniqueId={"purchaseOrderProductId"}
-
-
-                  />
-                </div>
-
+                />
               </div>
+
+              <div className='w-full md:w-[50%]'>
+                <DataTable data={poProduct}
+                  title={'Purchase Order Products'}
+                  columnsName={orderLineColumns}
+                  loading={poProductLoading}
+                  processRowUpdate={processRowUpdate}
+                  // checkboxSelection="disabled"
+                  secondaryColor="secondary"
+                  actionColumnVisibility={false}
+                  uniqueId={"purchaseOrderProductId"}
+
+
+                />
+              </div>
+
+            </div>
             {/* )} */}
 
           </div>
@@ -234,26 +227,26 @@ const SalesOrder = () => {
                 <h2 style={{ color: "white" }}>SEND Vendors</h2>
               </div>
               {/* <form onSubmit={handlePOFormSubmit} className="p-6"> */}
-                <label htmlFor="UserName" className="block mb-2 text-gray-700 text-sm">Name:</label>
-                <select
-                  id="UserName"
-                  value={selectedVendorId}
-                  onChange={(e) => setSelectedVendorId(e.target.value)}
-                  required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
-                >
-                  <option value="">--Select Vendor--</option>
-                  {vendorsList?.map((user) => (
-                    <option key={user?.id} value={user?.id}>
-                      {user?.vendor_id} - {user?.user_email}
-                    </option>
-                  ))}
-                </select>
+              <label htmlFor="UserName" className="block mb-2 text-gray-700 text-sm">Name:</label>
+              <select
+                id="UserName"
+                value={selectedVendorId}
+                onChange={(e) => setSelectedVendorId(e.target.value)}
+                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
+              >
+                <option value="">--Select Vendor--</option>
+                {vendorsList?.map((user) => (
+                  <option key={user?.id} value={user?.id}>
+                    {user?.vendor_id} - {user?.user_email}
+                  </option>
+                ))}
+              </select>
 
-                <div className="flex justify-end gap-3 mt-6">
-                  <button className="close-btn text-white bg-secondary hover:bg-red-600 rounded-lg px-6 py-2" type="button" onClick={handleAddUserClose}>CANCEL</button>
-                  <button className="text-white bg-primary hover:bg-blue-600 rounded-lg px-6 py-2" type="submit">SEND</button>
-                </div>
+              <div className="flex justify-end gap-3 mt-6">
+                <button className="close-btn text-white bg-secondary hover:bg-red-600 rounded-lg px-6 py-2" type="button" onClick={handleAddUserClose}>CANCEL</button>
+                <button className="text-white bg-primary hover:bg-blue-600 rounded-lg px-6 py-2" type="submit">SEND</button>
+              </div>
               {/* </form> */}
             </div>
           </div>
