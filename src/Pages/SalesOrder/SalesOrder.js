@@ -109,10 +109,16 @@ const SalesOrder = () => {
   };
 
 
+
+
   // popup code
   const [showPopup, setShowPopup] = useState(false);
   const [vendorsList, setVendorsList] = useState([]);
-  const [selectedVendorId, setSelectedVendorId] = useState('');
+  const [selectedVendorId, setSelectedVendorId] = useState({
+    user_id: '',
+    user_email: '',
+  });
+  console.log(selectedVendorId?.user_id);
 
   const handleAddUserPopup = async () => {
     if (tableSelectedRows.length === 0) {
@@ -132,8 +138,8 @@ const SalesOrder = () => {
       const res = await newRequest.get(`/getSupplierInternalUserByVendorId?vendor_id=${vendorData?.user?.id}`);
 
       console.log(res.data);
-      // const vendorsData = res?.data?.filter(item => item?.status === "approve")
       setVendorsList(res?.data || []);
+
     } catch (error) {
       console.log(error);
       setError(error?.response?.data?.message || 'Something went wrong');
@@ -149,6 +155,34 @@ const SalesOrder = () => {
   const handleAddUserClose = () => {
     setShowPopup(false);
   };
+
+
+  const handleSalesPickingList = async (e) => {
+    e.preventDefault();
+    try {
+      // Create an array with the body data for multiple rows
+      const requestBody = tableSelectedRows.map((selectedRow) => ({
+        po_detail_id: selectedRow.po_detail_id,
+        po_header_id: selectedRow.po_header_id,
+        assign_to_user_id: selectedVendorId?.user_id,
+      }));
+
+      const res = await newRequest.post(`/insertSalesPickingList`, requestBody);
+      console.log(res.data);
+      Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: res?.data?.message || 'Picklist send successfully',
+        timer: 2000,
+        timerProgressBar: true,
+      });
+
+      handleAddUserClose();
+    } catch (error) {
+      console.log(error);
+      setError(error?.response?.data?.message || 'Something went wrong');
+    }
+  }
 
 
   return (
@@ -223,8 +257,8 @@ const SalesOrder = () => {
         {showPopup && (
           <div className="popup-container fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-40">
             <div className="popup bg-white rounded-lg shadow-xl overflow-hidden max-w-md m-4">
-              <div className="header bg-primary text-white font-bold py-4 px-6">
-                <h2 style={{ color: "white" }}>SEND Vendors</h2>
+              <div className="header bg-primary text-white font-semibold py-4 px-6">
+                <h2 style={{ color: "white" }}>Assigned PickList To User</h2>
               </div>
               {/* <form onSubmit={handlePOFormSubmit} className="p-6"> */}
               <label htmlFor="UserName" className="block mb-2 text-gray-700 text-sm">Name:</label>
