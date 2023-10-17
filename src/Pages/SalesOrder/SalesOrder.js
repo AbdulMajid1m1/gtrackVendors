@@ -260,31 +260,50 @@ const SalesOrder = () => {
               <div className="header bg-primary text-white font-semibold py-4 px-6">
                 <h2 style={{ color: "white" }}>Assigned PickList To User</h2>
               </div>
-              {/* <form onSubmit={handlePOFormSubmit} className="p-6"> */}
-              <label htmlFor="UserName" className="block mb-2 text-gray-700 text-sm">Name:</label>
-              <select
-                id="UserName"
-                value={selectedVendorId}
-                onChange={(e) => setSelectedVendorId(e.target.value)}
-                required
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
-              >
-                <option value="">--Select Vendor--</option>
-                {vendorsList?.map((user) => (
-                  <option key={user?.id} value={user?.id}>
-                    {user?.vendor_id} - {user?.user_email}
-                  </option>
-                ))}
-              </select>
+              <form onSubmit={handleSalesPickingList} className="p-6">
+                <label htmlFor="UserName" className="block mb-2 text-gray-700 text-sm">Name:</label>
+                {/* <select
+                  id="UserName"
+                  value={selectedVendorId}
+                  onChange={(e) => setSelectedVendorId(e.target.value)}
+                  required
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
+                >
+                  <option value="">--Select Vendor--</option>
+                  {vendorsList?.map((user) => (
+                    <option key={user?.id} value={user?.id}>
+                      {user?.user_id} - {user?.user_email}
+                    </option>
+                  ))}
+                </select> */}
+                <select
+                  id="UserName"
+                  value={selectedVendorId.user_id} // Use user_id as the value
+                  onChange={(e) => setSelectedVendorId({
+                    user_id: e.target.value,
+                    user_email: e.target.options[e.target.selectedIndex].getAttribute('data-email')
+                  })}
+                  required
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
+                >
+                  <option value="">--Select Vendor--</option>
+                  {vendorsList?.map((user) => (
+                    <option key={user?.id} value={user?.user_id} data-email={user?.user_email}>
+                      {user?.vendor_id} - {user?.user_email}
+                    </option>
+                  ))}
+                </select>
 
-              <div className="flex justify-end gap-3 mt-6">
-                <button className="close-btn text-white bg-secondary hover:bg-red-600 rounded-lg px-6 py-2" type="button" onClick={handleAddUserClose}>CANCEL</button>
-                <button className="text-white bg-primary hover:bg-blue-600 rounded-lg px-6 py-2" type="submit">SEND</button>
-              </div>
-              {/* </form> */}
+
+                <div className="flex justify-end gap-3 mt-6">
+                  <button className="close-btn text-white bg-secondary hover:bg-red-600 rounded-lg px-6 py-2" type="button" onClick={handleAddUserClose}>CANCEL</button>
+                  <button className="text-white bg-primary hover:bg-blue-600 rounded-lg px-6 py-2" type="submit">SEND</button>
+                </div>
+              </form>
             </div>
           </div>
         )}
+
 
       </div>
     </div >
