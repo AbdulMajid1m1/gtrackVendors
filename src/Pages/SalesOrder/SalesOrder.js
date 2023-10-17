@@ -23,7 +23,7 @@ const SalesOrder = () => {
 
   const credentials = JSON.parse(localStorage.getItem("credentials"))
   const vendorData = JSON.parse(sessionStorage.getItem("vendorData"))
-  // console.log(vendorData?.user)
+  console.log(vendorData?.user)
 
   const [poName, setPoName] = useState('')
 
