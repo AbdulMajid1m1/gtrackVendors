@@ -13,9 +13,10 @@ const AddUser = () => {
     const [userEmail, setUserEmail] = useState('');
     const [userPassword, setUserPassword] = useState('');
     const [userRole, setUserRole] = useState('');
-     // get the row data from session storage
-     const rowData = JSON.parse(sessionStorage.getItem("userRowData"))
-     console.log(rowData)
+
+    // get the vendorData vendorData
+    const vendorData = JSON.parse(sessionStorage.getItem("vendorData"))
+    console.log(vendorData?.user)
  
 
     const { openSnackbar } = useContext(SnackbarContext);
@@ -25,10 +26,9 @@ const AddUser = () => {
     e.preventDefault();
     setIsLoading(true);
   
-    // integrate this post api /insertSupplierInternalUser
     try {
         const response = await newRequest.post(`/insertSupplierInternalUser`, {
-            vendor_id: rowData?.vendor_id,
+            vendor_id: vendorData?.user?.id,
             user_name: userName,
             user_email: userEmail,
             user_password: userPassword,
@@ -145,13 +145,27 @@ const AddUser = () => {
                         </div>
                     </div>
 
-                    <div className='flex flex-col gap-3 sm:flex-row sm:justify-between'>
+                    {/* <div className='flex flex-col gap-3 sm:flex-row sm:justify-between'>
                         <div className='w-full font-body sm:text-base text-sm flex flex-col gap-2'>
                             <label htmlFor='role'>User Role<span className='text-red-600'>*</span></label>
                             <input
                             id='role' 
                             onChange={(e) => setUserRole(e.target.value)}
                             type='text' className='border-2 border-[#e4e4e4] w-full rounded-lg p-2 mb-3' />                      
+                        </div>
+                    </div> */}
+                    <div className='flex flex-col gap-3 sm:flex-row sm:justify-between'>
+                        <div className='w-full font-body sm:text-base text-sm flex flex-col gap-2'>
+                            <label htmlFor='role'>User Role<span className='text-red-600'>*</span></label>
+                            <select
+                                id='role' 
+                                onChange={(e) => setUserRole(e.target.value)}
+                                className='border-2 border-[#e4e4e4] w-full rounded-lg p-2 mb-3'
+                            >
+                                <option value="Admin">Admin</option>
+                                <option value="Manager">Manager</option>
+                                <option value="Viewer">Viewer</option>
+                            </select>
                         </div>
                     </div>
 

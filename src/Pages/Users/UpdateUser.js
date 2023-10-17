@@ -167,7 +167,7 @@ const UpdateUser = () => {
                         </div>
                     </div>
 
-                    <div className='flex flex-col gap-3 sm:flex-row sm:justify-between'>
+                    {/* <div className='flex flex-col gap-3 sm:flex-row sm:justify-between'>
                         <div className='w-full font-body sm:text-base text-sm flex flex-col gap-2'>
                             <label htmlFor='role'>User Role<span className='text-red-600'>*</span></label>
                             <input
@@ -175,6 +175,21 @@ const UpdateUser = () => {
                             value={userRole}
                             onChange={(e) => setUserRole(e.target.value)}
                             type='text' className='border-2 border-[#e4e4e4] w-full rounded-lg p-2 mb-3' />                      
+                        </div>
+                    </div> */}
+                    <div className='flex flex-col gap-3 sm:flex-row sm:justify-between'>
+                        <div className='w-full font-body sm:text-base text-sm flex flex-col gap-2'>
+                            <label htmlFor='role'>User Role<span className='text-red-600'>*</span></label>
+                            <select
+                                id='role' 
+                                value={userRole}
+                                onChange={(e) => setUserRole(e.target.value)}
+                                className='border-2 border-[#e4e4e4] w-full rounded-lg p-2 mb-3'
+                            >
+                                <option value="Admin">Admin</option>
+                                <option value="Manager">Manager</option>
+                                <option value="Viewer">Viewer</option>
+                            </select>
                         </div>
                     </div>
 
