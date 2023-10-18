@@ -178,7 +178,7 @@ const ByPo = ({ title, handleOpen, handleClose, open, }) => {
             {error && <CustomSnakebar message={error} severity="error" onClose={resetSnakeBarMessages} />}
 
             <div>
-                {/* this is the addProduct popup when user click the validate button */}
+                {/* this is the validate Product popup when user click the validate button */}
                 <ValidateProducts
                     handleClose={handleCloseAddProducts}
                     handleOpen={handleOpenAddProducts}

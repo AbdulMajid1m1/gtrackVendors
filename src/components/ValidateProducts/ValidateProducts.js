@@ -33,9 +33,9 @@ const ValidateProducts = ({ title, handleOpen, handleClose, open, handleRefetch 
   const [data, setData] = useState(null);
   const [gtinData, setGtinData] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
   const { openSnackbar } = useContext(SnackbarContext);
 
+  
   // I get the selected Row data in the session storage
   const getRowData = sessionStorage.getItem("customerRowData");
   const parsedRowData = JSON.parse(getRowData);
@@ -84,7 +84,7 @@ const ValidateProducts = ({ title, handleOpen, handleClose, open, handleRefetch 
       handleGtinSearch();
     }, [parsedSelectedRowData])
 
-    
+
   //Firts tab Table data 
   const products = [
     { name: "GTIN", value: data?.barcode },
