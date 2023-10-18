@@ -59,6 +59,13 @@ const AddProducts = ({ title, handleOpen, handleClose, open, handleRefetch }) =>
   };
 
 
+  // get the selectedRowData from the session storage
+  const tableSelectedRowsData = sessionStorage.getItem("tableSelectedRows");
+  const parsedTableSelectedRowData = JSON.parse(tableSelectedRowsData);
+  console.log(parsedTableSelectedRowData);
+
+
+
   const handleGtinSearch = () => {
     if (!gtinData) return;
     newRequest.get(`/getGs1ProdProductsbyBarcode?barcode=${gtinData}`)

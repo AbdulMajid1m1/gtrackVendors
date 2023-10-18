@@ -13,6 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import ClearIcon from '@mui/icons-material/Clear';
 import Swal from 'sweetalert2';
 import { DataTableContext } from '../../Contexts/DataTableContext';
+import AddProducts from '../AddProducts/AddProducts';
 
 
 // MUI Style 
@@ -27,6 +28,16 @@ const style = {
     p: 4,
 };
 
+const customModalStyle = {
+    position: 'fixed',
+    zIndex: 100,
+    right: 0,
+    bottom: 0,
+    top: 0,
+    left: 0,
+  };
+  
+
 const ByPo = ({ title, handleOpen, handleClose, open, }) => {
     const [alldata, setAllData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -35,7 +46,7 @@ const ByPo = ({ title, handleOpen, handleClose, open, }) => {
     const [message, setMessage] = useState(null);
     const { openSnackbar } = useContext(SnackbarContext);
     const vendorData = JSON.parse(sessionStorage.getItem('vendorData'));
-    console.log(vendorData)
+    // console.log(vendorData)
     const resetSnakeBarMessages = () => {
         setError(null);
         setMessage(null);
@@ -122,6 +133,30 @@ const ByPo = ({ title, handleOpen, handleClose, open, }) => {
         }
     }
 
+    // Add product Popup fucntionality
+    const [addProductsOpen, setAddProductsOpen] = useState(false);
+    const handleOpenAddProducts = (row) => {
+        if (tableSelectedRows.length === 0) {
+            // show the Swal message
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Please select atleast one row',
+                timer: 2000,
+            });
+            return;
+        }
+        // save the tableSelectedRow data in sessionStorage
+        sessionStorage.setItem('tableSelectedRows', JSON.stringify(tableSelectedRows));
+        setAddProductsOpen(true);
+        handleClose();
+    };
+
+    const handleCloseAddProducts = () => {
+        setAddProductsOpen(false);
+        setTableSelectedRows([]);
+    };
+
 
     return (
 
@@ -151,6 +186,12 @@ const ByPo = ({ title, handleOpen, handleClose, open, }) => {
             {error && <CustomSnakebar message={error} severity="error" onClose={resetSnakeBarMessages} />}
 
             <div>
+                {/* this is the addProduct popup when user click the validate button */}
+                <AddProducts
+                    handleClose={handleCloseAddProducts}
+                    handleOpen={handleOpenAddProducts}
+                    open={addProductsOpen}
+                />
                 <div
                     style={{
                         display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px'
@@ -163,6 +204,7 @@ const ByPo = ({ title, handleOpen, handleClose, open, }) => {
                     open={open}
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
+                    sx={customModalStyle}
                 >
                     <Box sx={style}>
                         {/* Close button */}
@@ -181,7 +223,7 @@ const ByPo = ({ title, handleOpen, handleClose, open, }) => {
                         </IconButton>
 
                         {/* Search and button */}
-                        <div className='flex w-full mb-3 mt-2'>
+                        {/* <div className='flex w-full mb-3 mt-2'>
                             <input
                                 type='text'
                                 className='h-10 w-full rounded-md border border-gray-500 px-4'
@@ -198,13 +240,13 @@ const ByPo = ({ title, handleOpen, handleClose, open, }) => {
                                     Search
                                 </button>
                             </div>
-                        </div>
+                        </div> */}
 
 
                         <div style={{ marginLeft: '-11px', marginRight: '-11px', marginTop: '-10px' }}>
                             <DataTable
                                 data={alldata}
-                                title="BY PO"
+                                // title="BY PO"
                                 secondaryColor="secondary"
                                 columnsName={orderLineColumns}
                                 uniqueId="byPoId"
@@ -225,10 +267,11 @@ const ByPo = ({ title, handleOpen, handleClose, open, }) => {
                             />
                         </div>
 
-                        <div className='flex justify-end px-5 mt-2'>
+                        <div className='flex justify-end px-5'>
                             <button
                                 className="bg-primary text-white px-4 py-2 rounded-md shadow-md"
-                                onClick={handleProductValidation}
+                                // onClick={handleProductValidation}
+                                onClick={handleOpenAddProducts}
                             >
                                 Validate
                             </button>
