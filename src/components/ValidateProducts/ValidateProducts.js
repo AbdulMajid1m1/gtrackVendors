@@ -53,10 +53,7 @@ const ValidateProducts = ({ title, handleOpen, handleClose, open, handleRefetch 
    console.log(parsedSelectedRowData);
  
 
-
-
-   useEffect(() => {
-    // const handleGtinSearch = () => {
+   const handleGtinSearch = () => {
       if (!parsedSelectedRowData) return;
       newRequest.get(`/getGs1ProdProductsbyBarcode?barcode=${parsedSelectedRowData}`)
         .then((response) => {
@@ -64,7 +61,7 @@ const ValidateProducts = ({ title, handleOpen, handleClose, open, handleRefetch 
           setData(response.data[0]);
   
           // store that response in sesstion stroage
-          sessionStorage.setItem('validateProductData', JSON.stringify(gtinData));
+          sessionStorage.setItem('validateProductData', JSON.stringify(parsedSelectedRowData));
   
           // empty the input field
           setGtinData('');
@@ -81,9 +78,13 @@ const ValidateProducts = ({ title, handleOpen, handleClose, open, handleRefetch 
           openSnackbar(error?.response?.data?.message ?? "something went wrong!", "error");
         })
   
-    // };
-  },[])
+    };
 
+    useEffect(() => {
+      handleGtinSearch();
+    }, [parsedSelectedRowData])
+
+    
   //Firts tab Table data 
   const products = [
     { name: "GTIN", value: data?.barcode },
