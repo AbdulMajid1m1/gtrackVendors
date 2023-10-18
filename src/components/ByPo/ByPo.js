@@ -136,6 +136,8 @@ const ByPo = ({ title, handleOpen, handleClose, open, }) => {
             });
             return;
         }
+        // save the tableSelectedRow data in sessionStorage
+        sessionStorage.setItem('tableSelectedRows', JSON.stringify(tableSelectedRows));
         setAddProductsOpen(true);
         handleClose();
     };
