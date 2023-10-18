@@ -14,6 +14,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import Swal from 'sweetalert2';
 import { DataTableContext } from '../../Contexts/DataTableContext';
 import AddProducts from '../AddProducts/AddProducts';
+import ValidateProducts from '../ValidateProducts/ValidateProducts';
 
 
 // MUI Style 
@@ -123,7 +124,7 @@ const ByPo = ({ title, handleOpen, handleClose, open, }) => {
         }
     }
 
-    // Add product Popup fucntionality
+    // Validate Product Popup fucntionality
     const [addProductsOpen, setAddProductsOpen] = useState(false);
     const handleOpenAddProducts = (row) => {
         if (tableSelectedRows.length === 0) {
@@ -137,7 +138,8 @@ const ByPo = ({ title, handleOpen, handleClose, open, }) => {
             return;
         }
         // save the tableSelectedRow data in sessionStorage
-        sessionStorage.setItem('tableSelectedRows', JSON.stringify(tableSelectedRows));
+        // sessionStorage.setItem('tableSelectedRows', JSON.stringify(tableSelectedRows));
+        sessionStorage.setItem('tableSelectedRows', JSON.stringify("6287028920013"));
         setAddProductsOpen(true);
         handleClose();
     };
@@ -177,7 +179,7 @@ const ByPo = ({ title, handleOpen, handleClose, open, }) => {
 
             <div>
                 {/* this is the addProduct popup when user click the validate button */}
-                <AddProducts
+                <ValidateProducts
                     handleClose={handleCloseAddProducts}
                     handleOpen={handleOpenAddProducts}
                     open={addProductsOpen}
