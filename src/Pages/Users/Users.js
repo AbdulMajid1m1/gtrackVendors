@@ -53,56 +53,59 @@ const Users = () => {
       }
     
 
-
     const handleDelete = async (row) => {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: 'You will not be able to recover this Record!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'No, keep it',
-            // changes the color of the confirm button to red
-            confirmButtonColor: '#1E3B8B',
-            cancelButtonColor: '#FF0032',
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                try {
-                    // convert row id to number
-                    const vendor_id = Number(row.vendor_id);
-                    console.log(row);
-                    console.log(vendor_id);
-                  
-                    await newRequest.delete(`/deleteSupplierInternalUser?user_id=${vendor_id}`);
-
-
-                    const updatedData = filteredData.filter((item) => item?.vendor_id !== row?.vendor_id);
-                    setFilteredData(updatedData);
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Deleted!',
-                        text: 'Record has been deleted.',
-                        showConfirmButton: false,
-                        timer: 2000,
-                    });
-                }
-                catch (err) {
-                    console.log(err);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: err?.response?.data?.message || 'Something went wrong'
-                    })
-                    return
-                }
-
-                // filter out the deleted user from the data
-
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                return
-            }
-        })
-    }
+      Swal.fire({
+          title: 'Are you sure?',
+          text: 'You will not be able to recover this Record!',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, delete it!',
+          cancelButtonText: 'No, keep it',
+          // changes the color of the confirm button to red
+          confirmButtonColor: '#1E3B8B',
+          cancelButtonColor: '#FF0032',
+      }).then(async (result) => {
+          if (result.isConfirmed) {
+              try {
+                  // convert row id to number
+                  const vendor_id = Number(row.user_id);
+                  // console.log(row);
+                  console.log(vendor_id);
+  
+                  await newRequest.delete(`/deleteSupplierInternalUser?user_id=${vendor_id}`);
+  
+                  // Filter out the deleted user from the data
+                  const updatedData = alldata.filter((item) => item?.user_id !== row?.user_id);
+                  setAlldata(updatedData); // Update the main data
+  
+                  // Update the filtered data if it's currently being displayed
+                  if (filteredData.length > 0) {
+                      const updatedFilteredData = filteredData.filter((item) => item?.user_id !== row?.user_id);
+                      setFilteredData(updatedFilteredData);
+                  }
+  
+                  Swal.fire({
+                      icon: 'success',
+                      title: 'Deleted!',
+                      text: 'Record has been deleted.',
+                      showConfirmButton: false,
+                      timer: 2000,
+                  });
+              } catch (err) {
+                  console.log(err);
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Oops...',
+                      text: err?.response?.data?.message || 'Something went wrong'
+                  });
+                  return;
+              }
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+              return;
+          }
+      });
+  }
+  
 
     
     const handleRowClickInParent = (item) => {
