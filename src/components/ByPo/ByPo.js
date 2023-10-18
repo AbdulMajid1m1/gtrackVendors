@@ -43,6 +43,14 @@ const ByPo = ({ title, handleOpen, handleClose, open, }) => {
     };
 
     const { rowSelectionModel, setRowSelectionModel, tableSelectedRows, setTableSelectedRows } = useContext(DataTableContext);
+    useEffect(() => {
+
+        console.log(rowSelectionModel)
+        console.log(tableSelectedRows)
+    }, [rowSelectionModel, tableSelectedRows])
+
+    console.log(rowSelectionModel)
+    console.log(tableSelectedRows)
 
 
 
@@ -80,8 +88,10 @@ const ByPo = ({ title, handleOpen, handleClose, open, }) => {
     const handleRowClickInParent = async (item) => {
 
     }
-//  TODO: validate PO products
+    //  TODO: validate PO products
     const handleProductValidation = async () => {
+        console.log(tableSelectedRows)
+        console.log(rowSelectionModel)
         if (tableSelectedRows.length === 0) {
             openSnackbar('Please select atleast one row', 'error');
             return;

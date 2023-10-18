@@ -5,16 +5,18 @@ import newRequest from '../../utils/userRequest';
 import Swal from 'sweetalert2';
 import SendIcon from '@mui/icons-material/Send';
 import { SnackbarContext } from '../../Contexts/SnackbarContext';
-import { DataTableContext } from '../../Contexts/DataTableContext';
 import { UpdateOdooErpRowData } from '../../utils/Funtions/rowUpdate';
-
+import { DataTableContext } from '../../Contexts/DataTableContext'
+import DataTable2 from '../../components/Datatable/Datatable2';
+import { DataTableContext2 } from '../../Contexts/DataTableContext2';
 const SalesOrder = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [poProductLoading, setPoProductLoading] = useState(true);
-
-
+  // const { rowSelectionModel, setRowSelectionModel,
+  //   tableSelectedRows, setTableSelectedRows } = useContext(DataTableContext);
   const { rowSelectionModel, setRowSelectionModel,
-    tableSelectedRows, setTableSelectedRows } = useContext(DataTableContext);
+    tableSelectedRows, setTableSelectedRows } = useContext(DataTableContext2);
+
 
   const { openSnackbar } = useContext(SnackbarContext);
   const [purshase, setPurshase] = useState([])
@@ -161,10 +163,11 @@ const SalesOrder = () => {
     e.preventDefault();
     try {
       // Create an array with the body data for multiple rows
-      const requestBody = tableSelectedRows.map((selectedRow) => ({
+      const requestBody = tableSelectedRows?.map((selectedRow) => ({
         po_detail_id: selectedRow.po_detail_id,
         po_header_id: selectedRow.po_header_id,
         assign_to_user_id: selectedVendorId?.user_id,
+        vendor_id: vendorData?.user?.id,
       }));
 
       const res = await newRequest.post(`/insertSalesPickingList`, requestBody);
@@ -177,10 +180,19 @@ const SalesOrder = () => {
         timerProgressBar: true,
       });
 
+      setTableSelectedRows([]); // Clear the selected rows
+      setRowSelectionModel([]); // Clear the selected rows
+
+
+
       handleAddUserClose();
     } catch (error) {
       console.log(error);
-      setError(error?.response?.data?.message || 'Something went wrong');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: error?.response?.data?.message || 'Something went wrong',
+      });
     }
   }
 
@@ -232,12 +244,12 @@ const SalesOrder = () => {
               </div>
 
               <div className='w-full md:w-[50%]'>
-                <DataTable data={poProduct}
+                <DataTable2 data={poProduct}
                   title={'Purchase Order Products'}
                   columnsName={orderLineColumns}
                   loading={poProductLoading}
                   processRowUpdate={processRowUpdate}
-                  // checkboxSelection="disabled"
+
                   secondaryColor="secondary"
                   actionColumnVisibility={false}
                   uniqueId={"purchaseOrderProductId"}

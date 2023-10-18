@@ -8,6 +8,7 @@ import UpdateVendor from "./Pages/UpdateVendor/UpdateVendor";
 import ListOfCustomer from "./Pages/ListOfCustomer/ListOfCustomer";
 import { SnackbarProvider } from "./Contexts/SnackbarContext";
 import DataTableProvider from "./Contexts/DataTableContext";
+import DataTableProvider2 from "./Contexts/DataTableContext2";
 import ShipmentCard from "./components/ShipmentCard/ShipmentCard";
 import AddProducts from "./components/AddProducts/AddProducts";
 import ShipmentDocUpload from "./Pages/ShipmentDocUpload/ShipmentDocUpload";
@@ -31,6 +32,7 @@ const App = () => {
   };
   return (
     <>
+      <DataTableProvider2>
       <DataTableProvider>
         <SnackbarProvider>
 
@@ -74,6 +76,7 @@ const App = () => {
             </div>
         </SnackbarProvider>
       </DataTableProvider>
+      </DataTableProvider2>
     </>
   );
 };

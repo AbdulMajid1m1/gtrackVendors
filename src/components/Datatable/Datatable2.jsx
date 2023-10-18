@@ -10,13 +10,13 @@ import { MuiCustomTable } from "../../utils/MuiCustomTable";
 import ActionDropdown from "../../utils/ActionDropdown";
 // import newRequest from "../../../utils/userRequest";
 // import NewUserPopup from "../../NewUserPopup/NewUserPopup";
-import { DataTableContext } from "../../Contexts/DataTableContext";
+import { DataTableContext2 } from "../../Contexts/DataTableContext2";
 import CustomSnakebar from "../../utils/CustomSnackbar";
 import { SnackbarContext } from "../../Contexts/SnackbarContext";
 import Swal from "sweetalert2";
 // import * as XLSX from 'xlsx';
 
-const DataTable = ({
+const DataTable2 = ({
   columnsName = [],
   data,
   title,
@@ -57,7 +57,7 @@ const DataTable = ({
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
   const [muiFilteredData, setMuiFilteredData] = useState([]);
-  const { rowSelectionModel, setRowSelectionModel, tableSelectedRows, setTableSelectedRows } = useContext(DataTableContext);
+  const { rowSelectionModel, setRowSelectionModel, tableSelectedRows, setTableSelectedRows } = useContext(DataTableContext2);
   //   const { openSnackbar } = useContext(SnackbarContext);
 
   const resetSnakeBarMessages = () => {
@@ -592,6 +592,6 @@ const DataTable = ({
   );
 };
 
-export default DataTable;
+export default DataTable2;
 
 
