@@ -19,6 +19,7 @@ const CpanelErpData = () => {
   // const storedActiveTab = localStorage.getItem('activeTab');
   // const [activeTab, setActiveTab] = useState(storedActiveTab || 'Purchase-Order');
   const [activeTab, setActiveTab] = useState('Purchase-Order');
+  const [error, setError] = useState(null);
   // const { currentUser } = useContext(CurrentUserContext);
   // console.log(currentUser)
 
@@ -44,7 +45,8 @@ const CpanelErpData = () => {
   const [assetClassSelected, setAssetClassSelected] = useState('')
   const [poProduct, setPoProduct] = useState([])
   const credentials = JSON.parse(localStorage.getItem("credentials"))
-  console.log(credentials)
+  const vendorData = JSON.parse(sessionStorage.getItem("vendorData"))
+  // console.log(credentials)
   const [poName, setPoName] = useState('')
   // const autocompleteRef = useRef(); // Ref to access the Autocomplete component
   // const [autocompleteKey, setAutocompleteKey] = useState(0);
