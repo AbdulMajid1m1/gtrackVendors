@@ -763,3 +763,178 @@ export const usersColumn = [
 
 ];
 
+
+
+export const fixedAssetsDataColumns = [
+  {
+    field: "id",
+    headerName: "ID",
+    width: 100,
+    editable: true,
+  },
+  {
+    field: "name",
+    headerName: "Name",
+    width: 150,
+    editable: true,
+  },
+  {
+    field: "company_id",
+    headerName: "Company",
+    width: 150,
+    valueGetter: (params) => {
+      return params.row.company_id[1];
+    },
+    editable: false,
+  },
+  {
+    field: "currency_id",
+    headerName: "Currency",
+    width: 150,
+    // show second item of list
+    valueGetter: (params) => {
+      return params.row.currency_id[1];
+    },
+    editable: false,
+  },
+  {
+    field: "state",
+    headerName: "State",
+    width: 120,
+    editable: true,
+  },
+  {
+    field: "active",
+    headerName: "Active",
+    width: 120,
+    editable: true,
+  },
+  {
+    field: "method",
+    headerName: "Method",
+    width: 120,
+    editable: true,
+  },
+  {
+    field: "method_number",
+    headerName: "Method Number",
+    width: 150,
+    editable: true,
+  },
+  {
+    field: "method_period",
+    headerName: "Method Period",
+    width: 150,
+    editable: true,
+  },
+  {
+    field: "prorata_date",
+    headerName: "Prorata Date",
+    width: 150,
+    editable: true,
+  },
+  {
+    field: "account_asset_id",
+    headerName: "Asset Account",
+    width: 150,
+    editable: true,
+  },
+  {
+    field: "account_depreciation_id",
+    headerName: "Depreciation Account",
+    width: 180,
+    editable: true,
+  },
+  {
+    field: "account_depreciation_expense_id",
+    headerName: "Depreciation Expense Account",
+    width: 220,
+    editable: true,
+  },
+  {
+    field: "original_value",
+    headerName: "Original Value",
+    width: 150,
+    editable: true,
+  },
+  {
+    field: "book_value",
+    headerName: "Book Value",
+    width: 150,
+    editable: true,
+  },
+  {
+    field: "value_residual",
+    headerName: "Value Residual",
+    width: 150,
+    editable: true,
+  },
+];
+
+
+
+
+export const inventoryColumn = [
+  {
+    field: "product_id",
+    headerName: "Product Name",
+    width: 180,
+    // show first item in list
+    valueGetter: (params) => {
+      return params.row.product_id[1];
+    },
+    editable: false,
+  },
+  {
+    field: "description",
+    headerName: "Product Description",
+    width: 180,
+    editable: false,
+  },
+  {
+    field: "quantity",
+    headerName: "Qty on Hand",
+    width: 180,
+    editable: true,
+  },
+  {
+    field: "list_price",
+    headerName: "Sell Price",
+    width: 180,
+    editable: true,
+  },
+  {
+    field: "standard_price",
+    headerName: "Cost Price",
+    width: 180,
+    editable: true,
+  },
+  {
+    field: "product_categ_id",
+    headerName: "Item Category",
+    width: 180,
+    valueGetter: (params) => {
+      return params.row.product_categ_id[1];
+    },
+    editable: false,
+
+  },
+  {
+    field: "barcode",
+    headerName: "Barcode",
+    width: 180,
+    editable: true,
+  },
+  {
+    field: "location_id",
+    headerName: "Item Location",
+    width: 180,
+    valueGetter: (params) => {
+      return params.row.location_id[1];
+    },
+    editable: false,
+  },
+];
+
+
+
