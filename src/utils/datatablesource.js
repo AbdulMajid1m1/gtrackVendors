@@ -492,20 +492,39 @@ export const purchaseOrderColumns = [
 export const productionColumns = [
   {
     field: "name",
-    headerName: "NAME",
+    headerName: "Job Order Number",
     width: 180,
     editable: true,
+  },
+
+  {
+    field: "product_id",
+    headerName: "Product Id",
+    width: 120,
+    editable: false,
+    valueGetter: (params) => {
+      return params.row.product_id[0];
+    }
+  },
+  {
+    field: "product_id",
+    headerName: "Product Id",
+    width: 180,
+    editable: false,
+    valueGetter: (params) => {
+      return params.row.product_id[1];
+    }
   },
   {
     field: "date_start",
     headerName: "START DATE",
-    width: 120,
+    width: 150,
     editable: true,
   },
   {
     field: "date_finished",
     headerName: "FINISH DATE",
-    width: 120,
+    width: 150,
     editable: true,
   },
   {
@@ -529,13 +548,13 @@ export const productionColumns = [
   {
     field: "bom_id",
     headerName: "BOM",
-    width: 100,
+    width: 180,
     editable: true,
   },
   {
     field: "user_id",
     headerName: "USER",
-    width: 100,
+    width: 180,
     editable: false,
     valueGetter: (params) => {
       return params.row.user_id[1];
@@ -544,7 +563,7 @@ export const productionColumns = [
   {
     field: "company_id",
     headerName: "COMPANY",
-    width: 100,
+    width: 180,
     editable: false,
     valueGetter: (params) => {
       return params.row.company_id[1];
@@ -740,7 +759,7 @@ export const usersColumn = [
   },
 
 
-  
-  
+
+
 ];
 
