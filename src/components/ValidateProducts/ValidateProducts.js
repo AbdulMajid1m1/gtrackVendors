@@ -2,11 +2,11 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import gs1logo from "../../Images/gs1.png";
 import gtrackIcon from "../../Images/gtrackicons.png"
-import DigitalLinkTab from './DigitalLinkTab';
+import ValidateDigitalLinkTab from './ValidateDigitalLinkTab';
 import newRequest from '../../utils/userRequest';
 import { SnackbarContext } from '../../Contexts/SnackbarContext';
 import { RiseLoader } from 'react-spinners';
-import CodificationTab from './CodificationTab';
+import ValidateCodificationTab from './ValidateCodificationTab';
 import Swal from 'sweetalert2';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
@@ -28,63 +28,62 @@ const style = {
   p: 4,
 };
 
-const AddProducts = ({ title, handleOpen, handleClose, open, handleRefetch }) => {
+const ValidateProducts = ({ title, handleOpen, handleClose, open, handleRefetch }) => {
   const [activeTab, setActiveTab] = useState('product-Infomation');
   const [data, setData] = useState(null);
   const [gtinData, setGtinData] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
   const { openSnackbar } = useContext(SnackbarContext);
 
-  // // this is the popup code
-  // const [open, setOpen] = useState(false);
-  // const handleOpen = () => {
-  //   setOpen(true);
-  // };
-
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
-
+  
   // I get the selected Row data in the session storage
   const getRowData = sessionStorage.getItem("customerRowData");
   const parsedRowData = JSON.parse(getRowData);
   // console.log(parsedRowData);
 
-
   const shipmentRequestData = JSON.parse(sessionStorage.getItem('shipmentRequest'));
-  console.log(shipmentRequestData);
+  // console.log(shipmentRequestData);
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
 
+   // get the data of selectedRow from session storage
+   const getSelectedRowData = sessionStorage.getItem("tableSelectedRows");
+   const parsedSelectedRowData = JSON.parse(getSelectedRowData);
+   console.log(parsedSelectedRowData);
+ 
 
-  const handleGtinSearch = () => {
-    if (!gtinData) return;
-    newRequest.get(`/getGs1ProdProductsbyBarcode?barcode=${gtinData}`)
-      .then((response) => {
-        console.log(response.data);
-        setData(response.data[0]);
+   const handleGtinSearch = () => {
+      if (!parsedSelectedRowData) return;
+      newRequest.get(`/getGs1ProdProductsbyBarcode?barcode=${parsedSelectedRowData}`)
+        .then((response) => {
+          console.log(response.data);
+          setData(response.data[0]);
+  
+          // store that response in sesstion stroage
+          sessionStorage.setItem('validateProductData', JSON.stringify(parsedSelectedRowData));
+  
+          // empty the input field
+          setGtinData('');
+  
+        })
+        .catch((error) => {
+          console.log(error);
+          setData(null);
+          // Swal.fire({
+          //   icon: 'error',
+          //   title: 'Oops...',
+          //   text: error?.response?.data?.message ?? "something went wrong!",
+          // })
+          openSnackbar(error?.response?.data?.message ?? "something went wrong!", "error");
+        })
+  
+    };
 
-        // store that response in sesstion stroage
-        sessionStorage.setItem('productData', JSON.stringify(gtinData));
+    useEffect(() => {
+      handleGtinSearch();
+    }, [parsedSelectedRowData])
 
-        // empty the input field
-        setGtinData('');
-
-      })
-      .catch((error) => {
-        console.log(error);
-        setData(null);
-        // Swal.fire({
-        //   icon: 'error',
-        //   title: 'Oops...',
-        //   text: error?.response?.data?.message ?? "something went wrong!",
-        // })
-        openSnackbar(error?.response?.data?.message ?? "something went wrong!", "error");
-      })
-
-  };
 
   //Firts tab Table data 
   const products = [
@@ -110,66 +109,66 @@ const AddProducts = ({ title, handleOpen, handleClose, open, handleRefetch }) =>
 
 
   // Insert Api 
-  const handleSubmit = async () => {
-    setIsLoading(true);
+  // const handleSubmit = async () => {
+  //   setIsLoading(true);
 
 
 
-    const apiBodyData = {
-      shipment_id: parseInt(shipmentRequestData?.shipment_id),
-      productnameenglish: data?.productnameenglish,
-      productnamearabic: data?.productnamearabic,
-      BrandName: data?.BrandName,
-      BrandNameAr: data?.BrandNameAr,
-      unit: data?.unit,
-      member_id: shipmentRequestData?.customer_id,
-      barcode: data?.barcode,
-      front_image: data?.front_image,
-      back_image: data?.back_image,
+  //   const apiBodyData = {
+  //     shipment_id: parseInt(shipmentRequestData?.shipment_id),
+  //     productnameenglish: data?.productnameenglish,
+  //     productnamearabic: data?.productnamearabic,
+  //     BrandName: data?.BrandName,
+  //     BrandNameAr: data?.BrandNameAr,
+  //     unit: data?.unit,
+  //     member_id: shipmentRequestData?.customer_id,
+  //     barcode: data?.barcode,
+  //     front_image: data?.front_image,
+  //     back_image: data?.back_image,
 
-    }
+  //   }
 
-    console.log(apiBodyData);
-    try {
-      const response = await newRequest.post("/insertShipmentProduct", apiBodyData)
+  //   console.log(apiBodyData);
+  //   try {
+  //     const response = await newRequest.post("/insertShipmentProduct", apiBodyData)
 
-      console.log(response?.data);
-      // Swal.fire({
-      //   icon: 'success',
-      //   title: 'Product Added Successfully',
-      //   showConfirmButton: false,
-      //   timer: 1500
-      // })
-      openSnackbar("Product Added Successfully", "success");
-      handleRefetch();
-      setData(null);
-      setGtinData('');
+  //     console.log(response?.data);
+  //     // Swal.fire({
+  //     //   icon: 'success',
+  //     //   title: 'Product Added Successfully',
+  //     //   showConfirmButton: false,
+  //     //   timer: 1500
+  //     // })
+  //     openSnackbar("Product Added Successfully", "success");
+  //     handleRefetch();
+  //     setData(null);
+  //     setGtinData('');
 
-      setTimeout(() => {
-        handleClose();
-      }, 1500)
+  //     setTimeout(() => {
+  //       handleClose();
+  //     }, 1500)
 
-      // navigate(-1)
-
-
-    }
-    catch (error) {
-
-      // Swal.fire({
-      //   icon: 'error',
-      //   title: 'Oops...',
-      //   text: error?.response?.data?.message ?? "something went wrong!",
-      // })
-      openSnackbar(error?.response?.data?.message ?? "something went wrong!", "error");
-
-    }
-    finally {
-      setIsLoading(false);
-    }
+  //     // navigate(-1)
 
 
+  //   }
+  //   catch (error) {
 
-  }
+  //     // Swal.fire({
+  //     //   icon: 'error',
+  //     //   title: 'Oops...',
+  //     //   text: error?.response?.data?.message ?? "something went wrong!",
+  //     // })
+  //     openSnackbar(error?.response?.data?.message ?? "something went wrong!", "error");
+
+  //   }
+  //   finally {
+  //     setIsLoading(false);
+  //   }
+
+
+
+  // }
 
 
 
@@ -245,22 +244,23 @@ const AddProducts = ({ title, handleOpen, handleClose, open, handleRefetch }) =>
               </div>
             </div>
 
-            <div className='flex w-full mb-3 mt-2'>
+            <div className='flex w-full gap-2 mb-3 mt-2'>
               <input
                 type='text'
-                className='h-10 w-[80%] rounded-md border border-gray-500 px-4'
+                className='h-10 w-full text-center rounded-md border border-gray-500 px-4'
                 placeholder='Barcode'
                 name='barcode'
+                value={parsedSelectedRowData}
                 onChange={(e) => setGtinData(e.target.value)}
-                onBlur={handleGtinSearch}
+                // onBlur={handleGtinSearch}
               />
 
-              <div className='w-[20%] flex justify-end px-5'>
+              <div className='w-[20%] flex justify-end px-0'>
                 <button
                   className="bg-primary text-white px-4 py-2 rounded-md shadow-md"
-                  onClick={handleSubmit}
+                  // onClick={handleSubmit}
                 >
-                  Add Product
+                  Validate Product
                 </button>
               </div>
             </div>
@@ -368,7 +368,7 @@ const AddProducts = ({ title, handleOpen, handleClose, open, handleRefetch }) =>
             {/* third Tab */}
             {activeTab === 'digital-link' && (
               <div className="block shadow-lg">
-                <DigitalLinkTab />
+                <ValidateDigitalLinkTab />
               </div>
             )}
 
@@ -377,7 +377,7 @@ const AddProducts = ({ title, handleOpen, handleClose, open, handleRefetch }) =>
             {activeTab === 'Codification' && (
               <div className="block shadow-lg">
                 <div className='mt-2 border border-gray-300'>
-                  <CodificationTab />
+                  <ValidateCodificationTab />
                 </div>
               </div>
             )}
@@ -397,4 +397,4 @@ const AddProducts = ({ title, handleOpen, handleClose, open, handleRefetch }) =>
   )
 }
 
-export default AddProducts
+export default ValidateProducts
