@@ -825,7 +825,7 @@ const CpanelErpData = () => {
      user_id: '',
      user_email: '',
    });
-   console.log(selectedVendorId?.user_id);
+   console.log(selectedManufacturingId?.user_id);
  
    const handleManufacturingTabPopup = async () => {
      if (tableSelectedRows.length === 0) {
@@ -864,32 +864,73 @@ const CpanelErpData = () => {
    };
  
  
-   const handleSalesPickingList = async (e) => {
-     e.preventDefault();
-     try {
-       // Create an array with the body data for multiple rows
-       const requestBody = tableSelectedRows.map((selectedRow) => ({
-         po_detail_id: selectedRow.po_detail_id,
-         po_header_id: selectedRow.po_header_id,
-         assign_to_user_id: selectedVendorId?.user_id,
-       }));
+  //  const handleSalesPickingList = async (e) => {
+  //    e.preventDefault();
+  //    console.log("the table" , tableSelectedRows);
+  //    try {
+  //      // Create an array with the body data for multiple rows
+  //      const requestBody = tableSelectedRows.map((selectedRow) => ({
+  //       assign_to_user_id: selectedManufacturingId?.user_id,
+  //       vendor_id: 25,   
+  //       product_name: selectedRow.product_name, 
+  //       quantity: selectedRow.quantity,  
+  //       productid: selectedRow.productid, 
+  //       job_order_number: selectedRow.job_order_number, 
+  //       transaction_date: selectedRow.transaction_date,
+  //      }));
  
-       const res = await newRequest.post(`/insertSalesPickingList`, requestBody);
-       console.log(res.data);
-       Swal.fire({
-         icon: 'success',
-         title: 'Success',
-         text: res?.data?.message || 'Picklist send successfully',
-         timer: 2000,
-         timerProgressBar: true,
-       });
+  //      const res = await newRequest.post(`/insertSalesPickingListCLRM`, requestBody);
+  //      console.log(res.data);
+  //      Swal.fire({
+  //        icon: 'success',
+  //        title: 'Success',
+  //        text: res?.data?.message || 'Picklist send successfully',
+  //        timer: 2000,
+  //        timerProgressBar: true,
+  //      });
  
-       handleManufacturingTabClose();
-     } catch (error) {
-       console.log(error);
-       setError(error?.response?.data?.message || 'Something went wrong');
-     }
-   }
+  //      handleManufacturingTabClose();
+  //    } catch (error) {
+  //      console.log(error);
+  //      setError(error?.response?.data?.message || 'Something went wrong');
+  //    }
+  //  }
+
+  const handleSalesPickingList = async (e) => {
+    e.preventDefault();
+    console.log("the table", tableSelectedRows);
+    try {
+      // Create an array with the body data for multiple rows
+      const requestBody = tableSelectedRows.map((selectedRow) => ({
+        assign_to_userid: selectedManufacturingId?.user_id,
+        vendor_id: 25,
+        product_name: selectedRow.product_id[1], // Adjust property access
+        quantity: selectedRow.product_qty, // Adjust property access
+        productid: selectedRow.product_id[0], // Adjust property access
+        job_order_number: selectedRow.name, // Adjust property access
+        transaction_date: selectedRow.create_date, // Adjust property access
+      }));
+  
+      // Log the requestBody to ensure it's correctly structured
+      console.log("requestBody", requestBody);
+  
+      const res = await newRequest.post(`/insertSalesPickingListCLRM`, requestBody);
+      console.log(res.data);
+      Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: res?.data?.message || 'Picklist sent successfully',
+        timer: 2000,
+        timerProgressBar: true,
+      });
+  
+      handleManufacturingTabClose();
+    } catch (error) {
+      console.log(error);
+      setError(error?.response?.data?.message || 'Something went wrong');
+    }
+  }
+  
  
 
 
