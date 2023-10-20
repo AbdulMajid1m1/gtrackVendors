@@ -498,7 +498,7 @@ export const productionColumns = [
   },
 
   {
-    field: "product_id",
+    field: "product_id[0]",
     headerName: "Product Id",
     width: 120,
     editable: false,
@@ -508,7 +508,7 @@ export const productionColumns = [
   },
   {
     field: "product_id",
-    headerName: "Product Id",
+    headerName: "Product Name",
     width: 180,
     editable: false,
     valueGetter: (params) => {
