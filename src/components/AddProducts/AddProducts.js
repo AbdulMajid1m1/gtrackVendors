@@ -65,7 +65,9 @@ const AddProducts = ({ title, handleOpen, handleClose, open, handleRefetch }) =>
       .then((response) => {
         console.log(response.data);
         setData(response.data[0]);
-
+        // store that response in sesstion stroage
+        sessionStorage.setItem('gs1ProductData', JSON.stringify(response.data[0]));
+  
         // store that response in sesstion stroage
         sessionStorage.setItem('productData', JSON.stringify(gtinData));
 
