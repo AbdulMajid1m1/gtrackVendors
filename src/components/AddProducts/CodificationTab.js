@@ -551,7 +551,7 @@ const CodificationTab = () => {
             alt=""
           />
           OTHER
-        </span>
+        </span> 
       </div>
 
       <div className="sm:w-[80%] w-full">{renderDataGrid()}</div>
